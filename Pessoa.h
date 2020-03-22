@@ -7,15 +7,13 @@
 using namespace std;
 
 class Pessoa {
-public:
-    Pessoa(const string &nome, long nif, int idade, Posicao posicao);
-
 private:
     string nome;
     long int nif;
     int idade;
     Posicao posicao;
 public:
+    Pessoa(const string &nome, long nif, int idade, Posicao posicao);
     const string &getNome() const;
     void setNome(const string &nome);
     long getNif() const;
