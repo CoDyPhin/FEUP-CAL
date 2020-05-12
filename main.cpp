@@ -1,6 +1,11 @@
 #include <iostream>
+#include "Empresa.h"
+#include "Menu.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
+
+    Empresa empresa;
+    mainMenu(empresa);
+
     return 0;
 }
