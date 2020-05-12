@@ -2,9 +2,16 @@
 
 
 
-Encomenda::Encomenda(Prato *prato, Estafeta *estafeta, Cliente *cliente, Hora *horaPedido, Hora *horaEntrega,
-                     float preco) : prato(prato), estafeta(estafeta), cliente(cliente), horaPedido(horaPedido),
-                                    horaEntrega(horaEntrega), preco(preco) {}
+
+Encomenda::~Encomenda() {
+    free(horaEntrega);
+    free(horaPedido);
+}
+
+Encomenda::Encomenda(Prato *prato, Restaurante *restaurante, Estafeta *estafeta, Cliente *cliente, Hora *horaPedido,
+                     Hora *horaEntrega) : prato(prato), restaurante(restaurante), estafeta(estafeta),
+                                                       cliente(cliente), horaPedido(horaPedido),
+                                                       horaEntrega(horaEntrega) {}
 
 Prato *Encomenda::getPrato() const {
     return prato;
@@ -12,6 +19,14 @@ Prato *Encomenda::getPrato() const {
 
 void Encomenda::setPrato(Prato *prato) {
     Encomenda::prato = prato;
+}
+
+Restaurante *Encomenda::getRestaurante() const {
+    return restaurante;
+}
+
+void Encomenda::setRestaurante(Restaurante *restaurante) {
+    Encomenda::restaurante = restaurante;
 }
 
 Estafeta *Encomenda::getEstafeta() const {
@@ -46,22 +61,13 @@ void Encomenda::setHoraEntrega(Hora *horaEntrega) {
     Encomenda::horaEntrega = horaEntrega;
 }
 
-float Encomenda::getPreco() const {
-    return preco;
-}
 
-void Encomenda::setPreco(float preco) {
-    Encomenda::preco = preco;
-}
-
-Encomenda::~Encomenda() {
-    free(horaEntrega);
-    free(horaPedido);
-}
 
 ostream &operator<<(ostream &os, const Encomenda &encomenda) {
-    os << "prato: " << encomenda.prato << " estafeta: " << encomenda.estafeta << " cliente: " << encomenda.cliente
-       << " horaPedido: " << encomenda.horaPedido << " horaEntrega: " << encomenda.horaEntrega << " preco: "
-       << encomenda.preco;
+    os << "prato: " << encomenda.prato << " restaurante: " << encomenda.restaurante << " estafeta: "
+       << encomenda.estafeta << " cliente: " << encomenda.cliente << " horaPedido: " << encomenda.horaPedido
+       << " horaEntrega: " << encomenda.horaEntrega;
     return os;
 }
+
+

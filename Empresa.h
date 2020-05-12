@@ -17,8 +17,6 @@ public:
     //Encomendas
     void criarEncomenda();
     void eliminarEncomenda();
-    void atualizarEncomenda();
-
     vector<Encomenda*> filtrarEncomendas(int option);
 };
 

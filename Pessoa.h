@@ -7,7 +7,7 @@
 using namespace std;
 
 class Pessoa {
-private:
+protected:
     string nome;
     long int nif;
     int idade;

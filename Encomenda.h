@@ -7,22 +7,30 @@
 #include "Estafeta.h"
 #include "Cliente.h"
 #include "Hora.h"
+#include "Restaurante.h"
 
 class Encomenda {
 private:
     Prato *prato;
+    Restaurante *restaurante;
     Estafeta *estafeta;
     Cliente *cliente;
     Hora *horaPedido;
     Hora *horaEntrega;
-    float preco;
 public:
-    Encomenda(Prato *prato, Estafeta *estafeta, Cliente *cliente, Hora *horaPedido, Hora *horaEntrega, float preco);
+
     ~Encomenda();
+
+    Encomenda(Prato *prato, Restaurante *restaurante, Estafeta *estafeta, Cliente *cliente, Hora *horaPedido,
+              Hora *horaEntrega);
 
     Prato *getPrato() const;
 
     void setPrato(Prato *prato);
+
+    Restaurante *getRestaurante() const;
+
+    void setRestaurante(Restaurante *restaurante);
 
     Estafeta *getEstafeta() const;
 
@@ -39,10 +47,6 @@ public:
     Hora *getHoraEntrega() const;
 
     void setHoraEntrega(Hora *horaEntrega);
-
-    float getPreco() const;
-
-    void setPreco(float preco);
 
     friend ostream &operator<<(ostream &os, const Encomenda &encomenda);
 };

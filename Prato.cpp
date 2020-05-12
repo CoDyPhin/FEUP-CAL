@@ -28,3 +28,11 @@ float Prato::getVolume() const {
 void Prato::setVolume(float volume) {
     Prato::volume = volume;
 }
+
+float Prato::getPreco() const {
+    return preco;
+}
+
+void Prato::setPreco(float preco) {
+    Prato::preco = preco;
+}

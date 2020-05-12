@@ -1,6 +1,6 @@
 #include "Restaurante.h"
 
-Restaurante::Restaurante(const string &nome, const Posicao &posicao, const vector<Prato> &pratosDisponiveis) : nome(
+Restaurante::Restaurante(const string &nome, const Posicao &posicao, const vector<Prato*> &pratosDisponiveis) : nome(
         nome), posicao(posicao), pratosDisponiveis(pratosDisponiveis) {}
 
 const string &Restaurante::getNome() const {
@@ -19,10 +19,10 @@ void Restaurante::setPosicao(const Posicao &posicao) {
     Restaurante::posicao = posicao;
 }
 
-const vector<Prato> &Restaurante::getPratosDisponiveis() const {
+const vector<Prato*> &Restaurante::getPratosDisponiveis() const {
     return pratosDisponiveis;
 }
 
-void Restaurante::setPratosDisponiveis(const vector<Prato> &pratosDisponiveis) {
+void Restaurante::setPratosDisponiveis(const vector<Prato*> &pratosDisponiveis) {
     Restaurante::pratosDisponiveis = pratosDisponiveis;
 }

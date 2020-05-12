@@ -12,7 +12,6 @@ void menuEncomendas(Empresa empresa)
     cout<<"1 - Criar um encomenda\n";
     cout<<"2 - Eliminar uma encomenda\n";
     cout<<"3 - Visualizar encomendas\n";
-    cout<<"4 - Atualizar uma encomendar\n";
     cout<<"9 - Voltar atras\n";
     cout<<"0 - Sair\n";
 
@@ -25,7 +24,6 @@ void menuEncomendas(Empresa empresa)
         case 1: {empresa.criarEncomenda(); break;}
         case 2: {empresa.eliminarEncomenda(); break;}
         case 3: {menuVisualizarEncomendas(empresa); break;}
-        case 4: {empresa.atualizarEncomenda(); break;}
         case 9: return;
         case 0: exit(0);
         default:{cerr<<"Input invalido!\n"; break;}

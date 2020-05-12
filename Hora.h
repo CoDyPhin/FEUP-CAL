@@ -13,6 +13,7 @@ public:
     int getMinuto() const;
     void setMinuto(int minuto);
     Hora(int hora, int minuto);
+    Hora(string strHora);
 };
 
 

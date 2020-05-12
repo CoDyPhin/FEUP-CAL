@@ -11,6 +11,7 @@ private:
     string nome;
     vector<string> ingredientes;
     float volume;
+    float preco;
 public:
     const string &getNome() const;
     void setNome(const string &nome);
@@ -18,7 +19,13 @@ public:
     void setIngredientes(const vector<string> &ingredientes);
     float getVolume() const;
     void setVolume(float volume);
+
+    float getPreco() const;
+
+    void setPreco(float preco);
+
     Prato(string nome, vector<string> ingredientes, float volume);
+
 };
 
 

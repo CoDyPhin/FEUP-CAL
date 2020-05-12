@@ -20,3 +20,7 @@ double Cliente::getTotalGasto() const {
 void Cliente::setTotalGasto(double totalGasto) {
     Cliente::totalGasto = totalGasto;
 }
+
+long Cliente::getNif() const {
+    return Pessoa::getNif();
+}
