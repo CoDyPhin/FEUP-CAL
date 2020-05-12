@@ -1,6 +1,6 @@
 #include "Menu.h"
 
-void mainMenu(Empresa empresa)
+void menuEncomendas(Empresa empresa)
 {
 
 }

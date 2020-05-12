@@ -8,6 +8,7 @@ class Empresa {
 private:
     vector<Estafeta*> estafetas;
     vector<Cliente*> clientes;
+    vector<Encomenda*> encomendas;
 public:
     Empresa();
 

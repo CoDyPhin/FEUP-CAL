@@ -9,28 +9,39 @@
 
 class Encomenda {
 private:
-    Prato prato;
-    Estafeta estafeta;
-    Cliente cliente;
-    Hora horaPedido;
-    Hora horaEntrega;
+    Prato *prato;
+    Estafeta *estafeta;
+    Cliente *cliente;
+    Hora *horaPedido;
+    Hora *horaEntrega;
     float preco;
 public:
+    Encomenda(Prato *prato, Estafeta *estafeta, Cliente *cliente, Hora *horaPedido, Hora *horaEntrega, float preco);
+    ~Encomenda();
+
+    Prato *getPrato() const;
+
+    void setPrato(Prato *prato);
+
+    Estafeta *getEstafeta() const;
+
+    void setEstafeta(Estafeta *estafeta);
+
+    Cliente *getCliente() const;
+
+    void setCliente(Cliente *cliente);
+
+    Hora *getHoraPedido() const;
+
+    void setHoraPedido(Hora *horaPedido);
+
+    Hora *getHoraEntrega() const;
+
+    void setHoraEntrega(Hora *horaEntrega);
+
     float getPreco() const;
+
     void setPreco(float preco);
-    const Prato &getPrato() const;
-    void setPrato(const Prato &prato);
-    const Estafeta &getEstafeta() const;
-    void setEstafeta(const Estafeta &estafeta);
-    const Cliente &getCliente() const;
-    void setCliente(const Cliente &cliente);
-    const Hora &getHoraPedido() const;
-    void setHoraPedido(const Hora &horaPedido);
-    const Hora &getHoraEntrega() const;
-    void setHoraEntrega(const Hora &horaEntrega);
-public:
-    Encomenda(const Prato &prato, const Estafeta &estafeta, const Cliente &cliente, const Hora &horaPedido,
-              const Hora &horaEntrega, float preco);
 };
 
 

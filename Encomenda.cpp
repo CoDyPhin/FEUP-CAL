@@ -1,47 +1,48 @@
 #include "Encomenda.h"
 
-Encomenda::Encomenda(const Prato &prato, const Estafeta &estafeta, const Cliente &cliente, const Hora &horaPedido,
-                     const Hora &horaEntrega, float preco) : prato(prato), estafeta(estafeta), cliente(cliente),
-                                                             horaPedido(horaPedido), horaEntrega(horaEntrega),
-                                                             preco(preco) {}
 
-const Prato &Encomenda::getPrato() const {
+
+Encomenda::Encomenda(Prato *prato, Estafeta *estafeta, Cliente *cliente, Hora *horaPedido, Hora *horaEntrega,
+                     float preco) : prato(prato), estafeta(estafeta), cliente(cliente), horaPedido(horaPedido),
+                                    horaEntrega(horaEntrega), preco(preco) {}
+
+Prato *Encomenda::getPrato() const {
     return prato;
 }
 
-void Encomenda::setPrato(const Prato &prato) {
+void Encomenda::setPrato(Prato *prato) {
     Encomenda::prato = prato;
 }
 
-const Estafeta &Encomenda::getEstafeta() const {
+Estafeta *Encomenda::getEstafeta() const {
     return estafeta;
 }
 
-void Encomenda::setEstafeta(const Estafeta &estafeta) {
+void Encomenda::setEstafeta(Estafeta *estafeta) {
     Encomenda::estafeta = estafeta;
 }
 
-const Cliente &Encomenda::getCliente() const {
+Cliente *Encomenda::getCliente() const {
     return cliente;
 }
 
-void Encomenda::setCliente(const Cliente &cliente) {
+void Encomenda::setCliente(Cliente *cliente) {
     Encomenda::cliente = cliente;
 }
 
-const Hora &Encomenda::getHoraPedido() const {
+Hora *Encomenda::getHoraPedido() const {
     return horaPedido;
 }
 
-void Encomenda::setHoraPedido(const Hora &horaPedido) {
+void Encomenda::setHoraPedido(Hora *horaPedido) {
     Encomenda::horaPedido = horaPedido;
 }
 
-const Hora &Encomenda::getHoraEntrega() const {
+Hora *Encomenda::getHoraEntrega() const {
     return horaEntrega;
 }
 
-void Encomenda::setHoraEntrega(const Hora &horaEntrega) {
+void Encomenda::setHoraEntrega(Hora *horaEntrega) {
     Encomenda::horaEntrega = horaEntrega;
 }
 
@@ -51,4 +52,9 @@ float Encomenda::getPreco() const {
 
 void Encomenda::setPreco(float preco) {
     Encomenda::preco = preco;
+}
+
+Encomenda::~Encomenda() {
+    free(horaEntrega);
+    free(horaPedido);
 }
