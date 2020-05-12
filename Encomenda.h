@@ -2,6 +2,7 @@
 #define CAL_ENCOMENDA_H
 
 
+#include <ostream>
 #include "Prato.h"
 #include "Estafeta.h"
 #include "Cliente.h"
@@ -42,6 +43,8 @@ public:
     float getPreco() const;
 
     void setPreco(float preco);
+
+    friend ostream &operator<<(ostream &os, const Encomenda &encomenda);
 };
 
 

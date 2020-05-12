@@ -58,3 +58,10 @@ Encomenda::~Encomenda() {
     free(horaEntrega);
     free(horaPedido);
 }
+
+ostream &operator<<(ostream &os, const Encomenda &encomenda) {
+    os << "prato: " << encomenda.prato << " estafeta: " << encomenda.estafeta << " cliente: " << encomenda.cliente
+       << " horaPedido: " << encomenda.horaPedido << " horaEntrega: " << encomenda.horaEntrega << " preco: "
+       << encomenda.preco;
+    return os;
+}

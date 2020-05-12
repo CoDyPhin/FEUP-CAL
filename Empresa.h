@@ -3,16 +3,26 @@
 
 
 #include "Estafeta.h"
+#include "Restaurante.h"
 
 class Empresa {
 private:
+    vector<Restaurante*> restaurantes;
     vector<Estafeta*> estafetas;
     vector<Cliente*> clientes;
     vector<Encomenda*> encomendas;
 public:
     Empresa();
 
+    //Encomendas
+    void criarEncomenda();
+    void eliminarEncomenda();
+    void atualizarEncomenda();
+
+    vector<Encomenda*> filtrarEncomendas(int option);
 };
+
+
 
 
 #endif //CAL_EMPRESA_H

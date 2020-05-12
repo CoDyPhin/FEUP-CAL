@@ -4,8 +4,18 @@
 #include "Empresa.h"
 
 void mainMenu(Empresa empresa);
+
+
+
 void menuEstafetas(Empresa empresa);
+
+
+
 void menuEncomendas(Empresa empresa);
+void menuVisualizarEncomendas(Empresa empresa);
+
+
+
 void menuClientes(Empresa empresa);
 
 
