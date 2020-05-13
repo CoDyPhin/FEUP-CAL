@@ -175,4 +175,30 @@ void Empresa::readEncomendas() {
     }
 }
 
+vector<Cliente*> Empresa::getClientes(){
+    return this->clientes;
+}
+
+vector<Estafeta*> Empresa::getEstafeta(){
+    return this->estafetas;
+}
+
+vector<Encomenda*> Empresa::getEncomentas(){
+    return this->encomendas;
+}
+
+vector<Restaurante*> Empresa::getRestaurantes(){
+    return this->restaurantes;
+}
+
+void Empresa::eleminarCliente(long nif) {
+    for (int i = 0; i < this->clientes.size() ; i++) {
+        if(clientes.at(i)->getNif() == nif){
+            clientes.erase(clientes.begin()+i);
+            return;
+        }
+    }
+    cout << "Não existe um cliente com esse NIF" << endl;
+}
+
 

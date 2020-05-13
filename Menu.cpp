@@ -6,6 +6,9 @@ using namespace std;
 void menuClientes(Empresa empresa){
     cout << "Menu de Clientes" << endl;
     cout << "1 - Encomendas" << endl;
+    cout << "2 - Visualização" << endl;
+    cout << "3 - Adição" << endl;
+    cout << "4 - Remoção" << endl;
     cout << "9 - Voltar atrás" << endl;
     cout << "0 - Sair" << endl << endl;
     cout << "Opção: ";
@@ -19,6 +22,27 @@ void menuClientes(Empresa empresa){
         case 1:
             menuEncomendas(empresa);
             break;
+        case 2:
+            for (int i = 0; i < empresa.getClientes().size(); i++) {
+                cout << "Nome: " << empresa.getClientes().at(i)->getNome() << endl;
+                cout << "NIF: " << empresa.getClientes().at(i)->getNif() << endl;
+                cout << "Idade: " << empresa.getClientes().at(i)->getIdade() << endl;
+                cout << "Total de encomendas feitas: " << empresa.getClientes().at(i)->getEncomendasFeitas().size() << endl;
+                if(i != empresa.getClientes().size()-1)
+                    cout << "------------------------------" << endl;
+            }
+            break;
+        case 3:
+            break;
+        case 4:{
+            cout << "NIF do cliente a remover: ";
+            string input2;
+            long int nif;
+            getline(cin,input2);
+            nif = stoi(input2);
+            empresa.eleminarCliente(nif);
+            break;
+        }
         case 9:
             return;
         default:
