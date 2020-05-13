@@ -63,3 +63,58 @@ void menuVisualizarEncomendas(Empresa empresa)
         cout<<*encomenda;
     }
 }
+
+void menuVisualizarEstafetas(Empresa empresa)
+{
+    string input;
+
+    cout<<"\nMenu de Visualizacao de Estafetas\n";
+    cout<<"Que estafetas pretende ver? Selecione uma das seguintes opcoes:\n";
+    cout<<"1 - Todos\n";
+    cout<<"2 - Pesquisar por nome\n";
+    cout<<"3 - Pesquisar por NIF\n";
+    cout<<"9 - Voltar atras\n";
+    cout<<"0 - Sair\n";
+
+    getline(cin,input);
+
+    int option = stoi(input);
+
+    switch(option)
+    {
+        case 9: return;
+        case 0: exit(0);
+        default: break;
+    }
+
+    for (auto estafeta : empresa.filtrarEstafetas(option))
+    {
+        cout<<*estafeta;
+    }
+}
+
+void menuEstafetas(Empresa empresa){
+    string input;
+
+    cout<<"\nMenu de Estafetas\n";
+    cout<<"Selecione uma das seguintes opcoes:\n";
+    cout<<"1 - Adicionar um estafeta\n";
+    cout<<"2 - Eliminar um estafeta\n";
+    cout<<"3 - Visualizar estafetas\n";
+    cout<<"9 - Voltar atras\n";
+    cout<<"0 - Sair\n";
+
+    getline(cin,input);
+
+    int option = stoi(input);
+
+    switch (option)
+    {
+        case 1: {empresa.criarEstafeta(); break;}
+        case 2: {empresa.eliminarEstafeta(); break;}
+        case 3: {menuVisualizarEstafetas(empresa); break;}
+        case 9: return;
+        case 0: exit(0);
+        default:{cerr<<"Input invalido!\n"; break;}
+    }
+}

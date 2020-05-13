@@ -19,6 +19,9 @@ public:
     void criarEncomenda();
     void eliminarEncomenda();
     vector<Encomenda*> filtrarEncomendas(int option);
+    void criarEstafeta();
+    void eliminarEstafeta();
+    vector<Estafeta*> filtrarEstafetas(int option);
 };
 
 
