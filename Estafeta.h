@@ -19,6 +19,8 @@ public:
 public:
     Estafeta(const string &nome, long nif, int idade, const Posicao &posicao, const Transporte &transporte,
              const vector<Encomenda*> &entregasFeitas, double lucroTotal);
+    friend ostream &operator<<(ostream &os, const Estafeta &estafeta);
+
 };
 
 

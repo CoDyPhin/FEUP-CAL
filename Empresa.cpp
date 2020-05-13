@@ -131,6 +131,78 @@ vector<Encomenda *> Empresa::filtrarEncomendas(int option) {
     return result;
 }
 
+void Empresa::criarEstafeta() {
+    string nome, nif, idade, trpvel, trpmatricula, trppeso, trpcapac;
+    cout<<"Indique o nome do estafeta:\n";
+    getline(cin,nome);
+    cout<<"Indique o NIF do estafeta:\n";
+    getline(cin,nif);
+    cout<<"Indique a idade do estafeta:\n";
+    getline(cin,idade);
+    cout<<"Indique a matricula do veiculo do estafeta:\n";
+    getline(cin,trpvel);
+    cout<<"Indique a matricula do veiculo do estafeta:\n";
+    getline(cin,trpmatricula);
+    cout<<"Indique a capacidade do veiculo do estafeta:\n";
+    getline(cin,trpcapac);
+    cout<<"Indique o peso do veiculo do estafeta:\n";
+    getline(cin,trppeso);
+    Posicao posicao = Posicao(0,0);
+    Estafeta* estafeta = new Estafeta(nome, stol(nif), stoi(idade), posicao, Transporte(trpmatricula, stof(trpvel), stod(trpcapac), stod(trppeso)), {}, 0);
+    estafetas.push_back(estafeta);
+}
+
+void Empresa::eliminarEstafeta() {
+    string input;
+
+    cout<<"Indique o NIF do estafeta a remover:\n";
+    getline(cin,input);
+
+    long nif = stol(input);
+
+    for (auto it = estafetas.begin(); it != estafetas.end(); it++) {
+        if ((*it)->getNif() == nif) {estafetas.erase(it); return;}
+    }
+    cout<<"Nao foi encontrado um estafeta com o NIF providenciado\n";
+}
+
+vector<Estafeta *> Empresa::filtrarEstafetas(int option) {
+    vector<Estafeta*> result;
+    string input;
+
+    switch (option)
+    {
+        case 1:
+        {
+            result = estafetas;
+            break;
+        }
+        case 2:
+        {
+            cout<<"Indique o nome do estafeta:\n";
+            getline(cin,input);
+            for (auto estafeta : estafetas)
+            {
+                if (estafeta->getNome().find(input) != estafeta->getNome().npos) {result.push_back(estafeta);}
+            }
+            break;
+        }
+        case 3:
+        {
+            cout<<"Indique o NIF do estafeta:\n";
+            getline(cin,input);
+            for (auto estafeta : estafetas)
+            {
+                if (estafeta->getNif() == stol(input)) {result.push_back(estafeta); break;}
+            }
+            break;
+        }
+        default: {cout<<"Valor de opcao invalido!\n";break;}
+    }
+    return result;
+}
+
+
 
 
 void Empresa::readEncomendas() {

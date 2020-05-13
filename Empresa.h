@@ -20,12 +20,14 @@ public:
     void eliminarEncomenda();
     vector<Encomenda*> filtrarEncomendas(int option);
     void readEncomendas();
-
     vector<Estafeta*> getEstafeta();
     vector<Encomenda*> getEncomentas();
     vector<Restaurante*> getRestaurantes();
     vector<Cliente*> getClientes();
     void eleminarCliente(long int nif);
+    void criarEstafeta();
+    void eliminarEstafeta();
+    vector<Estafeta*> filtrarEstafetas(int option);
 };
 
 

@@ -29,3 +29,9 @@ double Estafeta::getLucroTotal() const {
 void Estafeta::setLucroTotal(double lucroTotal) {
     Estafeta::lucroTotal = lucroTotal;
 }
+
+ostream &operator<<(ostream &os, const Estafeta &estafeta) {
+    os << "Nome: \n" << estafeta.getNome() << "\nNIF: \n" << estafeta.getNif() << "\nIdade: \n" << estafeta.getIdade()
+       << "\nMatricula do veiculo: \n" << estafeta.getTransporte().getMatricula();
+    return os;
+}
