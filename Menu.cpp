@@ -3,6 +3,10 @@
 
 using namespace std;
 
+void mainMenu(Empresa empresa){
+
+}
+
 void menuEncomendas(Empresa empresa)
 {
     string input;

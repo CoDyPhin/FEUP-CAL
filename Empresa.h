@@ -3,6 +3,7 @@
 
 
 #include "Estafeta.h"
+#include "Cliente.h"
 #include "Restaurante.h"
 
 class Empresa {

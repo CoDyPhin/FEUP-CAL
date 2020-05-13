@@ -72,3 +72,7 @@ void Empresa::eliminarEncomenda() {
 vector<Encomenda *> Empresa::filtrarEncomendas(int option) {
     return vector<Encomenda *>();
 }
+
+Empresa::Empresa() {
+
+}
