@@ -8,9 +8,8 @@ Encomenda::~Encomenda() {
     free(horaPedido);
 }
 
-Encomenda::Encomenda(Prato *prato, Restaurante *restaurante, /*Estafeta *estafeta, Cliente *cliente,*/ Hora *horaPedido,
-                     Hora *horaEntrega) : prato(prato), restaurante(restaurante), /*estafeta(estafeta),
-                                                       cliente(cliente),*/ horaPedido(horaPedido),
+Encomenda::Encomenda(Prato *prato, Restaurante *restaurante,  Hora *horaPedido,
+                     Hora *horaEntrega) : prato(prato), restaurante(restaurante), horaPedido(horaPedido),
                                                        horaEntrega(horaEntrega) {}
 
 Prato *Encomenda::getPrato() const {
