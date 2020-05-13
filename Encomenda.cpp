@@ -47,8 +47,10 @@ void Encomenda::setHoraEntrega(Hora *horaEntrega) {
 
 
 ostream &operator<<(ostream &os, const Encomenda &encomenda) {
-    os << "prato: " << encomenda.prato << " restaurante: " << encomenda.restaurante << " horaPedido: " << encomenda.horaPedido
-       << " horaEntrega: " << encomenda.horaEntrega;
+    os << "Prato: "<< encomenda.getPrato()->getNome();
+    os << "\nRestaurante: " << encomenda.getRestaurante()->getNome();
+    os << "\nHora de pedido: " << *encomenda.getHoraPedido();
+    os << "\nHora de entrega: " << *encomenda.getHoraEntrega();
     return os;
 }
 

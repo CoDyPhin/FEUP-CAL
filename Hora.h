@@ -2,6 +2,8 @@
 #define CAL_HORA_H
 
 #include <string>
+#include <ostream>
+
 using namespace std;
 
 class Hora {
@@ -22,6 +24,8 @@ public:
     bool operator<=(const Hora &rhs) const;
 
     bool operator>=(const Hora &rhs) const;
+
+    friend ostream &operator<<(ostream &os, const Hora &hora);
 };
 
 

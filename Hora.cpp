@@ -45,3 +45,8 @@ bool Hora::operator>=(const Hora &rhs) const {
     return !(*this < rhs);
 }
 
+ostream &operator<<(ostream &os, const Hora &hora) {
+    os << hora.hora << ":" << hora.minuto <<"\n";
+    return os;
+}
+
