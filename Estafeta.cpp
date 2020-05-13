@@ -1,7 +1,7 @@
 #include "Estafeta.h"
 
 Estafeta::Estafeta(const string &nome, long nif, int idade, const Posicao &posicao, const Transporte &transporte,
-                   const vector<Encomenda> &entregasFeitas, double lucroTotal) : Pessoa(nome, nif, idade, posicao),
+                   const vector<Encomenda*> &entregasFeitas, double lucroTotal) : Pessoa(nome, nif, idade, posicao),
                                                                                  transporte(transporte),
                                                                                  entregasFeitas(entregasFeitas),
                                                                                  lucroTotal(lucroTotal) {}
@@ -14,11 +14,11 @@ void Estafeta::setTransporte(const Transporte &transporte) {
     Estafeta::transporte = transporte;
 }
 
-const vector<Encomenda> &Estafeta::getEntregasFeitas() const {
+const vector<Encomenda*> &Estafeta::getEntregasFeitas() const {
     return entregasFeitas;
 }
 
-void Estafeta::setEntregasFeitas(const vector<Encomenda> &entregasFeitas) {
+void Estafeta::setEntregasFeitas(const vector<Encomenda*> &entregasFeitas) {
     Estafeta::entregasFeitas = entregasFeitas;
 }
 

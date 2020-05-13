@@ -1,6 +1,10 @@
 #include <iostream>
 #include "Empresa.h"
 
+Empresa::Empresa() {
+
+}
+
 void Empresa::criarEncomenda() {
     string input;
 
@@ -70,9 +74,58 @@ void Empresa::eliminarEncomenda() {
 
 
 vector<Encomenda *> Empresa::filtrarEncomendas(int option) {
-    return vector<Encomenda *>();
+    vector<Encomenda*> result;
+    string input;
+
+    switch (option)
+    {
+        case 1:
+        {
+            result = encomendas;
+            break;
+        }
+        case 2:
+        {
+            cout<<"Indique o NIF do estafeta:\n";
+            getline(cin,input);
+            for (auto estafeta : estafetas)
+            {
+                if (estafeta->getNif() == stol(input)) {result = estafeta->getEntregasFeitas(); break;}
+            }
+            break;
+        }
+        case 3:
+        {
+            cout<<"Indique o NIF do estafeta:\n";
+            getline(cin,input);
+            for (auto cliente : clientes)
+            {
+                if (cliente->getNif() == stol(input)) {result = cliente->getEncomendasFeitas(); break;}
+            }
+            break;
+        }
+        case 4:
+        {
+            cout<<"Indique a hora inicial do intervalo:\n";
+            getline(cin,input);
+
+            Hora inicio(input);
+
+            cout<<"Indique a hora inicial do intervalo:\n";
+            getline(cin,input);
+
+            Hora fim(input);
+
+            for (auto encomenda : encomendas)
+            {
+                if (*encomenda->getHoraPedido() > inicio && *encomenda->getHoraEntrega() < fim) result.push_back(encomenda);
+            }
+
+            break;
+        }
+        default: {cout<<"Valor de opcao invalido!\n";break;}
+    }
+    return result;
 }
 
-Empresa::Empresa() {
 
-}

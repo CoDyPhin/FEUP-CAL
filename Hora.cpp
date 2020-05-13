@@ -25,3 +25,23 @@ Hora::Hora(string strHora) {
     this->minuto = stoi(parts.at(1));
 }
 
+bool Hora::operator<(const Hora &rhs) const {
+    if (hora < rhs.hora)
+        return true;
+    if (rhs.hora < hora)
+        return false;
+    return minuto < rhs.minuto;
+}
+
+bool Hora::operator>(const Hora &rhs) const {
+    return rhs < *this;
+}
+
+bool Hora::operator<=(const Hora &rhs) const {
+    return !(rhs < *this);
+}
+
+bool Hora::operator>=(const Hora &rhs) const {
+    return !(*this < rhs);
+}
+

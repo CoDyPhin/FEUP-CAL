@@ -60,6 +60,6 @@ void menuVisualizarEncomendas(Empresa empresa)
 
     for (auto encomenda : empresa.filtrarEncomendas(option))
     {
-        cout<<encomenda;
+        cout<<*encomenda;
     }
 }

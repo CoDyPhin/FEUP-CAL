@@ -14,6 +14,14 @@ public:
     void setMinuto(int minuto);
     Hora(int hora, int minuto);
     Hora(string strHora);
+
+    bool operator<(const Hora &rhs) const;
+
+    bool operator>(const Hora &rhs) const;
+
+    bool operator<=(const Hora &rhs) const;
+
+    bool operator>=(const Hora &rhs) const;
 };
 
 
