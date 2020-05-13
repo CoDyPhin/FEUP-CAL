@@ -3,8 +3,54 @@
 
 using namespace std;
 
-void mainMenu(Empresa empresa){
+void menuClientes(Empresa empresa){
+    cout << "Menu de Clientes" << endl;
+    cout << "1 - Encomendas" << endl;
+    cout << "9 - Voltar atrás" << endl;
+    cout << "0 - Sair" << endl << endl;
+    cout << "Opção: ";
+    int option;
+    string input;
+    getline(cin, input);
+    option = stoi(input);
+    switch (option) {
+        case 0:
+            exit(0);
+        case 1:
+            menuEncomendas(empresa);
+            break;
+        case 9:
+            return;
+        default:
+            cerr<<"Input invalido!\n";
+            break;
+    }
+}
 
+void mainMenu(Empresa empresa){
+    cout << "Bem-vindo à EatExpress" << endl << endl;
+    cout << "1 - Menu Cliente" << endl;
+    cout << "2 - Menu Estafeta" << endl;
+    cout << "0 - Sair " << endl << endl;
+    cout << "Opção: ";
+    string input;
+    int option;
+    getline(cin, input);
+    option = stoi(input);
+    switch (option) {
+        case 0:
+            break;
+        case 1:
+            menuClientes(empresa);
+            break;
+        case 2:
+            menuEstafetas(empresa);
+            break;
+        default:
+            cerr<<"Input invalido!\n";
+            break;
+    }
+    cout << "Obrigado por escolher EatExpress" << endl;
 }
 
 void menuEncomendas(Empresa empresa)
