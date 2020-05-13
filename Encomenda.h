@@ -37,8 +37,6 @@ public:
     void setHoraEntrega(Hora *horaEntrega);
 
     friend ostream &operator<<(ostream &os, const Encomenda &encomenda);
-
-
 };
 
 

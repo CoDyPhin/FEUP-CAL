@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include "Empresa.h"
 
 Empresa::Empresa() {
@@ -123,9 +124,45 @@ vector<Encomenda *> Empresa::filtrarEncomendas(int option) {
 
             break;
         }
-        default: {cout<<"Valor de opcao invalido!\n";break;}
+        default: {cout<<"Valor de opcao invalido!\n"; break;}
     }
     return result;
+}
+
+Encomenda *Empresa::readFromFile(string filename) {
+    Prato* prat;
+    Restaurante* rest;
+    Hora *inicio,*fim;
+
+
+    ifstream file;
+    file.open(filename);
+
+    string line;
+    getline(file,line);
+
+    for (auto restaurante: restaurantes)
+    {
+        if (restaurante->getNome() == line)
+        {
+            rest = restaurante;
+            getline(file,line);
+            for (auto prato : restaurante->getPratosDisponiveis())
+            {
+                if (prato->getNome() == line) prat = prato;
+                break;
+            }
+            break;
+        }
+    }
+
+    getline(file,line);
+
+    inicio = new Hora(line);
+    getline(file,line);
+    fim = new Hora(line);
+
+    return new Encomenda(prat,rest,inicio,fim);
 }
 
 
