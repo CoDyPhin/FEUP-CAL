@@ -19,7 +19,7 @@ public:
     void criarEncomenda();
     void eliminarEncomenda();
     vector<Encomenda*> filtrarEncomendas(int option);
-    Encomenda* readFromFile(string filename);
+    void readEncomendas();
 };
 
 

@@ -4,6 +4,8 @@
 
 Empresa::Empresa() {
 
+    readEncomendas();
+
 }
 
 void Empresa::criarEncomenda() {
@@ -129,40 +131,48 @@ vector<Encomenda *> Empresa::filtrarEncomendas(int option) {
     return result;
 }
 
-Encomenda *Empresa::readFromFile(string filename) {
-    Prato* prat;
-    Restaurante* rest;
-    Hora *inicio,*fim;
 
 
+void Empresa::readEncomendas() {
     ifstream file;
-    file.open(filename);
+    file.open("../encomendas.txt");
 
-    string line;
-    getline(file,line);
-
-    for (auto restaurante: restaurantes)
+    while (!file.eof())
     {
-        if (restaurante->getNome() == line)
+        Prato* prat;
+        Restaurante* rest;
+        Hora *inicio,*fim;
+
+        string line;
+        getline(file,line);
+
+        for (auto restaurante: restaurantes)
         {
-            rest = restaurante;
-            getline(file,line);
-            for (auto prato : restaurante->getPratosDisponiveis())
+            if (restaurante->getNome() == line)
             {
-                if (prato->getNome() == line) prat = prato;
+                rest = restaurante;
+                getline(file,line);
+                for (auto prato : restaurante->getPratosDisponiveis())
+                {
+                    if (prato->getNome() == line) prat = prato;
+                    break;
+                }
                 break;
             }
-            break;
         }
+
+        getline(file,line);
+
+        inicio = new Hora(line);
+        getline(file,line);
+        fim = new Hora(line);
+
+        Encomenda* novaEncomenda = new Encomenda(prat,rest,inicio,fim);
+        encomendas.push_back(novaEncomenda);
+
+        getline(file,line);
+        if (line == "") break;
     }
-
-    getline(file,line);
-
-    inicio = new Hora(line);
-    getline(file,line);
-    fim = new Hora(line);
-
-    return new Encomenda(prat,rest,inicio,fim);
 }
 
 
