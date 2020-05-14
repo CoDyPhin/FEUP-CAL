@@ -140,8 +140,7 @@ public:
 
     // Fp07 - minimum spanning tree
     bool addBidirectionalEdge(const T &sourc, const T &dest, double w);
-    vector<Vertex<T>*> calculatePrim();
-    vector<Vertex<T>*> calculateKruskal();
+
 
     //Auxiliary functions
     bool findInverseEdge(const Edge<T> &edge);
