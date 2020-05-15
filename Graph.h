@@ -444,7 +444,7 @@ vector<T> Graph<T>::bidirectionDijkstra(const T &start, const T &end)
     vector<T> result;
 
     dijkstraShortestPath(start);
-    thread second (this->dijkstraShortestPath,end);
+    thread second (&Graph<T>::dijkstraShortestPath,this,end);
 
     return result;
 }
