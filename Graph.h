@@ -114,7 +114,9 @@ class Graph {
     vector<Vertex<T> *> vertexSet;    // vertex set
 
     //Project
-    map<Posicao,int> mapa;
+    map<Posicao,int> mapaPosicaoIndice;
+    map<long int,Posicao> mapaIdPosicao;
+
 
     // Fp05
     Vertex<T> * initSingleSource(const T &orig);
@@ -153,12 +155,14 @@ public:
     Graph();
     Vertex<T> getVertex(int index);
     vector<T> bidirectionDijkstra(const T &start,const T &end);
+    void adicionarMapaId(long int id, Posicao posicao);
+    Posicao getPosFromId(long int id);
 };
 
 template <class T>
 int Graph<T>::getIndexFromPos(Posicao pos)
 {
-    auto iter = mapa.fin(pos);
+    auto iter = mapaPosicaoIndice.find(pos);
     return iter->second;
 }
 
@@ -444,5 +448,17 @@ vector<T> Graph<T>::bidirectionDijkstra(const T &start, const T &end)
 
     return result;
 }
+
+template<class T>
+void Graph<T>::adicionarMapaId(long int id, Posicao posicao) {
+    mapaIdPosicao.insert(pair<long int,Posicao>(id,posicao));
+}
+
+template<class T>
+Posicao Graph<T>::getPosFromId(long int id) {
+    auto mapIter = mapaIdPosicao.find(id);
+    return mapIter->second;
+}
+
 
 #endif /* GRAPH_H_ */

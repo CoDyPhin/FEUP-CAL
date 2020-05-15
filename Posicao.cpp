@@ -24,3 +24,7 @@ double Posicao::calcDist(Posicao pos) {
     double diffLong = longitude - pos.longitude;
     return pow(pow(diffLat,2) + pow(diffLong,2),0.5);
 }
+
+bool operator==(const Posicao &left, const Posicao &right) {
+    return left.latitude == right.latitude && left.longitude == right.longitude;
+}

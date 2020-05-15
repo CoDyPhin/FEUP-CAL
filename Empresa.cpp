@@ -6,6 +6,10 @@
 using namespace std;
 
 Empresa::Empresa() {
+    Graph<Posicao> grafo;
+    this->grafo = grafo;
+
+    readGrafo();
 
     readEncomendas();
 
@@ -280,6 +284,44 @@ void Empresa::eliminarCliente(long nif) {
 vector<Posicao> Empresa::calcPercurso(Posicao inicio, Posicao fim) {
     return grafo.bidirectionDijkstra(inicio,fim);
 }
+
+void Empresa::readGrafo() {
+    ifstream file,file2;
+
+    string line;
+    double latitude,longitude;
+    long int id,id2;
+
+
+    file.open("../ficheiros_graph/nodes_lat_lon_porto.txt");
+    getline(file,line);
+    while (!file.eof())
+    {
+        getline(file,line);
+        sscanf(line.c_str(),"(%ld, %f, %f",&id,&latitude,&longitude);
+        Posicao novaPosicao(latitude,longitude);
+        grafo.addVertex(novaPosicao);
+        grafo.adicionarMapaId(id,novaPosicao);
+    }
+    file.close();
+
+    long int origin,dest;
+    file2.open("../ficheiros_graph/edges_porto.txt");
+    getline(file2,line);
+
+    while (!file2.eof())
+    {
+        getline(file2,line);
+        sscanf(line.c_str(),"(%ld, %ld)",&id,&id2);
+        Posicao origem = grafo.getPosFromId(id);
+        Posicao destino = grafo.getPosFromId(id2);
+        double peso = origem.calcDist(destino);
+        grafo.addEdge(origem,destino,peso);
+    }
+    file2.close();
+}
+
+
 
 
 

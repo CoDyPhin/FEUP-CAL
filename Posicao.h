@@ -13,6 +13,7 @@ public:
     void setLatitude(double latitude);
     void setLongitude(double longitude);
     double calcDist(Posicao pos);
+    friend bool operator==(const Posicao &left,const Posicao &right);
 };
 
 

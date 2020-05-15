@@ -23,6 +23,9 @@ public:
     void readEncomendas();
     vector<Posicao> calcPercurso(Posicao inicio, Posicao fim);
 
+    //Grafo
+    void readGrafo();
+
 
     vector<Estafeta*> getEstafeta();
     vector<Encomenda*> getEncomentas();
