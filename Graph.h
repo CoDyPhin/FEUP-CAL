@@ -28,7 +28,6 @@ class Vertex {
     vector<Edge<T> > adj;  // outgoing edges
     bool visited;          // auxiliary field
     double dist = 0;
-    double readDist = 0;
     Vertex<T> *path = nullptr;
     int queueIndex = 0; 		// required by MutablePriorityQueue
 
@@ -144,9 +143,6 @@ public:
 
     //Auxiliary functions
     bool findInverseEdge(const Edge<T> &edge);
-
-    //Project
-    void aStarShortestPath(const T &s);
 };
 
 
@@ -221,6 +217,7 @@ Vertex<T> * Graph<T>::initSingleSource(const T &origin) {
     for(auto v : vertexSet) {
         v->dist = INF;
         v->path = nullptr;
+        v->visited = false;
     }
     auto s = findVertex(origin);
     s->dist = 0;
@@ -250,6 +247,8 @@ void Graph<T>::dijkstraShortestPath(const T &origin) {
     q.insert(s);
     while( ! q.empty() ) {
         auto v = q.extractMin();
+        if (!v->visited) v->visited = true;
+        else return;
         for(auto e : v->adj) {
             auto oldDist = e.dest->dist;
             if (relax(v, e.dest, e.weight)) {
@@ -406,25 +405,5 @@ bool Graph<T>::findInverseEdge(const Edge<T> &edge)
     return edge.orig->path == edge.dest;
 }
 
-//TODO
-//Atualizar para a*, neste momento e igual a dijkstra
-template<class T>
-void Graph<T>::aStarShortestPath(const T &origin) {
-    auto s = initSingleSource(origin);
-    MutablePriorityQueue<Vertex<T>> q;
-    q.insert(s);
-    while( ! q.empty() ) {
-        auto v = q.extractMin();
-        for(auto e : v->adj) {
-            auto oldDist = e.dest->dist;
-            if (relax(v, e.dest, e.weight)) {
-                if (oldDist == INF)
-                    q.insert(e.dest);
-                else
-                    q.decreaseKey(e.dest);
-            }
-        }
-    }
-}
 
 #endif /* GRAPH_H_ */
