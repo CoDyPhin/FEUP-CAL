@@ -211,9 +211,9 @@ void Empresa::readEncomendas() {
 
     while (!file.eof())
     {
-        Prato* prat;
-        Restaurante* rest;
-        Hora *inicio,*fim;
+        Prato* prat = nullptr;
+        Restaurante* rest = nullptr;
+        Hora *inicio = nullptr,*fim = nullptr;
 
         string line;
         getline(file,line);
@@ -233,6 +233,8 @@ void Empresa::readEncomendas() {
             }
         }
 
+        if (rest == nullptr) getline(file,line);
+
         getline(file,line);
 
         inicio = new Hora(line);
@@ -245,6 +247,7 @@ void Empresa::readEncomendas() {
         getline(file,line);
         if (line == "") break;
     }
+
 }
 
 vector<Cliente*> Empresa::getClientes(){
@@ -263,7 +266,7 @@ vector<Restaurante*> Empresa::getRestaurantes(){
     return this->restaurantes;
 }
 
-void Empresa::eleminarCliente(long nif) {
+void Empresa::eliminarCliente(long nif) {
     for (int i = 0; i < this->clientes.size() ; i++) {
         if(clientes.at(i)->getNif() == nif){
             clientes.erase(clientes.begin()+i);

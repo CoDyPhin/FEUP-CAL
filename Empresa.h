@@ -24,7 +24,7 @@ public:
     vector<Encomenda*> getEncomentas();
     vector<Restaurante*> getRestaurantes();
     vector<Cliente*> getClientes();
-    void eleminarCliente(long int nif);
+    void eliminarCliente(long int nif);
     void criarEstafeta();
     void eliminarEstafeta();
     vector<Estafeta*> filtrarEstafetas(int option);

@@ -40,7 +40,7 @@ void menuClientes(Empresa empresa){
             long int nif;
             getline(cin,input2);
             nif = stoi(input2);
-            empresa.eleminarCliente(nif);
+            empresa.eliminarCliente(nif);
             break;
         }
         case 9:
