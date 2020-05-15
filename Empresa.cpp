@@ -298,7 +298,7 @@ void Empresa::readGrafo() {
     while (!file.eof())
     {
         getline(file,line);
-        sscanf(line.c_str(),"(%ld, %f, %f",&id,&latitude,&longitude);
+        sscanf(line.c_str(),"(%ld, %lf, %lf",&id,&latitude,&longitude);
         Posicao novaPosicao(latitude,longitude);
         grafo.addVertex(novaPosicao);
         grafo.adicionarMapaId(id,novaPosicao);
