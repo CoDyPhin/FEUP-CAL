@@ -8,6 +8,7 @@
 
 class Empresa {
 private:
+    Graph<Posicao> grafo;
     vector<Restaurante*> restaurantes;
     vector<Estafeta*> estafetas;
     vector<Cliente*> clientes;
@@ -20,6 +21,9 @@ public:
     void eliminarEncomenda();
     vector<Encomenda*> filtrarEncomendas(int option);
     void readEncomendas();
+    vector<Posicao> calcPercurso(Posicao inicio, Posicao fim);
+
+
     vector<Estafeta*> getEstafeta();
     vector<Encomenda*> getEncomentas();
     vector<Restaurante*> getRestaurantes();

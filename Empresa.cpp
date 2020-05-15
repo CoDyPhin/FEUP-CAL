@@ -1,6 +1,9 @@
 #include <iostream>
 #include <fstream>
+#include <thread>
 #include "Empresa.h"
+
+using namespace std;
 
 Empresa::Empresa() {
 
@@ -203,8 +206,6 @@ vector<Estafeta *> Empresa::filtrarEstafetas(int option) {
 }
 
 
-
-
 void Empresa::readEncomendas() {
     ifstream file;
     file.open("../encomendas.txt");
@@ -275,5 +276,11 @@ void Empresa::eliminarCliente(long nif) {
     }
     cout << "Não existe um cliente com esse NIF" << endl;
 }
+
+vector<Posicao> Empresa::calcPercurso(Posicao inicio, Posicao fim) {
+    return grafo.bidirectionDijkstra(inicio,fim);
+}
+
+
 
 

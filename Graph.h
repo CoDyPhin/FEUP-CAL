@@ -5,11 +5,13 @@
 #define GRAPH_H_
 
 #include <vector>
+#include <map>
 #include <queue>
 #include <limits>
 #include <algorithm>
 #include <unordered_set>
 #include <iostream>
+#include <thread>
 #include "MutablePriorityQueue.h"
 
 using namespace std;
@@ -111,6 +113,9 @@ template <class T>
 class Graph {
     vector<Vertex<T> *> vertexSet;    // vertex set
 
+    //Project
+    map<Posicao,int> mapa;
+
     // Fp05
     Vertex<T> * initSingleSource(const T &orig);
     bool relax(Vertex<T> *v, Vertex<T> *w, double weight);
@@ -140,10 +145,22 @@ public:
     // Fp07 - minimum spanning tree
     bool addBidirectionalEdge(const T &sourc, const T &dest, double w);
 
-
     //Auxiliary functions
     bool findInverseEdge(const Edge<T> &edge);
+
+    ///Project
+    int getIndexFromPos(Posicao pos);
+    Graph();
+    Vertex<T> getVertex(int index);
+    vector<T> bidirectionDijkstra(const T &start,const T &end);
 };
+
+template <class T>
+int Graph<T>::getIndexFromPos(Posicao pos)
+{
+    auto iter = mapa.fin(pos);
+    return iter->second;
+}
 
 
 template <class T>
@@ -405,5 +422,27 @@ bool Graph<T>::findInverseEdge(const Edge<T> &edge)
     return edge.orig->path == edge.dest;
 }
 
+template <class T>
+Graph<T>::Graph()
+{
+
+}
+
+template <class T>
+Vertex<T> Graph<T>::getVertex(int index)
+{
+    return vertexSet.at(index);
+}
+
+template <class T>
+vector<T> Graph<T>::bidirectionDijkstra(const T &start, const T &end)
+{
+    vector<T> result;
+
+    dijkstraShortestPath(start);
+    thread second (this->dijkstraShortestPath,end);
+
+    return result;
+}
 
 #endif /* GRAPH_H_ */
