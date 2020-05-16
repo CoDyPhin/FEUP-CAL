@@ -282,7 +282,7 @@ void Empresa::eliminarCliente(long nif) {
 }
 
 vector<Posicao> Empresa::calcPercurso(Posicao inicio, Posicao fim) {
-    return grafo.bidirectionDijkstra(inicio,fim);
+    return grafo.bidirectionalDijkstra(inicio, fim);
 }
 
 void Empresa::readGrafo() {
@@ -301,7 +301,7 @@ void Empresa::readGrafo() {
         sscanf(line.c_str(),"(%ld, %lf, %lf",&id,&latitude,&longitude);
         Posicao novaPosicao(latitude,longitude);
         grafo.addVertex(novaPosicao);
-        grafo.adicionarMapaId(id,novaPosicao);
+        grafo.addMapPair(id);
     }
     file.close();
 
@@ -313,10 +313,10 @@ void Empresa::readGrafo() {
     {
         getline(file2,line);
         sscanf(line.c_str(),"(%ld, %ld)",&id,&id2);
-        Posicao origem = grafo.getPosFromId(id);
-        Posicao destino = grafo.getPosFromId(id2);
+        Posicao origem = grafo.getTfromId(id);
+        Posicao destino = grafo.getTfromId(id2);
         double peso = origem.calcDist(destino);
-        grafo.addEdge(origem,destino,peso);
+        grafo.addEdgeWithIds(id,id2,peso);
     }
     file2.close();
 }

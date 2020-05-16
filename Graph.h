@@ -113,10 +113,8 @@ template <class T>
 class Graph {
     vector<Vertex<T> *> vertexSet;    // vertex set
 
-    //Project
-    map<Posicao,int> mapaPosicaoIndice;
-    map<long int,Posicao> mapaIdPosicao;
-
+    ///Project
+    map<long int,int> idIndice;
 
     // Fp05
     Vertex<T> * initSingleSource(const T &orig);
@@ -124,8 +122,6 @@ class Graph {
     double ** W = nullptr;   // dist
     int **P = nullptr;   // path
     int findVertexIdx(const T &in) const;
-
-
 public:
     Vertex<T> *findVertex(const T &in) const;
     bool addVertex(const T &in);
@@ -151,21 +147,13 @@ public:
     bool findInverseEdge(const Edge<T> &edge);
 
     ///Project
-    int getIndexFromPos(Posicao pos);
     Graph();
     Vertex<T> getVertex(int index);
-    vector<T> bidirectionDijkstra(const T &start,const T &end);
-    void adicionarMapaId(long int id, Posicao posicao);
-    Posicao getPosFromId(long int id);
+    vector<T> bidirectionalDijkstra(const T &start, const T &end);
+    T getTfromId(long int id);
+    void addMapPair(long int id);
+    void addEdgeWithIds(long int id1, long int id2,double w);
 };
-
-template <class T>
-int Graph<T>::getIndexFromPos(Posicao pos)
-{
-    auto iter = mapaPosicaoIndice.find(pos);
-    return iter->second;
-}
-
 
 template <class T>
 int Graph<T>::getNumVertex() const {
@@ -204,8 +192,10 @@ int Graph<T>::findVertexIdx(const T &in) const {
  */
 template <class T>
 bool Graph<T>::addVertex(const T &in) {
+    /*
     if (findVertex(in) != nullptr)
         return false;
+    */
     vertexSet.push_back(new Vertex<T>(in));
     return true;
 }
@@ -429,7 +419,7 @@ bool Graph<T>::findInverseEdge(const Edge<T> &edge)
 template <class T>
 Graph<T>::Graph()
 {
-
+    vertexSet.clear();
 }
 
 template <class T>
@@ -439,26 +429,40 @@ Vertex<T> Graph<T>::getVertex(int index)
 }
 
 template <class T>
-vector<T> Graph<T>::bidirectionDijkstra(const T &start, const T &end)
+vector<T> Graph<T>::bidirectionalDijkstra(const T &start, const T &end)
 {
     vector<T> result;
 
     dijkstraShortestPath(start);
     thread second (&Graph<T>::dijkstraShortestPath,this,end);
+    second.join();
 
     return result;
 }
 
 template<class T>
-void Graph<T>::adicionarMapaId(long int id, Posicao posicao) {
-    mapaIdPosicao.insert(pair<long int,Posicao>(id,posicao));
+T Graph<T>::getTfromId(long int id)
+{
+    int index = idIndice[id];
+    return vertexSet.at(index)->info;
 }
 
-template<class T>
-Posicao Graph<T>::getPosFromId(long int id) {
-    auto mapIter = mapaIdPosicao.find(id);
-    return mapIter->second;
+template <class T>
+void Graph<T>::addMapPair(long int id)
+{
+    idIndice.insert(pair<long int, int>(id,vertexSet.size() - 1));
 }
 
+template <class T>
+void Graph<T>::addEdgeWithIds(long int id1, long int id2,double w)
+{
+    int index1 = idIndice[id1];
+    int index2 = idIndice[id2];
+
+    auto origVert = vertexSet.at(index1);
+    auto destVert = vertexSet.at(index2);
+
+    origVert->addEdge(destVert,w);
+}
 
 #endif /* GRAPH_H_ */
