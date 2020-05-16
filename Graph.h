@@ -5,6 +5,7 @@
 #define GRAPH_H_
 
 #include <vector>
+#include <deque>
 #include <map>
 #include <queue>
 #include <limits>
@@ -33,6 +34,7 @@ class Vertex {
     Vertex<T> *path = nullptr;
     int queueIndex = 0; 		// required by MutablePriorityQueue
 
+    Vertex<T> *path2 = nullptr; ///Project
     void addEdge(Vertex<T> *dest, double w);
 
 
@@ -130,7 +132,7 @@ public:
     vector<Vertex<T> *> getVertexSet() const;
 
     // Fp05 - single source
-    void dijkstraShortestPath(const T &s);
+    Vertex<T>* dijkstraShortestPath(const T &s,bool useTwoPaths); ///Project
     void unweightedShortestPath(const T &s);
     void bellmanFordShortestPath(const T &s);
     vector<T> getPath(const T &origin, const T &dest) const;
@@ -149,7 +151,7 @@ public:
     ///Project
     Graph();
     Vertex<T> getVertex(int index);
-    vector<T> bidirectionalDijkstra(const T &start, const T &end);
+    deque<T> bidirectionalDijkstra(const T &start, const T &end);
     T getTfromId(long int id);
     void addMapPair(long int id);
     void addEdgeWithIds(long int id1, long int id2,double w);
@@ -252,24 +254,33 @@ inline bool Graph<T>::relax(Vertex<T> *v, Vertex<T> *w, double weight) {
 }
 
 template<class T>
-void Graph<T>::dijkstraShortestPath(const T &origin) {
-    auto s = initSingleSource(origin);
+Vertex<T>* Graph<T>::dijkstraShortestPath(const T &origin, bool useTwoPaths) {
+    Vertex<T>* s;
+    if (!useTwoPaths) s = initSingleSource(origin);
+    else
+    {
+        s = findVertex(origin);
+        s->dist = 0;
+    }
     MutablePriorityQueue<Vertex<T>> q;
     q.insert(s);
     while( ! q.empty() ) {
         auto v = q.extractMin();
         if (!v->visited) v->visited = true;
-        else return;
+        else return v;
         for(auto e : v->adj) {
             auto oldDist = e.dest->dist;
-            if (relax(v, e.dest, e.weight)) {
-                if (oldDist == INF)
-                    q.insert(e.dest);
-                else
-                    q.decreaseKey(e.dest);
+            if (oldDist > (v->dist + e.weight))
+            {
+                e.dest->dist = (v->dist + e.weight);
+                if (!useTwoPaths) e.dest->path = v;
+                else e.dest->path2 = v;
             }
+            if (oldDist == INF) q.insert(e.dest);
+            else q.decreaseKey(e.dest);
         }
     }
+    return nullptr;
 }
 
 template<class T>
@@ -429,13 +440,27 @@ Vertex<T> Graph<T>::getVertex(int index)
 }
 
 template <class T>
-vector<T> Graph<T>::bidirectionalDijkstra(const T &start, const T &end)
+deque<T> Graph<T>::bidirectionalDijkstra(const T &start, const T &end)
 {
-    vector<T> result;
+    deque<T> result;
 
-    dijkstraShortestPath(start);
-    thread second (&Graph<T>::dijkstraShortestPath,this,end);
+    auto middle = dijkstraShortestPath(start,false);
+    thread second (&Graph<T>::dijkstraShortestPath,this,end,true);
     second.join();
+
+    auto vert = middle;
+    while (vert != nullptr)
+    {
+        result.push_front(vert->info);
+        vert = vert->path;
+    }
+    result.pop_back();
+    vert = middle;
+    while (vert != nullptr)
+    {
+        result.push_back(vert->info);
+        vert = vert->path2;
+    }
 
     return result;
 }

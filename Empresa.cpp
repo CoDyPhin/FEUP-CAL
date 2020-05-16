@@ -281,7 +281,7 @@ void Empresa::eliminarCliente(long nif) {
     cout << "Não existe um cliente com esse NIF" << endl;
 }
 
-vector<Posicao> Empresa::calcPercurso(Posicao inicio, Posicao fim) {
+deque<Posicao> Empresa::calcPercurso(Posicao inicio, Posicao fim) {
     return grafo.bidirectionalDijkstra(inicio, fim);
 }
 

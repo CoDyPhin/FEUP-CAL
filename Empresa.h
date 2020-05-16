@@ -1,7 +1,7 @@
 #ifndef CAL_EMPRESA_H
 #define CAL_EMPRESA_H
 
-
+#include <deque>
 #include "Estafeta.h"
 #include "Cliente.h"
 #include "Restaurante.h"
@@ -21,7 +21,7 @@ public:
     void eliminarEncomenda();
     vector<Encomenda*> filtrarEncomendas(int option);
     void readEncomendas();
-    vector<Posicao> calcPercurso(Posicao inicio, Posicao fim);
+    deque<Posicao> calcPercurso(Posicao inicio, Posicao fim);
 
     //Grafo
     void readGrafo();
