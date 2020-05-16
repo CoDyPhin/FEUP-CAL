@@ -212,7 +212,7 @@ vector<Estafeta *> Empresa::filtrarEstafetas(int option) {
 
 void Empresa::readEncomendas() {
     ifstream file;
-    file.open("../encomendas.txt");
+    file.open("../ficheiros_texto/encomendas.txt");
 
     while (!file.eof())
     {
