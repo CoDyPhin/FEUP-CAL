@@ -1,0 +1,24 @@
+Empadao
+pure, carne picada
+0.004
+10
+::::::::::
+Bacalhau a Bras
+bacalhau, batata palha
+0.003
+9
+::::::::::
+Bacalhau
+bacalhau, batata, legumes
+0.0033
+12
+::::::::::
+Salmao
+salmao, batata, legumes
+0.0041
+15
+::::::::::
+Arroz de pato
+arroz, pato, chourico
+0.0037
+11
