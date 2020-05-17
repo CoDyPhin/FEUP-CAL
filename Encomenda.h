@@ -10,6 +10,7 @@
 
 class Encomenda {
 private:
+    unsigned int id;
     Prato *prato;
     Restaurante *restaurante;
     Hora *horaPedido;
@@ -18,8 +19,11 @@ public:
 
     ~Encomenda();
 
-    Encomenda(Prato *prato, Restaurante *restaurante, Hora *horaPedido,
-              Hora *horaEntrega);
+    Encomenda(unsigned int id, Prato *prato, Restaurante *restaurante, Hora *horaPedido, Hora *horaEntrega);
+
+    unsigned int getId() const;
+
+    void setId(unsigned int id);
 
     Prato *getPrato() const;
 

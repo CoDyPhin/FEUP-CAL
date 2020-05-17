@@ -216,11 +216,17 @@ void Empresa::readEncomendas() {
 
     while (!file.eof())
     {
+        unsigned int id;
         Prato* prat = nullptr;
         Restaurante* rest = nullptr;
         Hora *inicio = nullptr,*fim = nullptr;
 
         string line;
+
+        getline(file,line);
+
+        id = stoi(line);
+
         getline(file,line);
 
         for (auto restaurante: restaurantes)
@@ -246,7 +252,7 @@ void Empresa::readEncomendas() {
         getline(file,line);
         fim = new Hora(line);
 
-        Encomenda* novaEncomenda = new Encomenda(prat,rest,inicio,fim);
+        Encomenda* novaEncomenda = new Encomenda(id,prat,rest,inicio,fim);
         encomendas.push_back(novaEncomenda);
 
         getline(file,line);
