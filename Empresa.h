@@ -24,19 +24,27 @@ public:
     vector<Encomenda*> filtrarEncomendas(int option);
     void readEncomendas();
     deque<Posicao> calcPercurso(Posicao inicio, Posicao fim);
+    vector<Encomenda*> getEncomentas();
 
     //Grafo
     void readGrafo();
     void showGrafo();
 
+    //Estafetas
     vector<Estafeta*> getEstafeta();
-    vector<Encomenda*> getEncomentas();
-    vector<Restaurante*> getRestaurantes();
-    vector<Cliente*> getClientes();
-    void eliminarCliente(long int nif);
     void criarEstafeta();
     void eliminarEstafeta();
     vector<Estafeta*> filtrarEstafetas(int option);
+
+    //Restaurantes
+    vector<Restaurante*> getRestaurantes();
+    void readRestaurantes();
+    map<string,Prato*> readPratos();
+
+    //Clientes
+    vector<Cliente*> getClientes();
+    void eliminarCliente(long int nif);
+
 };
 
 

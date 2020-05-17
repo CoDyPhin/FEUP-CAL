@@ -11,7 +11,7 @@ Empresa::Empresa() {
     this->grafo = grafo;
 
     readGrafo();
-
+    readRestaurantes();
     readEncomendas();
 
 }
@@ -22,26 +22,49 @@ void Empresa::criarEncomenda() {
     cout<<"Indique o nome do restaurante:\n";
     getline(cin,input);
 
-    Restaurante* restaurante;
-    Prato* prato;
+    Restaurante* restaurante = nullptr;
+    vector<pair<Prato*,int>> pratos;
     Cliente* cliente;
 
     for (auto rest : restaurantes)
     {
         if (rest->getNome() == input) {restaurante = rest; break;}
     }
-
-    cout<<"Indique o nome do prato:\n";
-    getline(cin,input);
-
-    for (auto prat : restaurante->getPratosDisponiveis())
+    if (restaurante == nullptr)
     {
-        if (prat->getNome() == input)
-        {
-            prato = prat;
-            break;
-        }
+        cout<<"Nao ha nenhum restaurante com esse nome!\n";
+        return;
     }
+
+    do
+    {
+        cout<<"Indique o nome do prato que deseja:\n";
+        getline(cin,input);
+
+        string nomePrato = input;
+        Prato* pratoAtual = nullptr;
+
+        for (auto pratoRest : restaurante->getPratosDisponiveis())
+        {
+            if (pratoRest->getNome() == nomePrato) {pratoAtual = pratoRest; break;}
+        }
+        if (pratoAtual == nullptr)
+        {
+            cout<<"Nao ha nenhum prato com esse nome!\n";
+            continue;
+        }
+
+        cout<<"Indique a quantidade que deseja:\n";
+        getline(cin,input);
+
+        int quant = stoi(input);
+
+        pratos.push_back(pair<Prato*,int>(pratoAtual,quant));
+
+        cout<<"Pretende adicionar mais pratos (s/n)?\n";
+        getline(cin,input);
+        if (input != "s") break;
+    } while(true);
 
     ///Calcular melhor estafeta
 
@@ -249,8 +272,8 @@ void Empresa::readEncomendas() {
                     string nomePratoAtual(nomePratoAtual_cstr);
                     for (auto prato2 : restaurante->getPratosDisponiveis())
                     {
-                        if (prato2->getNome() == nomePratoAtual) pratoAtual = prato2;
-                        break;
+                        if (prato2->getNome() == nomePratoAtual) {pratoAtual = prato2; break;}
+
                     }
                     pratosQuants.push_back(pair<Prato*,int>(pratoAtual,quantidadePrato));
                 }
@@ -360,6 +383,71 @@ void Empresa::showGrafo(){ // tem que ser melhorada e finalizada
         id++;
     }
 }
+
+void Empresa::readRestaurantes() {
+    auto mapa = readPratos();
+
+    ifstream file;
+    file.open("../ficheiros_texto/restaurantes.txt");
+    string line;
+
+    while (!file.eof())
+    {
+        string nomeRest;
+        vector<Prato*> pratos;
+
+
+        getline(file,line);
+        nomeRest = line;
+        getline(file,line);
+        long int id = stol(line);
+        Posicao posRest = grafo.getTfromId(id);
+        getline(file,line);
+
+        for (auto nomePrato : string_split(line,','))
+        {
+            pratos.push_back(mapa[nomePrato]);
+        }
+
+        restaurantes.push_back(new Restaurante(nomeRest,posRest,pratos));
+
+        getline(file,line);
+        if (line == "") break;
+    }
+}
+
+map<string, Prato *> Empresa::readPratos() {
+    map<string, Prato*> result;
+
+    ifstream file;
+    file.open("../ficheiros_texto/pratos.txt");
+
+    string line;
+
+    while (!file.eof())
+    {
+        string nome;
+        vector<string> ingredientes;
+        float preco;
+
+        getline(file,line);
+        nome = line;
+        getline(file,line);
+        ingredientes = string_split(line,',');
+        getline(file,line);
+        preco = stof(line);
+
+        Prato* novoPrato = new Prato(nome,ingredientes,preco);
+        result.insert(pair<string,Prato*>(nome,novoPrato));
+
+        getline(file,line);
+        if (line == "") break;
+    }
+
+    return result;
+}
+
+
 
 
 

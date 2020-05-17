@@ -28,3 +28,4 @@ float Prato::getPreco() const {
 void Prato::setPreco(float preco) {
     Prato::preco = preco;
 }
+

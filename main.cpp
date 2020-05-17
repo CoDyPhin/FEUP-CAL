@@ -6,7 +6,7 @@ int main() {
 
     Empresa empresa;
     mainMenu(empresa);
-    empresa.showGrafo();
+    //empresa.showGrafo();
 
     return 0;
 }
