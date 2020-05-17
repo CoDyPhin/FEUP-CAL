@@ -270,15 +270,14 @@ void Empresa::readEncomendas() {
                 {
                     sscanf(prato.c_str(),"%s - %d",nomePratoAtual_cstr,&quantidadePrato);
                     string nomePratoAtual(nomePratoAtual_cstr);
-                    for (auto prato2 : restaurante->getPratosDisponiveis())
+                    vector<Prato*> copy = restaurante->getPratosDisponiveis();
+                    for (auto prato2 : copy)
                     {
                         if (prato2->getNome() == nomePratoAtual) {pratoAtual = prato2; break;}
 
                     }
-                    pratosQuants.push_back(pair<Prato*,int>(pratoAtual,quantidadePrato));
+                    pratosQuants.emplace_back(pratoAtual,quantidadePrato);
                 }
-
-
                 break;
             }
         }
