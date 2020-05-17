@@ -5,7 +5,8 @@
 int main() {
 
     Empresa empresa;
-    mainMenu(empresa);
+    //mainMenu(empresa);
+    empresa.showGrafo();
 
     return 0;
 }

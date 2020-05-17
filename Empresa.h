@@ -5,6 +5,8 @@
 #include "Estafeta.h"
 #include "Cliente.h"
 #include "Restaurante.h"
+#include "Graph.h"
+#include "lib/graphviewer.h"
 
 class Empresa {
 private:
@@ -25,7 +27,7 @@ public:
 
     //Grafo
     void readGrafo();
-
+    void showGrafo();
 
     vector<Estafeta*> getEstafeta();
     vector<Encomenda*> getEncomentas();

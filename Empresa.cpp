@@ -277,6 +277,7 @@ vector<Restaurante*> Empresa::getRestaurantes(){
     return this->restaurantes;
 }
 
+
 void Empresa::eliminarCliente(long nif) {
     for (int i = 0; i < this->clientes.size() ; i++) {
         if(clientes.at(i)->getNif() == nif){
@@ -325,6 +326,23 @@ void Empresa::readGrafo() {
         grafo.addEdgeWithIds(id,id2,peso);
     }
     file2.close();
+}
+
+
+
+void Empresa::showGrafo(){ // tem que ser melhorada e finalizada
+    GraphViewer *gv = new GraphViewer(1280, 720, true);
+    gv->createWindow(1280, 720);
+    gv->defineVertexColor("blue");
+    gv->defineEdgeColor("black");
+    //double yPercent, xPercent;
+    int id = 0;
+    for (Vertex<Posicao> *v: grafo.getVertexSet()) {
+        gv->addNode(id);//v->getInfo().getLatitude(),v->getInfo().getLongitude());
+        if(id == 5)
+            break;
+        id++;
+    }
 }
 
 

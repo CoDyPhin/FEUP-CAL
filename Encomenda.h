@@ -6,7 +6,6 @@
 #include "Prato.h"
 #include "Hora.h"
 #include "Restaurante.h"
-#include "Graph.h"
 
 class Encomenda {
 private:
