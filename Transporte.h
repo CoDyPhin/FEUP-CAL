@@ -9,19 +9,21 @@ class Transporte {
 private:
     string matricula;
     float velocidade;
-    double capacidade;
-    double peso;
+    unsigned int capacidade;
 public:
+    Transporte(string &matricula, float velocidade, unsigned int capacidade);
+
     const string &getMatricula() const;
+
     void setMatricula(const string &matricula);
+
     float getVelocidade() const;
+
     void setVelocidade(float velocidade);
-    double getCapacidade() const;
-    void setCapacidade(double capacidade);
-    double getPeso() const;
-    void setPeso(double peso);
-public:
-    Transporte(const string &matricula, float velocidade, double capacidade, double peso);
+
+    unsigned int getCapacidade() const;
+
+    void setCapacidade(unsigned int capacidade);
 };
 
 

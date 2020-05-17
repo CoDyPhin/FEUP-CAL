@@ -1,9 +1,9 @@
 #include "Prato.h"
 
 
-Prato::Prato(string nome, vector<string> ingredientes, float volume) : nome(nome),
-                                                                                     ingredientes(ingredientes),
-                                                                                     volume(volume) {}
+Prato::Prato(const string &nome, const vector<string> &ingredientes, float preco) : nome(nome),
+                                                                                    ingredientes(ingredientes),
+                                                                                    preco(preco) {}
 
 const string &Prato::getNome() const {
     return nome;
@@ -19,14 +19,6 @@ const vector<string> &Prato::getIngredientes() const {
 
 void Prato::setIngredientes(const vector<string> &ingredientes) {
     Prato::ingredientes = ingredientes;
-}
-
-float Prato::getVolume() const {
-    return volume;
-}
-
-void Prato::setVolume(float volume) {
-    Prato::volume = volume;
 }
 
 float Prato::getPreco() const {

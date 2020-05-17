@@ -1,7 +1,9 @@
+
+
 #include "Transporte.h"
 
-Transporte::Transporte(const string &matricula, float velocidade, double capacidade, double peso) : matricula(
-        matricula), velocidade(velocidade), capacidade(capacidade), peso(peso) {}
+Transporte::Transporte(string &matricula, float velocidade, unsigned int capacidade)
+        : matricula(matricula), velocidade(velocidade), capacidade(capacidade) {}
 
 const string &Transporte::getMatricula() const {
     return matricula;
@@ -19,18 +21,10 @@ void Transporte::setVelocidade(float velocidade) {
     Transporte::velocidade = velocidade;
 }
 
-double Transporte::getCapacidade() const {
+unsigned int Transporte::getCapacidade() const {
     return capacidade;
 }
 
-void Transporte::setCapacidade(double capacidade) {
+void Transporte::setCapacidade(unsigned int capacidade) {
     Transporte::capacidade = capacidade;
-}
-
-double Transporte::getPeso() const {
-    return peso;
-}
-
-void Transporte::setPeso(double peso) {
-    Transporte::peso = peso;
 }

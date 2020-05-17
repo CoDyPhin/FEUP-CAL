@@ -2,6 +2,7 @@
 #include <fstream>
 #include <thread>
 #include "Empresa.h"
+#include "utils.h"
 
 using namespace std;
 
@@ -155,7 +156,7 @@ void Empresa::criarEstafeta() {
     cout<<"Indique o peso do veiculo do estafeta:\n";
     getline(cin,trppeso);
     Posicao posicao = Posicao(0,0);
-    Estafeta* estafeta = new Estafeta(nome, stol(nif), stoi(idade), posicao, Transporte(trpmatricula, stof(trpvel), stod(trpcapac), stod(trppeso)), {}, 0);
+    Estafeta* estafeta = new Estafeta(nome, stol(nif), stoi(idade), posicao, Transporte(trpmatricula, stof(trpvel), stoi(trpcapac)), {}, 0);
     estafetas.push_back(estafeta);
 }
 
@@ -220,6 +221,7 @@ void Empresa::readEncomendas() {
         Prato* prat = nullptr;
         Restaurante* rest = nullptr;
         Hora *inicio = nullptr,*fim = nullptr;
+        vector<pair<Prato*,int>> pratosQuants;
 
         string line;
 
@@ -235,11 +237,25 @@ void Empresa::readEncomendas() {
             {
                 rest = restaurante;
                 getline(file,line);
-                for (auto prato : restaurante->getPratosDisponiveis())
+                Prato* pratoAtual = nullptr;
+
+                vector<string> nomesPratos;
+                char* nomePratoAtual_cstr;
+                int quantidadePrato;
+                auto pratos = string_split(line,',');
+                for (auto prato : pratos)
                 {
-                    if (prato->getNome() == line) prat = prato;
-                    break;
+                    sscanf(prato.c_str(),"%s - %d",nomePratoAtual_cstr,&quantidadePrato);
+                    string nomePratoAtual(nomePratoAtual_cstr);
+                    for (auto prato2 : restaurante->getPratosDisponiveis())
+                    {
+                        if (prato2->getNome() == nomePratoAtual) pratoAtual = prato2;
+                        break;
+                    }
+                    pratosQuants.push_back(pair<Prato*,int>(pratoAtual,quantidadePrato));
                 }
+
+
                 break;
             }
         }
@@ -252,7 +268,7 @@ void Empresa::readEncomendas() {
         getline(file,line);
         fim = new Hora(line);
 
-        Encomenda* novaEncomenda = new Encomenda(id,prat,rest,inicio,fim);
+        Encomenda* novaEncomenda = new Encomenda(id,pratosQuants,rest,inicio,fim);
         encomendas.push_back(novaEncomenda);
 
         getline(file,line);
@@ -300,7 +316,7 @@ void Empresa::readGrafo() {
     long int id,id2;
 
 
-    file.open("../ficheiros_graph/nodes_lat_lon_porto.txt");
+    file.open("../ficheiros_graph/nodes_x_y_porto.txt");
     getline(file,line);
     while (!file.eof())
     {

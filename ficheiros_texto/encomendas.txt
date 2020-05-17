@@ -1,17 +1,17 @@
 1
 Assador tipico
-Empadao
+Empadao - 1
 18:00
 19:00
 ::::::::::
 2
 Peixaria Fernandes
-Bacalhau
+Bacalhau - 1
 15:00
 15:30
 ::::::::::
 3
 Barcarola
-Arroz de pato
+Arroz de pato - 1
 11:00
 12:15

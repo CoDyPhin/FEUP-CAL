@@ -10,7 +10,7 @@
 class Encomenda {
 private:
     unsigned int id;
-    Prato *prato;
+    vector<pair<Prato*,int>> pratos;
     Restaurante *restaurante;
     Hora *horaPedido;
     Hora *horaEntrega;
@@ -18,15 +18,16 @@ public:
 
     ~Encomenda();
 
-    Encomenda(unsigned int id, Prato *prato, Restaurante *restaurante, Hora *horaPedido, Hora *horaEntrega);
+    Encomenda(unsigned int id,
+              const vector<pair<Prato*,int>> &pratos, Restaurante * restaurante, Hora * horaPedido, Hora * horaEntrega);
 
     unsigned int getId() const;
 
     void setId(unsigned int id);
 
-    Prato *getPrato() const;
+    const vector<pair<Prato*,int>>  getPratos() const;
 
-    void setPrato(Prato *prato);
+    void setPratos(const vector<pair<Prato*,int>> pratos);
 
     Restaurante *getRestaurante() const;
 
