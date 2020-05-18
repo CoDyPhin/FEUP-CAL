@@ -13,6 +13,8 @@ Empresa::Empresa() {
     readGrafo();
     readRestaurantes();
     readEncomendas();
+    readEstafetas();
+    readClientes();
 
 }
 
@@ -179,7 +181,7 @@ void Empresa::criarEstafeta() {
     cout<<"Indique o peso do veiculo do estafeta:\n";
     getline(cin,trppeso);
     Posicao posicao = Posicao(0,0);
-    Estafeta* estafeta = new Estafeta(nome, stol(nif), stoi(idade), posicao, Transporte(trpmatricula, stof(trpvel), stoi(trpcapac)), {}, 0);
+    Estafeta* estafeta = new Estafeta(nome, stol(nif), stoi(idade), posicao, new Transporte(trpmatricula, stof(trpvel), stoi(trpcapac)), {}, 0);
     estafetas.push_back(estafeta);
 }
 
@@ -413,6 +415,7 @@ void Empresa::readRestaurantes() {
         getline(file,line);
         if (line == "") break;
     }
+    file.close();
 }
 
 map<string, Prato *> Empresa::readPratos() {
@@ -442,8 +445,138 @@ map<string, Prato *> Empresa::readPratos() {
         getline(file,line);
         if (line == "") break;
     }
+    file.close();
 
     return result;
+}
+
+void Empresa::readEstafetas() {
+    auto mapaMatriculaTransporte = readTransportes();
+
+    ifstream file;
+    file.open("../ficheiros_texto/estafetas.txt");
+
+    string line;
+
+    while (!file.eof())
+    {
+        string nome;
+        long int nif;
+        int idade;
+        vector<string> idEncomendas;
+        vector<Encomenda*> encomendasEstafeta;
+        double lucro;
+
+        getline(file,nome);
+        getline(file,line);
+        nif = stol(line);
+        getline(file,line);
+        idade = stoi(line);
+        getline(file,line);
+        Posicao posicao = grafo.getTfromId(stol(line));
+        getline(file,line);
+        Transporte* transporte = mapaMatriculaTransporte[line];
+        getline(file,line);
+
+        idEncomendas = string_split(line,',');
+        for (string id : idEncomendas)
+        {
+            for (auto encomenda : encomendas)
+            {
+                if (encomenda->getId() == stoi(id)) {encomendasEstafeta.push_back(encomenda); break;}
+            }
+        }
+
+        getline(file,line);
+        lucro = stod(line);
+
+        Estafeta* novoEstafeta = new Estafeta(nome,nif,idade,posicao,transporte,encomendasEstafeta,lucro);
+        estafetas.push_back(novoEstafeta);
+
+        getline(file,line);
+        if (line == "") break;
+    }
+    file.close();
+}
+
+map<string, Transporte *> Empresa::readTransportes() {
+    map<string, Transporte*> result;
+
+    ifstream file;
+    file.open("../ficheiros_texto/transportes.txt");
+
+    string line;
+
+    while (!file.eof())
+    {
+        string matricula;
+        float velocidade;
+        unsigned int capacidade;
+
+        getline(file,matricula);
+        getline(file,line);
+        velocidade = stof(line);
+        getline(file,line);
+        capacidade = stoi(line);
+
+        Transporte* novoTransporte = new Transporte(matricula,velocidade,capacidade);
+
+        result.insert(pair<string,Transporte*>(matricula,novoTransporte));
+
+        getline(file,line);
+        if (line == "") break;
+    }
+    file.close();
+
+    return result;
+}
+
+void Empresa::readClientes() {
+    ifstream file;
+    file.open("../ficheiros_texto/clientes.txt");
+
+    string line;
+
+    while (!file.eof())
+    {
+        string nome;
+        long int nif;
+        int idade;
+        vector<Encomenda*> encomendasCliente;
+        double totalGasto;
+
+        getline(file,nome);
+        getline(file,line);
+        nif = stol(line);
+        getline(file,line);
+        idade = stoi(line);
+        getline(file,line);
+        Posicao posicao = grafo.getTfromId(stol(line));
+        getline(file,line);
+        auto ids = string_split(line,',');
+        for (string id : ids)
+        {
+            for (auto encomenda : encomendas)
+            {
+                if (encomenda->getId() == stol(id))
+                {
+                    encomendasCliente.push_back(encomenda);
+                    break;
+                }
+            }
+        }
+
+        getline(file,line);
+        totalGasto = stod(line);
+
+        Cliente* novoCliente = new Cliente(nome,nif,idade,posicao,encomendasCliente,totalGasto);
+
+        clientes.push_back(novoCliente);
+
+        getline(file,line);
+        if (line == "") break;
+    }
+    file.close();
 }
 
 

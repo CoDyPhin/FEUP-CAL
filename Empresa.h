@@ -35,6 +35,8 @@ public:
     void criarEstafeta();
     void eliminarEstafeta();
     vector<Estafeta*> filtrarEstafetas(int option);
+    void readEstafetas();
+    map<string,Transporte*> readTransportes();
 
     //Restaurantes
     vector<Restaurante*> getRestaurantes();
@@ -44,6 +46,7 @@ public:
     //Clientes
     vector<Cliente*> getClientes();
     void eliminarCliente(long int nif);
+    void readClientes();
 
 };
 
