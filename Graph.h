@@ -443,9 +443,9 @@ template <class T>
 deque<T> Graph<T>::bidirectionalDijkstra(const T &start, const T &end)
 {
     deque<T> result;
-
-    auto middle = dijkstraShortestPath(start,false);
     thread second (&Graph<T>::dijkstraShortestPath,this,end,true);
+    auto middle = dijkstraShortestPath(start,false);
+
     second.join();
 
     auto vert = middle;

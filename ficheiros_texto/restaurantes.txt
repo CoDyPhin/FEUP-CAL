@@ -1,5 +1,5 @@
 Assador tipico
-428215706
+10
 Empadao, Bacalhau a Bras
 ::::::::::
 Peixaria Fernandes
@@ -7,5 +7,5 @@ Peixaria Fernandes
 Bacalhau, Salmao
 ::::::::::
 Barcarola
-133267099
+6
 Arroz de pato
