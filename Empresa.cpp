@@ -27,6 +27,7 @@ void Empresa::criarEncomenda() {
     Restaurante* restaurante = nullptr;
     vector<pair<Prato*,int>> pratos;
     Cliente* cliente;
+    int quantidadeTotal = 0;
 
     for (auto rest : restaurantes)
     {
@@ -60,8 +61,9 @@ void Empresa::criarEncomenda() {
         getline(cin,input);
 
         int quant = stoi(input);
+        quantidadeTotal+= quant;
 
-        pratos.push_back(pair<Prato*,int>(pratoAtual,quant));
+        pratos.emplace_back(pratoAtual,quant);
 
         cout<<"Pretende adicionar mais pratos (s/n)?\n";
         getline(cin,input);
@@ -69,6 +71,7 @@ void Empresa::criarEncomenda() {
     } while(true);
 
     ///Calcular melhor estafeta
+    Estafeta* estafeta = escolherEstafeta(quantidadeTotal,restaurante);
 
     cout<<"Indique o seu NIF:\n";
     getline(cin,input);
@@ -88,7 +91,7 @@ void Empresa::criarEncomenda() {
     Hora *horaInicio = new Hora(input);
 
     ///calcular hora do fim
-
+    Encomenda novaEcomenda = Encomenda(encomendas.size()+1,pratos,restaurante,horaInicio,);
     //encomendas.push_back(novaEncomenda);
 }
 
@@ -378,7 +381,7 @@ void Empresa::showGrafo(){ // tem que ser melhorada e finalizada
     //double yPercent, xPercent;
     int id = 0;
     for (Vertex<Posicao> *v: grafo.getVertexSet()) {
-        gv->addNode(id);//v->getInfo().getLatitude(),v->getInfo().getLongitude());
+        gv->addNode(id);//,v->getInfo().getLatitude(),v->getInfo().getLongitude());
         if(id == 5)
             break;
         id++;
@@ -418,7 +421,7 @@ void Empresa::readRestaurantes() {
     file.close();
 }
 
-map<string, Prato *> Empresa::readPratos() {
+map<string, Prato *> Empresa::readPratos(){
     map<string, Prato*> result;
 
     ifstream file;
@@ -577,6 +580,21 @@ void Empresa::readClientes() {
         if (line == "") break;
     }
     file.close();
+}
+
+Estafeta *Empresa::escolherEstafeta(int capacidade, Restaurante *restaurante) {
+    vector<Estafeta*> aux;
+    Estafeta* result;
+    for (Estafeta* e : estafetas) {
+        if(e->getTransporte()->getCapacidade() >= capacidade)
+            aux.push_back(e);
+    }
+    result = aux.at(0);
+    for (int i = 1; i < aux.size(); i++) {
+        if(aux.at(i)->getPosicao().calcDist(restaurante->getPosicao()) < result->getPosicao().calcDist(restaurante->getPosicao()))
+            result = aux.at(i);
+    }
+    return result;
 }
 
 
