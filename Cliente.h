@@ -15,6 +15,7 @@ public:
     double getTotalGasto() const;
     void setTotalGasto(double totalGasto);
     long getNif() const;
+    void addEncomenda(Encomenda* encomenda);
     Cliente(const string &nome, long nif, int idade, long idno, const Posicao &posicao, const vector<Encomenda*> &encomendasFeitas,
             double totalGasto);
 };

@@ -25,6 +25,8 @@ public:
 
     void setLucroTotal(double lucroTotal);
 
+    void addEncomenda(Encomenda* encomenda);
+
     friend ostream &operator<<(ostream &os, const Estafeta &estafeta);
 
 };

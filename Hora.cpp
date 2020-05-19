@@ -54,3 +54,9 @@ ostream &operator<<(ostream &os, const Hora &hora) {
     return os;
 }
 
+Hora* Hora::calcPassagemTempo(int minutos) {
+    int offsetHora = (int) minutos / 60;
+    int offsetMinutos = (int) minutos % 60;
+    return new Hora(this->hora + offsetHora,this->minuto + offsetMinutos);
+}
+

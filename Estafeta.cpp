@@ -38,3 +38,7 @@ double Estafeta::getLucroTotal() const {
 void Estafeta::setLucroTotal(double lucroTotal) {
     Estafeta::lucroTotal = lucroTotal;
 }
+
+void Estafeta::addEncomenda(Encomenda* encomenda) {
+    this->entregasFeitas.push_back(encomenda);
+}

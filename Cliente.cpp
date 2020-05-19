@@ -24,3 +24,7 @@ void Cliente::setTotalGasto(double totalGasto) {
 long Cliente::getNif() const {
     return Pessoa::getNif();
 }
+
+void Cliente::addEncomenda(Encomenda* encomenda) {
+    this->encomendasFeitas.push_back(encomenda);
+}

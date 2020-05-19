@@ -14,6 +14,7 @@ public:
     void setLongitude(double longitude);
     double calcDist(Posicao pos) const;
     friend bool operator==(const Posicao &left,const Posicao &right);
+    bool operator!=(const Posicao &rhs) const;
 };
 
 

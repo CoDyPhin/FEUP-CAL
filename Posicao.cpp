@@ -28,3 +28,7 @@ double Posicao::calcDist(Posicao pos) const {
 bool operator==(const Posicao &left, const Posicao &right) {
     return left.latitude == right.latitude && left.longitude == right.longitude;
 }
+
+bool Posicao::operator!=(const Posicao &rhs) const {
+    return !(rhs == *this);
+}

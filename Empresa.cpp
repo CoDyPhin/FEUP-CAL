@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <thread>
+#include <cmath>
 #include "Empresa.h"
 #include "utils.h"
 
@@ -26,7 +27,7 @@ void Empresa::criarEncomenda() {
 
     Restaurante* restaurante = nullptr;
     vector<pair<Prato*,int>> pratos;
-    Cliente* cliente;
+    Cliente* cliente = nullptr;
     int quantidadeTotal = 0;
 
     for (auto rest : restaurantes)
@@ -90,9 +91,30 @@ void Empresa::criarEncomenda() {
 
     Hora *horaInicio = new Hora(input);
 
+    auto caminhoTodo = calcPercurso(estafeta->getPosicao(),restaurante->getPosicao());
+    auto caminhoRestauranteCliente = calcPercurso(restaurante->getPosicao(),cliente->getPosicao());
+    caminhoRestauranteCliente.pop_front();
+    caminhoTodo.insert(caminhoTodo.end(),caminhoRestauranteCliente.begin(),caminhoRestauranteCliente.end());
+    double distanciaTotal = 0;
+
+    for (auto pos = caminhoTodo.begin(); pos != caminhoTodo.end(); pos++)
+    {
+        if (*pos != caminhoTodo.back())
+        {
+            distanciaTotal += (*pos).calcDist(*(pos + 1));
+        }
+    }
+
+    float velocidade = estafeta->getTransporte()->getVelocidade();
+    float tempoEmHoras = distanciaTotal/velocidade;
+
+    int tempoMinutos = round(tempoEmHoras * 60);
+
     ///calcular hora do fim
-    //Encomenda novaEcomenda = Encomenda(encomendas.size()+1,pratos,restaurante,horaInicio,);
-    //encomendas.push_back(novaEncomenda);
+    Encomenda* novaEncomenda = new Encomenda(encomendas.size()+1,pratos,restaurante,horaInicio,horaInicio->calcPassagemTempo(tempoMinutos));
+    encomendas.push_back(novaEncomenda);
+    cliente->addEncomenda(novaEncomenda);
+    estafeta->addEncomenda(novaEncomenda);
 }
 
 void Empresa::eliminarEncomenda() {

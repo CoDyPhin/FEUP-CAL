@@ -17,6 +17,8 @@ public:
     Hora(int hora, int minuto);
     Hora(string strHora);
 
+    Hora* calcPassagemTempo(int minutos);
+
     bool operator<(const Hora &rhs) const;
 
     bool operator>(const Hora &rhs) const;
