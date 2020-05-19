@@ -7,8 +7,8 @@ int main() {
     Empresa empresa;
     mainMenu(empresa);
     //empresa.showGrafo();
+    empresa.updateClientes(empresa);
     empresa.updateEstafetas(empresa);
     empresa.updateEncomendas(empresa);
-    empresa.updateClientes(empresa);
     return 0;
 }
