@@ -46,7 +46,12 @@ bool Hora::operator>=(const Hora &rhs) const {
 }
 
 ostream &operator<<(ostream &os, const Hora &hora) {
-    os << hora.hora << ":" << hora.minuto <<"\n";
+    if (hora.hora == 0) os << "00";
+    else os << hora.hora;
+    os << ":";
+    if (hora.minuto == 0) os << "00";
+    else os << hora.minuto;
+    os << "\n";
     return os;
 }
 
