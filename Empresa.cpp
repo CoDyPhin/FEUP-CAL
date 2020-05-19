@@ -643,7 +643,7 @@ void Empresa::updateClientes(Empresa empresa){
             file << cliente->getIdade() << endl;
             file << cliente->getIdNo() << endl;
             encomstr = "";
-            if(cliente->getEncomendasFeitas().empty() == 0){
+            if(cliente->getEncomendasFeitas().empty()){
                 file << "-" << endl;
                 file << 0;
             }
