@@ -711,6 +711,7 @@ void Empresa::updateEstafetas(Empresa empresa) {
             file << estafeta->getNif() << endl;
             file << estafeta->getIdade() << endl;
             file << estafeta->getIdNo() << endl;
+            file << estafeta->getTransporte()->getMatricula() << endl;
             encomstr = "";
             if(estafeta->getEntregasFeitas().empty()){
                 file << "-" << endl;

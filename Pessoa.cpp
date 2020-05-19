@@ -2,7 +2,7 @@
 
 
 Pessoa::Pessoa(const string &nome, long nif, int idade, long idno, Posicao posicao)
-        : nome(nome), nif(nif), idade(idade), posicao(posicao) {}
+        : nome(nome), nif(nif), idade(idade),idno(idno), posicao(posicao) {}
 
 const string &Pessoa::getNome() const {
     return nome;
