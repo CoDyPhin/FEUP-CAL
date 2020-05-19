@@ -20,7 +20,7 @@ public:
     void setNif(long nif);
     int getIdade() const;
     void setIdade(int idade);
-    const Posicao &getPosicao() const;
+    const Posicao getPosicao() const;
     void setPosicao(const Posicao &posicao);
 
 

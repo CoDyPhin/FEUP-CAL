@@ -19,7 +19,7 @@ void Posicao::setLongitude(double longitude) {
     this->longitude = longitude;
 }
 
-double Posicao::calcDist(Posicao pos) {
+double Posicao::calcDist(Posicao pos) const {
     double diffLat = latitude - pos.latitude;
     double diffLong = longitude - pos.longitude;
     return pow(pow(diffLat,2) + pow(diffLong,2),0.5);

@@ -35,6 +35,7 @@ public:
     void criarEstafeta();
     void eliminarEstafeta();
     vector<Estafeta*> filtrarEstafetas(int option);
+    Estafeta* escolherEstafeta(int capacidade, Restaurante* restaurante);
     void readEstafetas();
     map<string,Transporte*> readTransportes();
 

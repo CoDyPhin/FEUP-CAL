@@ -28,7 +28,7 @@ void Pessoa::setIdade(int idade) {
     Pessoa::idade = idade;
 }
 
-const Posicao &Pessoa::getPosicao() const {
+const Posicao Pessoa::getPosicao() const {
     return posicao;
 }
 
