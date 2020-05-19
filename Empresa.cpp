@@ -683,8 +683,8 @@ void Empresa::updateEncomendas(Empresa empresa) {
                     if(i!=encomenda->getPratos().size()-1) pratostr += ", ";
             }
             file << pratostr << endl;
-            file << encomenda->getHoraPedido() << endl;
-            file << encomenda->getHoraEntrega();
+            file << *(encomenda->getHoraPedido()) << endl;
+            file << *(encomenda->getHoraEntrega());
         }
         file.close();
         cout << "Ficheiro dos funcionarios atualizado!" << endl;
