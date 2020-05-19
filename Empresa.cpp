@@ -91,7 +91,7 @@ void Empresa::criarEncomenda() {
     Hora *horaInicio = new Hora(input);
 
     ///calcular hora do fim
-    Encomenda novaEcomenda = Encomenda(encomendas.size()+1,pratos,restaurante,horaInicio,);
+    //Encomenda novaEcomenda = Encomenda(encomendas.size()+1,pratos,restaurante,horaInicio,);
     //encomendas.push_back(novaEncomenda);
 }
 
