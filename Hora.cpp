@@ -51,7 +51,6 @@ ostream &operator<<(ostream &os, const Hora &hora) {
     os << ":";
     if (hora.minuto == 0) os << "00";
     else os << hora.minuto;
-    os << "\n";
     return os;
 }
 
