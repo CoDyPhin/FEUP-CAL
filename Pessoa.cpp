@@ -1,7 +1,7 @@
 #include "Pessoa.h"
 
 
-Pessoa::Pessoa(const string &nome, long nif, int idade, Posicao posicao)
+Pessoa::Pessoa(const string &nome, long nif, int idade, long idno, Posicao posicao)
         : nome(nome), nif(nif), idade(idade), posicao(posicao) {}
 
 const string &Pessoa::getNome() const {
@@ -26,6 +26,14 @@ int Pessoa::getIdade() const {
 
 void Pessoa::setIdade(int idade) {
     Pessoa::idade = idade;
+}
+
+long Pessoa::getIdNo() const {
+    return idno;
+}
+
+void Pessoa::setIdNo(long idno) {
+    Pessoa::idno = idno;
 }
 
 const Posicao &Pessoa::getPosicao() const {

@@ -10,7 +10,7 @@ class Estafeta: public Pessoa {
     vector<Encomenda*> entregasFeitas;
     double lucroTotal;
 public:
-    Estafeta(const string &nome, long nif, int idade, const Posicao &posicao, Transporte *transporte,
+    Estafeta(const string &nome, long nif, int idade,long idno, const Posicao &posicao, Transporte *transporte,
              const vector<Encomenda*> & entregasFeitas, double lucroTotal);
 
     Transporte *getTransporte() const;

@@ -24,7 +24,7 @@ public:
     vector<Encomenda*> filtrarEncomendas(int option);
     void readEncomendas();
     deque<Posicao> calcPercurso(Posicao inicio, Posicao fim);
-    vector<Encomenda*> getEncomentas();
+    vector<Encomenda*> getEncomendas();
 
     //Grafo
     void readGrafo();
@@ -45,8 +45,12 @@ public:
 
     //Clientes
     vector<Cliente*> getClientes();
+    void criarCliente();
     void eliminarCliente(long int nif);
     void readClientes();
+    void updateClientes(Empresa empresa);
+    void updateEncomendas(Empresa empresa);
+    void updateEstafetas(Empresa empresa);
 
 };
 

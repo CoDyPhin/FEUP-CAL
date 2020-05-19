@@ -165,13 +165,15 @@ vector<Encomenda *> Empresa::filtrarEncomendas(int option) {
 }
 
 void Empresa::criarEstafeta() {
-    string nome, nif, idade, trpvel, trpmatricula, trppeso, trpcapac;
+    string nome, nif, idade, idno, trpvel, trpmatricula, trppeso, trpcapac;
     cout<<"Indique o nome do estafeta:\n";
     getline(cin,nome);
     cout<<"Indique o NIF do estafeta:\n";
     getline(cin,nif);
     cout<<"Indique a idade do estafeta:\n";
     getline(cin,idade);
+    cout<<"Indique o ID do no em que se encontra o estafeta:\n";
+    getline(cin,idno);
     cout<<"Indique a matricula do veiculo do estafeta:\n";
     getline(cin,trpvel);
     cout<<"Indique a matricula do veiculo do estafeta:\n";
@@ -181,7 +183,7 @@ void Empresa::criarEstafeta() {
     cout<<"Indique o peso do veiculo do estafeta:\n";
     getline(cin,trppeso);
     Posicao posicao = Posicao(0,0);
-    Estafeta* estafeta = new Estafeta(nome, stol(nif), stoi(idade), posicao, new Transporte(trpmatricula, stof(trpvel), stoi(trpcapac)), {}, 0);
+    Estafeta* estafeta = new Estafeta(nome, stol(nif), stoi(idade),stol(idno), posicao, new Transporte(trpmatricula, stof(trpvel), stoi(trpcapac)), {}, 0);
     estafetas.push_back(estafeta);
 }
 
@@ -309,7 +311,7 @@ vector<Estafeta*> Empresa::getEstafeta(){
     return this->estafetas;
 }
 
-vector<Encomenda*> Empresa::getEncomentas(){
+vector<Encomenda*> Empresa::getEncomendas(){
     return this->encomendas;
 }
 
@@ -317,6 +319,21 @@ vector<Restaurante*> Empresa::getRestaurantes(){
     return this->restaurantes;
 }
 
+void Empresa::criarCliente() {
+    string nome, nif, idade, idno, trpvel, trpmatricula, trppeso, trpcapac;
+    cout << "Indique o nome do cliente:\n";
+    getline(cin, nome);
+    cout << "Indique o NIF do cliente:\n";
+    getline(cin, nif);
+    cout << "Indique a idade do cliente:\n";
+    getline(cin, idade);
+    cout << "Indique o ID do no em que se encontra o cliente:\n";
+    getline(cin, idno);
+    Posicao posicao = Posicao(0, 0);
+    Cliente *cliente = new Cliente(nome, stol(nif), stoi(idade), stol(idno), posicao,
+    {}, 0);
+    clientes.push_back(cliente);
+}
 
 void Empresa::eliminarCliente(long nif) {
     for (int i = 0; i < this->clientes.size() ; i++) {
@@ -461,7 +478,7 @@ void Empresa::readEstafetas() {
     while (!file.eof())
     {
         string nome;
-        long int nif;
+        long int nif, idno;
         int idade;
         vector<string> idEncomendas;
         vector<Encomenda*> encomendasEstafeta;
@@ -473,24 +490,31 @@ void Empresa::readEstafetas() {
         getline(file,line);
         idade = stoi(line);
         getline(file,line);
-        Posicao posicao = grafo.getTfromId(stol(line));
+        idno = stol(line);
+        Posicao posicao = grafo.getTfromId(idno);
         getline(file,line);
         Transporte* transporte = mapaMatriculaTransporte[line];
         getline(file,line);
 
         idEncomendas = string_split(line,',');
-        for (string id : idEncomendas)
-        {
-            for (auto encomenda : encomendas)
-            {
-                if (encomenda->getId() == stoi(id)) {encomendasEstafeta.push_back(encomenda); break;}
-            }
+        if(idEncomendas.size() == 1 && idEncomendas.at(0) == "-"){
+            encomendasEstafeta = {};
+            lucro = 0;
         }
+        else {
+            for (string id : idEncomendas) {
+                for (auto encomenda : encomendas) {
+                    if (encomenda->getId() == stoi(id)) {
+                        encomendasEstafeta.push_back(encomenda);
+                        break;
+                    }
+                }
+            }
 
-        getline(file,line);
-        lucro = stod(line);
-
-        Estafeta* novoEstafeta = new Estafeta(nome,nif,idade,posicao,transporte,encomendasEstafeta,lucro);
+            getline(file, line);
+            lucro = stod(line);
+        }
+        Estafeta* novoEstafeta = new Estafeta(nome,nif,idade,idno,posicao,transporte,encomendasEstafeta,lucro);
         estafetas.push_back(novoEstafeta);
 
         getline(file,line);
@@ -540,7 +564,7 @@ void Empresa::readClientes() {
     while (!file.eof())
     {
         string nome;
-        long int nif;
+        long int nif, idno;
         int idade;
         vector<Encomenda*> encomendasCliente;
         double totalGasto;
@@ -551,17 +575,23 @@ void Empresa::readClientes() {
         getline(file,line);
         idade = stoi(line);
         getline(file,line);
-        Posicao posicao = grafo.getTfromId(stol(line));
+        idno = stol(line);
+        Posicao posicao = grafo.getTfromId(idno);
         getline(file,line);
         auto ids = string_split(line,',');
-        for (string id : ids)
-        {
-            for (auto encomenda : encomendas)
+        if(ids.size() == 1 && ids.at(0) == "-"){
+            encomendasCliente = {};
+        }
+        else{
+            for (string id : ids)
             {
-                if (encomenda->getId() == stol(id))
+                for (auto encomenda : encomendas)
                 {
-                    encomendasCliente.push_back(encomenda);
-                    break;
+                    if (encomenda->getId() == stol(id))
+                    {
+                        encomendasCliente.push_back(encomenda);
+                        break;
+                    }
                 }
             }
         }
@@ -569,7 +599,7 @@ void Empresa::readClientes() {
         getline(file,line);
         totalGasto = stod(line);
 
-        Cliente* novoCliente = new Cliente(nome,nif,idade,posicao,encomendasCliente,totalGasto);
+        Cliente* novoCliente = new Cliente(nome,nif,idade,idno,posicao,encomendasCliente,totalGasto);
 
         clientes.push_back(novoCliente);
 
@@ -577,6 +607,116 @@ void Empresa::readClientes() {
         if (line == "") break;
     }
     file.close();
+}
+
+void Empresa::updateClientes(Empresa empresa){
+    ofstream file;
+    string encomstr;
+    bool first = true;
+    file.open("../ficheiros_texto/clientes.txt");
+    if (file.is_open()) {
+        for (auto cliente: empresa.getClientes()) {
+            if(!first){
+                file << endl << "::::::::::" << endl;
+            }
+            first = false;
+            file << cliente->getNome() << endl;
+            file << cliente->getNif() << endl;
+            file << cliente->getIdade() << endl;
+            file << cliente->getIdNo() << endl;
+            encomstr = "";
+            if(cliente->getEncomendasFeitas().empty() == 0){
+                file << "-" << endl;
+                file << 0 << endl;
+            }
+            else{
+                for (size_t i = 0; i<cliente->getEncomendasFeitas().size(); i++){
+                    encomstr += to_string(cliente->getEncomendasFeitas().at(i)->getId());
+                    if(i!=cliente->getEncomendasFeitas().size()-1) encomstr += ", ";
+                }
+                file << encomstr << endl;
+                file << cliente->getTotalGasto();
+            }
+        }
+        file.close();
+        cout << "Ficheiro dos funcionarios atualizado!" << endl;
+    }
+    else{
+        cout << "Erro ao aceder ao ficheiro dos clientes" << endl;
+    }
+}
+
+void Empresa::updateEncomendas(Empresa empresa) {
+    ofstream file;
+    string pratostr;
+    bool first = true;
+    file.open("../ficheiros_texto/encomendas.txt");
+    if (file.is_open()) {
+        for (auto encomenda: empresa.getEncomendas()) {
+            if(!first){
+                file << endl << "::::::::::" << endl;
+            }
+            first = false;
+            file << encomenda->getId() << endl;
+            file << encomenda->getRestaurante()->getNome() << endl;
+            pratostr = "";
+            for (size_t i = 0; i<encomenda->getPratos().size(); i++){
+                    pratostr += encomenda->getPratos().at(i).first->getNome() + " - " + to_string(encomenda->getPratos().at(i).second);
+                    if(i!=encomenda->getPratos().size()-1) pratostr += ", ";
+            }
+            file << pratostr << endl;
+            file << encomenda->getHoraPedido() << endl;
+            file << encomenda->getHoraEntrega();
+        }
+        file.close();
+        cout << "Ficheiro dos funcionarios atualizado!" << endl;
+    }
+    else{
+        cout << "Erro ao aceder ao ficheiro dos clientes" << endl;
+    }
+}
+
+void Empresa::updateEstafetas(Empresa empresa) {
+    ofstream file, fileT;
+    string encomstr;
+    bool first = true;
+    file.open("../ficheiros_texto/estafetas.txt");
+    fileT.open("../ficheiros_texto/transportes.txt");
+    if (file.is_open() && fileT.is_open()) {
+        for (auto estafeta: empresa.getEstafeta()) {
+            if(!first){
+                file << endl << "::::::::::" << endl;
+                fileT <<endl<< "::::::::::" << endl;
+            }
+            first = false;
+            file << estafeta->getNome() << endl;
+            file << estafeta->getNif() << endl;
+            file << estafeta->getIdade() << endl;
+            file << estafeta->getIdNo() << endl;
+            encomstr = "";
+            if(estafeta->getEntregasFeitas().empty()){
+                file << "-" << endl;
+                file << 0 << endl;
+            }
+            else{
+                for (size_t i = 0; i<estafeta->getEntregasFeitas().size(); i++){
+                    encomstr += to_string(estafeta->getEntregasFeitas().at(i)->getId());
+                    if(i!=estafeta->getEntregasFeitas().size()-1) encomstr += ", ";
+                }
+                file << encomstr << endl;
+                file << estafeta->getLucroTotal();
+            }
+            fileT << estafeta->getTransporte()->getMatricula() << endl;
+            fileT << estafeta->getTransporte()->getVelocidade() << endl;
+            fileT << estafeta->getTransporte()->getCapacidade();
+
+        }
+        file.close();
+        cout << "Ficheiros dos estafetas e respetivos transportes atualizados!" << endl;
+    }
+    else{
+        cout << "Erro ao aceder ao ficheiro dos estafetas ou dos transportes" << endl;
+    }
 }
 
 
