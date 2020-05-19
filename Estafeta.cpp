@@ -8,8 +8,8 @@ ostream &operator<<(ostream &os, const Estafeta &estafeta) {
     return os;
 }
 
-Estafeta::Estafeta(const string &nome, long nif, int idade, const Posicao &posicao, Transporte *transporte,
-                   const vector<Encomenda*> & entregasFeitas, double lucroTotal) : Pessoa(nome, nif, idade, posicao),
+Estafeta::Estafeta(const string &nome, long nif, int idade, long idno, const Posicao &posicao, Transporte *transporte,
+                   const vector<Encomenda*> & entregasFeitas, double lucroTotal) : Pessoa(nome, nif, idade, idno,posicao),
                                                                                  transporte(transporte),
                                                                                  entregasFeitas(entregasFeitas),
                                                                                  lucroTotal(lucroTotal) {}

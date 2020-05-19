@@ -11,9 +11,10 @@ protected:
     string nome;
     long int nif;
     int idade;
+    long idno;
     Posicao posicao;
 public:
-    Pessoa(const string &nome, long nif, int idade, Posicao posicao);
+    Pessoa(const string &nome, long nif, int idade, long idno, Posicao posicao);
     const string &getNome() const;
     void setNome(const string &nome);
     long getNif() const;
@@ -21,6 +22,8 @@ public:
     int getIdade() const;
     void setIdade(int idade);
     const Posicao getPosicao() const;
+    long getIdNo() const;
+    void setIdNo(long idno);
     void setPosicao(const Posicao &posicao);
 
 

@@ -1,7 +1,7 @@
 #include "Cliente.h"
 
-Cliente::Cliente(const string &nome, long nif, int idade, const Posicao &posicao,
-                 const vector<Encomenda*> &encomendasFeitas, double totalGasto) : Pessoa(nome, nif, idade, posicao),
+Cliente::Cliente(const string &nome, long nif, int idade, long idno, const Posicao &posicao,
+                 const vector<Encomenda*> &encomendasFeitas, double totalGasto) : Pessoa(nome, nif, idade, idno, posicao),
                                                                                   encomendasFeitas(encomendasFeitas),
                                                                                   totalGasto(totalGasto) {}
 
