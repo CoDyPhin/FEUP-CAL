@@ -381,7 +381,7 @@ void Empresa::readGrafo() {
     long int id,id2;
 
 
-    file.open("../ficheiros_graph/nodes_x_y_porto.txt");
+    file.open("../ficheiros_graph/4x4/nodes.txt");
     getline(file,line);
     while (!file.eof())
     {
@@ -394,7 +394,7 @@ void Empresa::readGrafo() {
     file.close();
 
     long int origin,dest;
-    file2.open("../ficheiros_graph/edges_porto.txt");
+    file2.open("../ficheiros_graph/4x4/edges.txt");
     getline(file2,line);
 
     while (!file2.eof())
