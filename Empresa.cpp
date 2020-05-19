@@ -268,13 +268,14 @@ void Empresa::readEncomendas() {
                 Prato* pratoAtual = nullptr;
 
                 vector<string> nomesPratos;
-                char* nomePratoAtual_cstr;
+                string nomePratoAtual;
                 int quantidadePrato;
                 auto pratos = string_split(line,',');
                 for (auto prato : pratos)
                 {
-                    sscanf(prato.c_str(),"%s - %d",nomePratoAtual_cstr,&quantidadePrato);
-                    string nomePratoAtual(nomePratoAtual_cstr);
+                    vector<string> componentes = string_split(prato,'-');
+                    nomePratoAtual = componentes.at(0);
+                    quantidadePrato = stoi(componentes.at(1));
                     vector<Prato*> copy = restaurante->getPratosDisponiveis();
                     for (auto prato2 : copy)
                     {
@@ -644,7 +645,7 @@ void Empresa::updateClientes(Empresa empresa){
             encomstr = "";
             if(cliente->getEncomendasFeitas().empty() == 0){
                 file << "-" << endl;
-                file << 0 << endl;
+                file << 0;
             }
             else{
                 for (size_t i = 0; i<cliente->getEncomendasFeitas().size(); i++){
