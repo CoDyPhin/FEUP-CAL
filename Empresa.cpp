@@ -168,7 +168,7 @@ vector<Encomenda *> Empresa::filtrarEncomendas(int option) {
 }
 
 void Empresa::criarEstafeta() {
-    string nome, nif, idade, idno, trpvel, trpmatricula, trppeso, trpcapac;
+    string nome, nif, idade, idno, trpvel, trpmatricula, trpcapac;
     cout<<"Indique o nome do estafeta:\n";
     getline(cin,nome);
     cout<<"Indique o NIF do estafeta:\n";
@@ -177,14 +177,12 @@ void Empresa::criarEstafeta() {
     getline(cin,idade);
     cout<<"Indique o ID do no em que se encontra o estafeta:\n";
     getline(cin,idno);
-    cout<<"Indique a matricula do veiculo do estafeta:\n";
+    cout<<"Indique a velocidade do veiculo do estafeta:\n";
     getline(cin,trpvel);
     cout<<"Indique a matricula do veiculo do estafeta:\n";
     getline(cin,trpmatricula);
     cout<<"Indique a capacidade do veiculo do estafeta:\n";
     getline(cin,trpcapac);
-    cout<<"Indique o peso do veiculo do estafeta:\n";
-    getline(cin,trppeso);
     Posicao posicao = Posicao(0,0);
     Estafeta* estafeta = new Estafeta(nome, stol(nif), stoi(idade),stol(idno), posicao, new Transporte(trpmatricula, stof(trpvel), stoi(trpcapac)), {}, 0);
     estafetas.push_back(estafeta);
