@@ -276,8 +276,11 @@ Vertex<T>* Graph<T>::dijkstraShortestPath(const T &origin, bool useTwoPaths) {
                 if (!useTwoPaths) e.dest->path = v;
                 else e.dest->path2 = v;
             }
-            if (oldDist == INF) q.insert(e.dest);
-            else q.decreaseKey(e.dest);
+            if (!e.dest->visited)
+            {
+                if (oldDist == INF) q.insert(e.dest);
+                else q.decreaseKey(e.dest);
+            }
         }
     }
     return nullptr;
@@ -443,12 +446,13 @@ template <class T>
 deque<T> Graph<T>::bidirectionalDijkstra(const T &start, const T &end)
 {
     deque<T> result;
-    thread second (&Graph<T>::dijkstraShortestPath,this,end,true);
-    auto middle = dijkstraShortestPath(start,false);
+    //thread second (&Graph<T>::dijkstraShortestPath,this,end,true);
+    /*auto middle = */dijkstraShortestPath(start,false);
 
-    second.join();
+    //second.join();
 
-    auto vert = middle;
+    //auto vert = middle;
+   /*
     while (vert != nullptr)
     {
         result.push_front(vert->info);
@@ -460,8 +464,15 @@ deque<T> Graph<T>::bidirectionalDijkstra(const T &start, const T &end)
     {
         result.push_back(vert->info);
         vert = vert->path2;
-    }
+    }*/
 
+   auto dest = findVertex(end);
+
+   while (dest->path != nullptr) {
+       result.push_front(dest->info);
+        dest = dest->path;
+   }
+    result.push_front(dest->info);
     return result;
 }
 
@@ -488,6 +499,7 @@ void Graph<T>::addEdgeWithIds(long int id1, long int id2,double w)
     auto destVert = vertexSet.at(index2);
 
     origVert->addEdge(destVert,w);
+    destVert->addEdge(origVert,w);
 }
 
 #endif /* GRAPH_H_ */

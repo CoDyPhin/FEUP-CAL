@@ -205,7 +205,7 @@ void Empresa::criarEstafeta() {
     getline(cin,trpmatricula);
     cout<<"Indique a capacidade do veiculo do estafeta:\n";
     getline(cin,trpcapac);
-    Posicao posicao = Posicao(0,0);
+    Posicao posicao = grafo.getTfromId(stol(idno));
     Estafeta* estafeta = new Estafeta(nome, stol(nif), stoi(idade),stol(idno), posicao, new Transporte(trpmatricula, stof(trpvel), stoi(trpcapac)), {}, 0);
     estafetas.push_back(estafeta);
 }
@@ -353,7 +353,7 @@ void Empresa::criarCliente() {
     getline(cin, idade);
     cout << "Indique o ID do no em que se encontra o cliente:\n";
     getline(cin, idno);
-    Posicao posicao = Posicao(0, 0);
+    Posicao posicao = grafo.getTfromId(stol(idno));
     Cliente *cliente = new Cliente(nome, stol(nif), stoi(idade), stol(idno), posicao,
     {}, 0);
     clientes.push_back(cliente);
@@ -679,7 +679,7 @@ void Empresa::updateClientes(Empresa empresa){
             }
         }
         file.close();
-        cout << "Ficheiro dos funcionarios atualizado!" << endl;
+        cout << "Ficheiro dos clientes atualizado!" << endl;
     }
     else{
         cout << "Erro ao aceder ao ficheiro dos clientes" << endl;
@@ -709,7 +709,7 @@ void Empresa::updateEncomendas(Empresa empresa) {
             file << *(encomenda->getHoraEntrega());
         }
         file.close();
-        cout << "Ficheiro dos funcionarios atualizado!" << endl;
+        cout << "Ficheiro das encomendas atualizado!" << endl;
     }
     else{
         cout << "Erro ao aceder ao ficheiro dos clientes" << endl;

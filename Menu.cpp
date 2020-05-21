@@ -3,7 +3,7 @@
 
 using namespace std;
 
-void menuClientes(Empresa empresa){
+void menuClientes(Empresa &empresa){
     cout << "Menu de Clientes" << endl;
     cout << "1 - Encomendas" << endl;
     cout << "2 - Visualização" << endl;
@@ -51,7 +51,7 @@ void menuClientes(Empresa empresa){
     }
 }
 
-void mainMenu(Empresa empresa){
+void mainMenu(Empresa &empresa){
     cout << "Bem-vindo à EatExpress" << endl << endl;
     cout << "1 - Menu Cliente" << endl;
     cout << "2 - Menu Estafeta" << endl;
@@ -77,7 +77,7 @@ void mainMenu(Empresa empresa){
     cout << "Obrigado por escolher EatExpress" << endl;
 }
 
-void menuEncomendas(Empresa empresa)
+void menuEncomendas(Empresa &empresa)
 {
     string input;
 
@@ -104,7 +104,7 @@ void menuEncomendas(Empresa empresa)
     }
 }
 
-void menuVisualizarEncomendas(Empresa empresa)
+void menuVisualizarEncomendas(Empresa &empresa)
 {
     string input;
 
@@ -134,7 +134,7 @@ void menuVisualizarEncomendas(Empresa empresa)
     }
 }
 
-void menuVisualizarEstafetas(Empresa empresa)
+void menuVisualizarEstafetas(Empresa &empresa)
 {
     string input;
 
@@ -163,7 +163,7 @@ void menuVisualizarEstafetas(Empresa empresa)
     }
 }
 
-void menuEstafetas(Empresa empresa){
+void menuEstafetas(Empresa &empresa){
     string input;
 
     cout<<"\nMenu de Estafetas\n";
