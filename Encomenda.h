@@ -4,6 +4,7 @@
 
 #include <ostream>
 #include <deque>
+#include "Graph.h"
 #include "Prato.h"
 #include "Hora.h"
 #include "Restaurante.h"
@@ -16,7 +17,7 @@ private:
     Hora *horaPedido;
     Hora *horaEntrega;
     float custo;
-    deque<Posicao> caminho;
+    deque<Vertex<Posicao>*> caminho;
 public:
 
     ~Encomenda();
@@ -48,9 +49,9 @@ public:
 
     void setCusto(float custo);
 
-    const deque<Posicao> & getCaminho() const;
+    const deque<Vertex<Posicao>*> & getCaminho() const;
 
-    void setCaminho(const deque<Posicao> & caminho);
+    void setCaminho(const deque<Vertex<Posicao>*> & caminho);
 
     friend ostream &operator<<(ostream &os, const Encomenda &encomenda);
 };

@@ -78,13 +78,16 @@ void Encomenda::setCusto(float custo) {
     Encomenda::custo = custo;
 }
 
-const deque<Posicao> & Encomenda::getCaminho() const{
-return caminho;
+const deque<Vertex<Posicao>*> & Encomenda::getCaminho() const{
+return
+caminho;
 }
 
-void Encomenda::setCaminho(const deque<Posicao> & caminho) {
+void Encomenda::setCaminho(const deque<Vertex<Posicao>*> & caminho) {
     Encomenda::caminho = caminho;
 }
+
+
 
 
 

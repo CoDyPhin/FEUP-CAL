@@ -23,7 +23,7 @@ public:
     void eliminarEncomenda();
     vector<Encomenda*> filtrarEncomendas(int option);
     void readEncomendas();
-    deque<Posicao> calcPercurso(Posicao inicio, Posicao fim);
+    deque<Vertex<Posicao>*> calcPercurso(Posicao inicio, Posicao fim);
     vector<Encomenda*> getEncomendas();
 
     //Grafo

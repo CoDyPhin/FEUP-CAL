@@ -104,7 +104,7 @@ void Empresa::criarEncomenda() {
     {
         if (*pos != caminhoTodo.back())
         {
-            distanciaTotal += (*pos).calcDist(*(pos + 1));
+            distanciaTotal += (*pos)->getInfo().calcDist((*(pos + 1))->getInfo());
         }
     }
 
@@ -380,7 +380,7 @@ void Empresa::eliminarCliente(long nif) {
     cout << "Não existe um cliente com esse NIF" << endl;
 }
 
-deque<Posicao> Empresa::calcPercurso(Posicao inicio, Posicao fim) {
+deque<Vertex<Posicao>*> Empresa::calcPercurso(Posicao inicio, Posicao fim) {
     return grafo.bidirectionalDijkstra(inicio, fim);
 }
 
@@ -770,13 +770,13 @@ void Empresa::updateEstafetas(Empresa empresa) {
 }
 
 void Empresa::mostrarCaminho() {
-    /*long int idEncomenda;
+    long int idEncomenda;
     string input;
     cout<<"Indique o id da encomenda em causa:\n";
     getline(cin,input);
     idEncomenda = stol(input);
 
-    deque<Posicao> caminho;
+    deque<Vertex<Posicao>*> caminho;
     for (auto encomenda : encomendas)
     {
         if (encomenda->getId() == idEncomenda)
@@ -784,17 +784,18 @@ void Empresa::mostrarCaminho() {
             caminho = encomenda->getCaminho();
             break;
         }
-    }*/
+    }
+    if (caminho.size() == 0) {cout << "Nao e possivel ver o percurso dessa encomenda.\n"; return;}
+
 
     int width = 1280;
     int height = 720;
 
     GraphViewer *gv = new GraphViewer(width, height, false);
     gv->createWindow(width, height);
-    gv->defineVertexColor("blue");
+    gv->defineVertexColor("green");
     gv->defineEdgeColor("black");
     gv->defineEdgeCurved(false);
-    gv->defineVertexSize(1);
 
     auto caminhoVerts = grafo.getVertexSet();
     for (auto vertex : caminhoVerts)
@@ -807,17 +808,44 @@ void Empresa::mostrarCaminho() {
         gv->setVertexSize(vertex->getInfo().getId(),3);
         gv->rearrange();
     }
+    vector<int> arestasDoPercurso;
+
     int id = 0;
+
     for (auto vertex : caminhoVerts)
     {
         auto adjacent = vertex->getAdj();
         for (auto edge : adjacent)
         {
             gv->addEdge(id,edge.getOrig()->getInfo().getId(),edge.getDest()->getInfo().getId(),EdgeType::UNDIRECTED);
+
             gv->rearrange();
+            bool pertenceAoCaminho = false;
+            bool origemNoCaminho = false;
+            bool destinoNoCaminho = false;
+            for (auto vert : caminho)
+            {
+                if (edge.getDest() == vert) destinoNoCaminho = true;
+                if (edge.getOrig() == vert) origemNoCaminho = true;
+            }
+            if (destinoNoCaminho && origemNoCaminho) pertenceAoCaminho = true;
+            if (pertenceAoCaminho) arestasDoPercurso.push_back(id);
             id++;
         }
     }
+
+    for (auto vert : caminho)
+    {
+        gv->setVertexColor(vert->getInfo().getId(),"yellow");
+        gv->setVertexSize(vert->getInfo().getId(),4);
+    }
+
+    for (auto edge : arestasDoPercurso)
+    {
+        gv->setEdgeColor(edge,"red");
+        gv->setEdgeThickness(edge,2);
+    }
+    gv->rearrange();
 }
 
 

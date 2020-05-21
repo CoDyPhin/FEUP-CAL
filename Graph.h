@@ -158,7 +158,7 @@ public:
     ///Project
     Graph();
     Vertex<T> getVertex(int index);
-    deque<T> bidirectionalDijkstra(const T &start, const T &end);
+    deque<Vertex<T>*> bidirectionalDijkstra(const T &start, const T &end);
     T getTfromId(long int id);
     void addMapPair(long int id);
     void addEdgeWithIds(long int id1, long int id2,double w);
@@ -473,9 +473,9 @@ Vertex<T> Graph<T>::getVertex(int index)
 }
 
 template <class T>
-deque<T> Graph<T>::bidirectionalDijkstra(const T &start, const T &end)
+deque<Vertex<T>*> Graph<T>::bidirectionalDijkstra(const T &start, const T &end)
 {
-    deque<T> result;
+    deque<Vertex<T>*> result;
     //thread second (&Graph<T>::dijkstraShortestPath,this,end,true);
     /*auto middle = */dijkstraShortestPath(start,false);
 
@@ -499,10 +499,10 @@ deque<T> Graph<T>::bidirectionalDijkstra(const T &start, const T &end)
    auto dest = findVertex(end);
 
    while (dest->path != nullptr) {
-       result.push_front(dest->info);
+       result.push_front(dest);
         dest = dest->path;
    }
-    result.push_front(dest->info);
+    result.push_front(dest);
     return result;
 }
 
