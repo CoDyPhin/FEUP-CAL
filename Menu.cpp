@@ -171,6 +171,7 @@ void menuEstafetas(Empresa &empresa){
     cout<<"1 - Adicionar um estafeta\n";
     cout<<"2 - Eliminar um estafeta\n";
     cout<<"3 - Visualizar estafetas\n";
+    cout<<"4 - Mostrar caminho\n";
     cout<<"9 - Voltar atras\n";
     cout<<"0 - Sair\n";
 
@@ -183,8 +184,10 @@ void menuEstafetas(Empresa &empresa){
         case 1: {empresa.criarEstafeta(); break;}
         case 2: {empresa.eliminarEstafeta(); break;}
         case 3: {menuVisualizarEstafetas(empresa); break;}
+        case 4: {empresa.mostrarCaminho(); break;}
         case 9: return;
         case 0: exit(0);
         default:{cerr<<"Input invalido!\n"; break;}
     }
 }
+

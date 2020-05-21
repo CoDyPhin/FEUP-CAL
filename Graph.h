@@ -46,6 +46,8 @@ public:
     Vertex *getPath() const;
     friend class Graph<T>;
     friend class MutablePriorityQueue<Vertex<T>>;
+    ///Project
+    vector<Edge<T>> & getAdj();
 };
 
 
@@ -98,6 +100,10 @@ public:
 
     // Fp07
     double getWeight() const;
+
+    ///Project
+    Vertex<T>* getOrig();
+    Vertex<T>* getDest();
 };
 
 template <class T>
@@ -117,6 +123,7 @@ class Graph {
 
     ///Project
     map<long int,int> idIndice;
+    double maxX,maxY,minX,minY;
 
     // Fp05
     Vertex<T> * initSingleSource(const T &orig);
@@ -155,7 +162,30 @@ public:
     T getTfromId(long int id);
     void addMapPair(long int id);
     void addEdgeWithIds(long int id1, long int id2,double w);
+    double getMaxX();
+    double getMaxY();
+    double getMinX();
+    double getMinY();
+    void setMaxX(double maxX);
+    void setMaxY(double maxY);
+    void setMinX(double minX);
+    void setMinY(double minY);
 };
+
+template<class T>
+Vertex<T> *Edge<T>::getOrig() {
+    return this->orig;
+}
+
+template<class T>
+Vertex<T> *Edge<T>::getDest() {
+    return this->dest;
+}
+
+template<class T>
+vector<Edge<T>> &Vertex<T>::getAdj() {
+    return this->adj;
+}
 
 template <class T>
 int Graph<T>::getNumVertex() const {
@@ -502,4 +532,44 @@ void Graph<T>::addEdgeWithIds(long int id1, long int id2,double w)
     destVert->addEdge(origVert,w);
 }
 
+template<class T>
+double Graph<T>::getMaxX() {
+    return maxX;
+}
+
+template<class T>
+double Graph<T>::getMaxY() {
+    return maxY;
+}
+
+template<class T>
+double Graph<T>::getMinX() {
+    return minX;
+}
+
+template<class T>
+double Graph<T>::getMinY() {
+    return minY;
+}
+
+template<class T>
+void Graph<T>::setMaxX(double maxX) {
+    this->maxX = maxX;
+}
+
+template<class T>
+void Graph<T>::setMaxY(double maxY) {
+    this->maxY = maxY;
+}
+
+
+template<class T>
+void Graph<T>::setMinX(double minX) {
+    this->minX = minX;
+}
+
+template<class T>
+void Graph<T>::setMinY(double minY) {
+    this->minY = minY;
+}
 #endif /* GRAPH_H_ */

@@ -59,7 +59,7 @@ void Encomenda::setHoraEntrega(Hora *horaEntrega) {
 
 Encomenda::Encomenda(unsigned int id,
                      const vector<pair<Prato*,int>> &pratos, Restaurante * restaurante, Hora * horaPedido, Hora * horaEntrega, float custo)
-        : id(id), pratos(pratos), restaurante(restaurante), horaPedido(horaPedido), horaEntrega(horaEntrega), custo(custo) {}
+        : id(id), pratos(pratos), restaurante(restaurante), horaPedido(horaPedido), horaEntrega(horaEntrega), custo(custo) {caminho.clear();}
 
 const vector<pair<Prato*,int>>  Encomenda::getPratos() const{
 return
@@ -76,6 +76,14 @@ float Encomenda::getCusto() const {
 
 void Encomenda::setCusto(float custo) {
     Encomenda::custo = custo;
+}
+
+const deque<Posicao> & Encomenda::getCaminho() const{
+return caminho;
+}
+
+void Encomenda::setCaminho(const deque<Posicao> & caminho) {
+    Encomenda::caminho = caminho;
 }
 
 

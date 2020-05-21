@@ -115,11 +115,13 @@ void Empresa::criarEncomenda() {
 
     ///calcular hora do fim
     Encomenda* novaEncomenda = new Encomenda(encomendas.size()+1,pratos,restaurante,horaInicio,horaInicio->calcPassagemTempo(tempoMinutos),custo);
+    novaEncomenda->setCaminho(caminhoTodo);
     encomendas.push_back(novaEncomenda);
     cliente->addEncomenda(novaEncomenda);
     cliente->setTotalGasto(cliente->getTotalGasto() + custo);
     estafeta->addEncomenda(novaEncomenda);
     estafeta->setLucroTotal(estafeta->getLucroTotal() + custo * 0.3);
+
 }
 
 void Empresa::eliminarEncomenda() {
@@ -385,6 +387,11 @@ deque<Posicao> Empresa::calcPercurso(Posicao inicio, Posicao fim) {
 void Empresa::readGrafo() {
     ifstream file,file2;
 
+    double maxX = -INF;
+    double maxY = -INF;
+    double minX = INF;
+    double minY = INF;
+
     string line;
     double latitude,longitude;
     long int id,id2;
@@ -396,11 +403,20 @@ void Empresa::readGrafo() {
     {
         getline(file,line);
         sscanf(line.c_str(),"(%ld, %lf, %lf",&id,&latitude,&longitude);
-        Posicao novaPosicao(latitude,longitude);
+        if (latitude < minX) minX = latitude;
+        if (latitude > maxX) maxX = latitude;
+        if (longitude < minY) minY = longitude;
+        if (longitude > maxY) maxY = longitude;
+        Posicao novaPosicao(latitude,longitude,id);
         grafo.addVertex(novaPosicao);
         grafo.addMapPair(id);
     }
     file.close();
+
+    grafo.setMaxX(maxX);
+    grafo.setMaxY(maxY);
+    grafo.setMinX(minX);
+    grafo.setMinY(minY);
 
     long int origin,dest;
     file2.open("../ficheiros_graph/edges_porto.txt");
@@ -416,23 +432,6 @@ void Empresa::readGrafo() {
         grafo.addEdgeWithIds(id,id2,peso);
     }
     file2.close();
-}
-
-
-
-void Empresa::showGrafo(){ // tem que ser melhorada e finalizada
-    GraphViewer *gv = new GraphViewer(1280, 720, true);
-    gv->createWindow(1280, 720);
-    gv->defineVertexColor("blue");
-    gv->defineEdgeColor("black");
-    //double yPercent, xPercent;
-    int id = 0;
-    for (Vertex<Posicao> *v: grafo.getVertexSet()) {
-        gv->addNode(id);//,v->getInfo().getLatitude(),v->getInfo().getLongitude());
-        if(id == 5)
-            break;
-        id++;
-    }
 }
 
 void Empresa::readRestaurantes() {
@@ -767,6 +766,57 @@ void Empresa::updateEstafetas(Empresa empresa) {
     }
     else{
         cout << "Erro ao aceder ao ficheiro dos estafetas ou dos transportes" << endl;
+    }
+}
+
+void Empresa::mostrarCaminho() {
+    /*long int idEncomenda;
+    string input;
+    cout<<"Indique o id da encomenda em causa:\n";
+    getline(cin,input);
+    idEncomenda = stol(input);
+
+    deque<Posicao> caminho;
+    for (auto encomenda : encomendas)
+    {
+        if (encomenda->getId() == idEncomenda)
+        {
+            caminho = encomenda->getCaminho();
+            break;
+        }
+    }*/
+
+    int width = 1280;
+    int height = 720;
+
+    GraphViewer *gv = new GraphViewer(width, height, false);
+    gv->createWindow(width, height);
+    gv->defineVertexColor("blue");
+    gv->defineEdgeColor("black");
+    gv->defineEdgeCurved(false);
+    gv->defineVertexSize(1);
+
+    auto caminhoVerts = grafo.getVertexSet();
+    for (auto vertex : caminhoVerts)
+    {
+        double yPercent, xPercent;
+        xPercent = (vertex->getInfo().getLatitude() - grafo.getMinX())/(grafo.getMaxX() - grafo.getMinX()) * 0.9 + 0.05;
+        yPercent = (vertex->getInfo().getLongitude() - grafo.getMinY())/(grafo.getMaxY() - grafo.getMinY()) * 0.9 + 0.05;
+
+        gv->addNode(vertex->getInfo().getId(),(int) (xPercent*width),(int)(yPercent*height));
+        gv->setVertexSize(vertex->getInfo().getId(),3);
+        gv->rearrange();
+    }
+    int id = 0;
+    for (auto vertex : caminhoVerts)
+    {
+        auto adjacent = vertex->getAdj();
+        for (auto edge : adjacent)
+        {
+            gv->addEdge(id,edge.getOrig()->getInfo().getId(),edge.getDest()->getInfo().getId(),EdgeType::UNDIRECTED);
+            gv->rearrange();
+            id++;
+        }
     }
 }
 

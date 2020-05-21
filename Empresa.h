@@ -28,7 +28,6 @@ public:
 
     //Grafo
     void readGrafo();
-    void showGrafo();
 
     //Estafetas
     vector<Estafeta*> getEstafeta();
@@ -38,6 +37,7 @@ public:
     Estafeta* escolherEstafeta(int capacidade, Restaurante* restaurante);
     void readEstafetas();
     map<string,Transporte*> readTransportes();
+    void mostrarCaminho();
 
     //Restaurantes
     vector<Restaurante*> getRestaurantes();
