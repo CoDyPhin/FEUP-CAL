@@ -14,12 +14,13 @@ private:
     Restaurante *restaurante;
     Hora *horaPedido;
     Hora *horaEntrega;
+    float custo;
 public:
 
     ~Encomenda();
 
     Encomenda(unsigned int id,
-              const vector<pair<Prato*,int>> &pratos, Restaurante * restaurante, Hora * horaPedido, Hora * horaEntrega);
+              const vector<pair<Prato*,int>> &pratos, Restaurante * restaurante, Hora * horaPedido, Hora * horaEntrega, float custo);
 
     unsigned int getId() const;
 
@@ -40,6 +41,10 @@ public:
     Hora *getHoraEntrega() const;
 
     void setHoraEntrega(Hora *horaEntrega);
+
+    float getCusto() const;
+
+    void setCusto(float custo);
 
     friend ostream &operator<<(ostream &os, const Encomenda &encomenda);
 };

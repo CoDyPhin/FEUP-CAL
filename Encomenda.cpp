@@ -18,6 +18,7 @@ ostream &operator<<(ostream &os, const Encomenda &encomenda) {
     os << "\nRestaurante: " << encomenda.getRestaurante()->getNome();
     os << "\nHora de pedido: " << *encomenda.getHoraPedido();
     os << "\nHora de entrega: " << *encomenda.getHoraEntrega();
+    os << "\nCusto: " << encomenda.getCusto();
     return os;
 }
 
@@ -57,8 +58,8 @@ void Encomenda::setHoraEntrega(Hora *horaEntrega) {
 }
 
 Encomenda::Encomenda(unsigned int id,
-                     const vector<pair<Prato*,int>> &pratos, Restaurante * restaurante, Hora * horaPedido, Hora * horaEntrega)
-        : id(id), pratos(pratos), restaurante(restaurante), horaPedido(horaPedido), horaEntrega(horaEntrega) {}
+                     const vector<pair<Prato*,int>> &pratos, Restaurante * restaurante, Hora * horaPedido, Hora * horaEntrega, float custo)
+        : id(id), pratos(pratos), restaurante(restaurante), horaPedido(horaPedido), horaEntrega(horaEntrega), custo(custo) {}
 
 const vector<pair<Prato*,int>>  Encomenda::getPratos() const{
 return
@@ -67,6 +68,14 @@ pratos;
 
 void Encomenda::setPratos(const vector<pair<Prato*,int>>  pratos) {
     Encomenda::pratos = pratos;
+}
+
+float Encomenda::getCusto() const {
+    return custo;
+}
+
+void Encomenda::setCusto(float custo) {
+    Encomenda::custo = custo;
 }
 
 

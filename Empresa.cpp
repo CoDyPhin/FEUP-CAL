@@ -29,6 +29,7 @@ void Empresa::criarEncomenda() {
     vector<pair<Prato*,int>> pratos;
     Cliente* cliente = nullptr;
     int quantidadeTotal = 0;
+    float custo = 0;
 
     for (auto rest : restaurantes)
     {
@@ -65,6 +66,8 @@ void Empresa::criarEncomenda() {
         quantidadeTotal+= quant;
 
         pratos.emplace_back(pratoAtual,quant);
+
+        custo += pratoAtual->getPreco() * quant;
 
         cout<<"Pretende adicionar mais pratos (s/n)?\n";
         getline(cin,input);
@@ -111,10 +114,12 @@ void Empresa::criarEncomenda() {
     int tempoMinutos = round(tempoEmHoras * 60);
 
     ///calcular hora do fim
-    Encomenda* novaEncomenda = new Encomenda(encomendas.size()+1,pratos,restaurante,horaInicio,horaInicio->calcPassagemTempo(tempoMinutos));
+    Encomenda* novaEncomenda = new Encomenda(encomendas.size()+1,pratos,restaurante,horaInicio,horaInicio->calcPassagemTempo(tempoMinutos),custo);
     encomendas.push_back(novaEncomenda);
     cliente->addEncomenda(novaEncomenda);
+    cliente->setTotalGasto(cliente->getTotalGasto() + custo);
     estafeta->addEncomenda(novaEncomenda);
+    estafeta->setLucroTotal(estafeta->getLucroTotal() + custo * 0.3);
 }
 
 void Empresa::eliminarEncomenda() {
@@ -272,6 +277,7 @@ void Empresa::readEncomendas() {
         Restaurante* rest = nullptr;
         Hora *inicio = nullptr,*fim = nullptr;
         vector<pair<Prato*,int>> pratosQuants;
+        float custo;
 
         string line;
 
@@ -318,7 +324,10 @@ void Empresa::readEncomendas() {
         getline(file,line);
         fim = new Hora(line);
 
-        Encomenda* novaEncomenda = new Encomenda(id,pratosQuants,rest,inicio,fim);
+        getline(file,line);
+        custo = stof(line);
+
+        Encomenda* novaEncomenda = new Encomenda(id,pratosQuants,rest,inicio,fim,custo);
         encomendas.push_back(novaEncomenda);
 
         getline(file,line);
@@ -706,7 +715,8 @@ void Empresa::updateEncomendas(Empresa empresa) {
             }
             file << pratostr << endl;
             file << *(encomenda->getHoraPedido()) << endl;
-            file << *(encomenda->getHoraEntrega());
+            file << *(encomenda->getHoraEntrega()) << endl;
+            file << encomenda->getCusto();
         }
         file.close();
         cout << "Ficheiro das encomendas atualizado!" << endl;
