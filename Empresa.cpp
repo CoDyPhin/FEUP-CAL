@@ -784,7 +784,7 @@ void Empresa::updateEstafetas(Empresa empresa) {
 void Empresa::mostrarCaminho() {
     long int idEncomenda;
     string input;
-    cout<<"Indique o id da encomenda em causa:\n";
+    cout<<"Indique o ID da encomenda em causa:\n";
     getline(cin,input);
     idEncomenda = stol(input);
 
@@ -894,6 +894,49 @@ void Empresa::mostrarCaminho() {
     gv->rearrange();
     getchar();
 }
+
+void Empresa::reportarObras(bool aDecorrer) {
+    string input;
+
+    long int idOrigem, idDestino;
+
+    cout<<"Indique o ID do no de origem:\n";
+    getline(cin,input);
+
+    idOrigem = stol(input);
+
+    cout<<"Indique o ID do no de destino:\n";
+    getline(cin,input);
+
+    idDestino = stol(input);
+
+    auto noOrigem = grafo.getVertexFromId(idOrigem);
+    auto noDestino = grafo.getVertexFromId(idDestino);
+
+    auto arestasAdjOrigem = noOrigem->getAdj();
+    auto arestasAdjDestino = noDestino->getAdj();
+
+    for (auto &adjEdge : arestasAdjOrigem)
+    {
+        if (adjEdge.getDest() == noDestino)
+        {
+            adjEdge.setConstruction(aDecorrer);
+            break;
+        }
+    }
+
+    for (auto &adjEdge : arestasAdjDestino)
+    {
+        if (adjEdge.getDest() == noOrigem)
+        {
+            adjEdge.setConstruction(aDecorrer);
+            break;
+        }
+    }
+    noOrigem->setAdj(arestasAdjOrigem);
+    noDestino->setAdj(arestasAdjDestino);
+}
+
 
 
 

@@ -15,14 +15,6 @@
 #include <thread>
 #include "MutablePriorityQueue.h"
 
-enum tipoPonto
-{
-    nada,
-    restaurante,
-    cliente,
-    estafeta
-};
-
 using namespace std;
 
 template <class T> class Edge;
@@ -56,6 +48,7 @@ public:
     friend class MutablePriorityQueue<Vertex<T>>;
     ///Project
     vector<Edge<T>> & getAdj();
+    void setAdj(vector<Edge<T>> &adj);
 };
 
 
@@ -100,7 +93,7 @@ class Edge {
     double weight;         // edge weight
 
     bool selected; // Fp07
-
+    bool hasConstruction;
 public:
     Edge(Vertex<T> *o, Vertex<T> *d, double w);
     friend class Graph<T>;
@@ -112,10 +105,11 @@ public:
     ///Project
     Vertex<T>* getOrig();
     Vertex<T>* getDest();
+    void setConstruction(bool construction);
 };
 
 template <class T>
-Edge<T>::Edge(Vertex<T> *o, Vertex<T> *d, double w): orig(o), dest(d), weight(w) {}
+Edge<T>::Edge(Vertex<T> *o, Vertex<T> *d, double w): orig(o), dest(d), weight(w) {hasConstruction = false;}
 
 template <class T>
 double Edge<T>::getWeight() const {
@@ -178,6 +172,7 @@ public:
     void setMaxY(double maxY);
     void setMinX(double minX);
     void setMinY(double minY);
+    Vertex<T>* getVertexFromId(long int id);
 };
 
 template<class T>
@@ -191,8 +186,18 @@ Vertex<T> *Edge<T>::getDest() {
 }
 
 template<class T>
+void Edge<T>::setConstruction(bool construction) {
+    this->hasConstruction = construction;
+}
+
+template<class T>
 vector<Edge<T>> &Vertex<T>::getAdj() {
     return this->adj;
+}
+
+template<class T>
+void Vertex<T>::setAdj(vector<Edge<T>> &adj) {
+    this->adj = adj;
 }
 
 template <class T>
@@ -307,6 +312,7 @@ Vertex<T>* Graph<T>::dijkstraShortestPath(const T &origin, bool useTwoPaths) {
         if (!v->visited) v->visited = true;
         else return v;
         for(auto e : v->adj) {
+            if (e.hasConstruction) continue;
             auto oldDist = e.dest->dist;
             if (oldDist > (v->dist + e.weight))
             {
@@ -580,4 +586,10 @@ template<class T>
 void Graph<T>::setMinY(double minY) {
     this->minY = minY;
 }
+
+template<class T>
+Vertex<T> *Graph<T>::getVertexFromId(long int id) {
+    return vertexSet.at(idIndice[id]);
+}
+
 #endif /* GRAPH_H_ */

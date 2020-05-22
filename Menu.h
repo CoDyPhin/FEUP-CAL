@@ -15,6 +15,9 @@ void menuEncomendas(Empresa &empresa);
 void menuVisualizarEncomendas(Empresa &empresa);
 
 
+void menuObras(Empresa &empresa);
+
+
 
 void menuClientes(Empresa &empresa);
 

@@ -57,6 +57,7 @@ void mainMenu(Empresa &empresa){
         cout << "Bem-vindo à EatExpress" << endl << endl;
         cout << "1 - Menu Cliente" << endl;
         cout << "2 - Menu Estafeta" << endl;
+        cout << "3 - Menu Obras" << endl;
         cout << "0 - Sair " << endl << endl;
         cout << "Opção: ";
         string input;
@@ -66,13 +67,17 @@ void mainMenu(Empresa &empresa){
         switch (option) {
             case 0:
                 return;
-                break;
             case 1:
                 menuClientes(empresa);
                 break;
             case 2:
                 menuEstafetas(empresa);
                 break;
+            case 3:
+            {
+                menuObras(empresa);
+                break;
+            }
             default:
                 cerr<<"Input invalido!\n";
                 break;
@@ -198,5 +203,40 @@ void menuEstafetas(Empresa &empresa){
         case 0: exit(0);
         default:{cerr<<"Input invalido!\n"; break;}
     }
+}
+
+void menuObras(Empresa &empresa) {
+    string input;
+
+    while (true)
+    {
+        cout<<"\nMenu Obras\n";
+        cout<<"Selecione uma das seguintes opcoes:\n";
+        cout<<"1 - Reportar obras numa estrada\n";
+        cout<<"2 - Reportar fim de obras numa estrada\n";
+        cout<<"9 - Voltar atras\n";
+        cout<<"0 - Sair\n";
+        getline(cin,input);
+
+        int option = stoi(input);
+
+        switch (option)
+        {
+            case 1:
+            {
+                empresa.reportarObras(true);
+                break;
+            }
+            case 2:
+            {
+                empresa.reportarObras(false);
+                break;
+            }
+            case 9: return;
+            case 0: exit(0);
+            default: {cerr<<"Input invalido!\n"; break;}
+        }
+    }
+
 }
 

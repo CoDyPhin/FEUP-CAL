@@ -53,6 +53,8 @@ public:
     void updateEncomendas(Empresa empresa);
     void updateEstafetas(Empresa empresa);
 
+    //Obras
+    void reportarObras(bool aDecorrer);
 };
 
 
