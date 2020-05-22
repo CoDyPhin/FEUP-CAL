@@ -17,7 +17,7 @@ private:
     Hora *horaPedido;
     Hora *horaEntrega;
     float custo;
-    deque<Vertex<Posicao>*> caminho;
+    pair<deque<Vertex<Posicao>*>,deque<Vertex<Posicao>*>> caminhos;
 public:
 
     ~Encomenda();
@@ -49,9 +49,9 @@ public:
 
     void setCusto(float custo);
 
-    const deque<Vertex<Posicao>*> & getCaminho() const;
+    const pair<deque<Vertex<Posicao>*>,deque<Vertex<Posicao>*>> & getCaminhos() const;
 
-    void setCaminho(const deque<Vertex<Posicao>*> & caminho);
+    void setCaminhos(const pair<deque<Vertex<Posicao>*>,deque<Vertex<Posicao>*>> & caminhos);
 
     friend ostream &operator<<(ostream &os, const Encomenda &encomenda);
 };

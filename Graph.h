@@ -15,6 +15,14 @@
 #include <thread>
 #include "MutablePriorityQueue.h"
 
+enum tipoPonto
+{
+    nada,
+    restaurante,
+    cliente,
+    estafeta
+};
+
 using namespace std;
 
 template <class T> class Edge;

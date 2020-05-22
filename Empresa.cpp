@@ -95,7 +95,9 @@ void Empresa::criarEncomenda() {
     Hora *horaInicio = new Hora(input);
 
     auto caminhoTodo = calcPercurso(estafeta->getPosicao(),restaurante->getPosicao());
+    auto caminhoEstafetaRestaurante = caminhoTodo;
     auto caminhoRestauranteCliente = calcPercurso(restaurante->getPosicao(),cliente->getPosicao());
+    auto caminhoRestauranteCliente2 = caminhoRestauranteCliente;
     caminhoRestauranteCliente.pop_front();
     caminhoTodo.insert(caminhoTodo.end(),caminhoRestauranteCliente.begin(),caminhoRestauranteCliente.end());
     double distanciaTotal = 0;
@@ -115,7 +117,7 @@ void Empresa::criarEncomenda() {
 
     ///calcular hora do fim
     Encomenda* novaEncomenda = new Encomenda(encomendas.size()+1,pratos,restaurante,horaInicio,horaInicio->calcPassagemTempo(tempoMinutos),custo);
-    novaEncomenda->setCaminho(caminhoTodo);
+    novaEncomenda->setCaminhos(pair<deque<Vertex<Posicao>*>,deque<Vertex<Posicao>*>>(caminhoEstafetaRestaurante,caminhoRestauranteCliente2));
     encomendas.push_back(novaEncomenda);
     cliente->addEncomenda(novaEncomenda);
     cliente->setTotalGasto(cliente->getTotalGasto() + custo);
@@ -397,12 +399,12 @@ void Empresa::readGrafo() {
     long int id,id2;
 
 
-    file.open("../ficheiros_graph/nodes_x_y_porto.txt");
+    file.open("../ficheiros_graph/full/porto_full_nodes_xy.txt");
     getline(file,line);
     while (!file.eof())
     {
         getline(file,line);
-        sscanf(line.c_str(),"(%ld, %lf, %lf",&id,&latitude,&longitude);
+        sscanf(line.c_str(),"(%ld,%lf,%lf)",&id,&latitude,&longitude);
         if (latitude < minX) minX = latitude;
         if (latitude > maxX) maxX = latitude;
         if (longitude < minY) minY = longitude;
@@ -419,13 +421,13 @@ void Empresa::readGrafo() {
     grafo.setMinY(minY);
 
     long int origin,dest;
-    file2.open("../ficheiros_graph/edges_porto.txt");
+    file2.open("../ficheiros_graph/full/porto_full_edges.txt");
     getline(file2,line);
 
     while (!file2.eof())
     {
         getline(file2,line);
-        sscanf(line.c_str(),"(%ld, %ld)",&id,&id2);
+        sscanf(line.c_str(),"(%ld,%ld)",&id,&id2);
         Posicao origem = grafo.getTfromId(id);
         Posicao destino = grafo.getTfromId(id2);
         double peso = origem.calcDist(destino);
@@ -648,11 +650,21 @@ Estafeta *Empresa::escolherEstafeta(int capacidade, Restaurante *restaurante) {
         if (e->getTransporte()->getCapacidade() >= capacidade)
             aux.push_back(e);
     }
+
     result = aux.at(0);
+    double distMelhorCandidato = result->getPosicao().calcDist(restaurante->getPosicao());
+    double tempoDoMelhor = distMelhorCandidato / result->getTransporte()->getVelocidade();
+
     for (int i = 1; i < aux.size(); i++) {
-        if (aux.at(i)->getPosicao().calcDist(restaurante->getPosicao()) <
-            result->getPosicao().calcDist(restaurante->getPosicao()))
+        double distEuclidiana = aux.at(i)->getPosicao().calcDist(restaurante->getPosicao());
+        double tempoDoAtual = distEuclidiana / aux.at(i)->getTransporte()->getVelocidade();
+
+        if (tempoDoAtual < tempoDoMelhor)
+        {
             result = aux.at(i);
+            distMelhorCandidato = result->getPosicao().calcDist(restaurante->getPosicao());
+            tempoDoMelhor = distMelhorCandidato / result->getTransporte()->getVelocidade();
+        }
     }
     return result;
 }
@@ -776,16 +788,19 @@ void Empresa::mostrarCaminho() {
     getline(cin,input);
     idEncomenda = stol(input);
 
-    deque<Vertex<Posicao>*> caminho;
+    deque<Vertex<Posicao>*> caminhoEstafetaRestaurante;
+    deque<Vertex<Posicao>*> caminhoRestauranteCliente;
     for (auto encomenda : encomendas)
     {
         if (encomenda->getId() == idEncomenda)
         {
-            caminho = encomenda->getCaminho();
+            auto parCaminhos = encomenda->getCaminhos();
+            caminhoEstafetaRestaurante = parCaminhos.first;
+            caminhoRestauranteCliente = parCaminhos.second;
             break;
         }
     }
-    if (caminho.size() == 0) {cout << "Nao e possivel ver o percurso dessa encomenda.\n"; return;}
+    if (caminhoEstafetaRestaurante.size() == 0 || caminhoRestauranteCliente.size() == 0) {cout << "Nao e possivel ver o percurso dessa encomenda.\n"; return;}
 
 
     int width = 1280;
@@ -806,10 +821,11 @@ void Empresa::mostrarCaminho() {
 
         gv->addNode(vertex->getInfo().getId(),(int) (xPercent*width),(int)(yPercent*height));
         gv->setVertexSize(vertex->getInfo().getId(),3);
+        //gv->setVertexLabel(vertex->getInfo().getId(),to_string(vertex->getInfo().getId()));
         gv->rearrange();
     }
-    vector<int> arestasDoPercurso;
-
+    vector<int> arestasDoPercurso1;
+    vector<int> arestasDoPercurso2;
     int id = 0;
 
     for (auto vertex : caminhoVerts)
@@ -823,29 +839,60 @@ void Empresa::mostrarCaminho() {
             bool pertenceAoCaminho = false;
             bool origemNoCaminho = false;
             bool destinoNoCaminho = false;
-            for (auto vert : caminho)
-            {
+            for (auto vert : caminhoEstafetaRestaurante) {
                 if (edge.getDest() == vert) destinoNoCaminho = true;
                 if (edge.getOrig() == vert) origemNoCaminho = true;
             }
+
             if (destinoNoCaminho && origemNoCaminho) pertenceAoCaminho = true;
-            if (pertenceAoCaminho) arestasDoPercurso.push_back(id);
+            if (pertenceAoCaminho) arestasDoPercurso1.push_back(id);
+
+            pertenceAoCaminho = false;
+            origemNoCaminho = false;
+            destinoNoCaminho = false;
+            for (auto vert : caminhoRestauranteCliente) {
+                if (edge.getDest() == vert) destinoNoCaminho = true;
+                if (edge.getOrig() == vert) origemNoCaminho = true;
+            }
+
+            if (destinoNoCaminho && origemNoCaminho) pertenceAoCaminho = true;
+            if (pertenceAoCaminho) arestasDoPercurso2.push_back(id);
+
             id++;
         }
     }
 
-    for (auto vert : caminho)
+
+
+    for (auto vert : caminhoRestauranteCliente)
     {
+        if (vert == caminhoRestauranteCliente.at(0)) gv->setVertexLabel(vert->getInfo().getId(),"Restaurante");
+        if (vert == caminhoRestauranteCliente.at(caminhoRestauranteCliente.size() - 1)) gv->setVertexLabel(vert->getInfo().getId(),"Cliente");
         gv->setVertexColor(vert->getInfo().getId(),"yellow");
         gv->setVertexSize(vert->getInfo().getId(),4);
     }
 
-    for (auto edge : arestasDoPercurso)
+    for (auto vert : caminhoEstafetaRestaurante)
+    {
+        if (vert == caminhoEstafetaRestaurante.at(0)) gv->setVertexLabel(vert->getInfo().getId(),"Estafeta");
+        gv->setVertexColor(vert->getInfo().getId(),"yellow");
+        gv->setVertexSize(vert->getInfo().getId(),4);
+    }
+
+    for (auto edge : arestasDoPercurso1)
+    {
+        gv->setEdgeColor(edge,"orange");
+        gv->setEdgeThickness(edge,2);
+    }
+
+    for (auto edge : arestasDoPercurso2)
     {
         gv->setEdgeColor(edge,"red");
         gv->setEdgeThickness(edge,2);
     }
+
     gv->rearrange();
+    getchar();
 }
 
 
