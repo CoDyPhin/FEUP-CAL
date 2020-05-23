@@ -660,15 +660,20 @@ void Graph<T>::analyseConectivity() {
     else cout << "O grafo e conexo.\n";
     cout << "Os pontos de articulacao tem os ids: \n";
 
+    long int numArtPoint = 0;
+
     for (auto vert : vertexSet)
     {
         if (vert->isArticulationPoint)
         {
+            numArtPoint++;
             cout << to_string(vert->info.getId()) << " ";
         }
 
     }
+
     cout << endl;
+    cout << "Ha "  << numArtPoint << " pontos de articulacao.\n";
 }
 
 #endif /* GRAPH_H_ */

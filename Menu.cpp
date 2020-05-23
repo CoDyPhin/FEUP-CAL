@@ -59,7 +59,7 @@ void menuClientes(Empresa &empresa){
 void mainMenu(Empresa &empresa){
     while (true)
     {
-        cout << "Bem-vindo à EatExpress" << endl << endl;
+        cout << "\nBem-vindo à EatExpress" << endl << endl;
         cout << "1 - Menu Cliente" << endl;
         cout << "2 - Menu Estafeta" << endl;
         cout << "3 - Menu Obras" << endl;

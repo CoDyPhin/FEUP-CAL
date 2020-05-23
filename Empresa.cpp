@@ -399,8 +399,8 @@ void Empresa::readGrafo() {
     long int id,id2;
 
 
-    //file.open("../ficheiros_graph/full/porto_full_nodes_xy.txt");
-    file.open("../ficheiros_graph/grafo_aula_conectividade/nodes.txt");
+    file.open("../ficheiros_graph/full/porto_full_nodes_xy.txt");
+    //file.open("../ficheiros_graph/grafo_aula_conectividade/nodes.txt");
     getline(file,line);
     while (!file.eof())
     {
@@ -422,8 +422,8 @@ void Empresa::readGrafo() {
     grafo.setMinY(minY);
 
     long int origin,dest;
-    //file2.open("../ficheiros_graph/full/porto_full_edges.txt");
-    file2.open("../ficheiros_graph/grafo_aula_conectividade/edges.txt");
+    file2.open("../ficheiros_graph/full/porto_full_edges.txt");
+    //file2.open("../ficheiros_graph/grafo_aula_conectividade/edges.txt");
     getline(file2,line);
 
     while (!file2.eof())
