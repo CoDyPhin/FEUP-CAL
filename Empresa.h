@@ -28,6 +28,7 @@ public:
 
     //Grafo
     void readGrafo();
+    void analiseConectividade();
 
     //Estafetas
     vector<Estafeta*> getEstafeta();

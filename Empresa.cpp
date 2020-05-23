@@ -937,6 +937,10 @@ void Empresa::reportarObras(bool aDecorrer) {
     noDestino->setAdj(arestasAdjDestino);
 }
 
+void Empresa::analiseConectividade() {
+    grafo.analyseConectivity();
+}
+
 
 
 

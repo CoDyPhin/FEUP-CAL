@@ -175,6 +175,7 @@ public:
     void setMinY(double minY);
     Vertex<T>* getVertexFromId(long int id);
     vector<T> dfs() const;
+    void analyseConectivity();
 };
 
 template<class T>
@@ -628,6 +629,11 @@ void Graph<T>::dfsVisit(Vertex<T> *v, vector<T> & res) const {
     {
         if (!i.dest->visited) dfsVisit(i.dest,res);
     }
+}
+
+template<class T>
+void Graph<T>::analyseConectivity() {
+
 }
 
 #endif /* GRAPH_H_ */
