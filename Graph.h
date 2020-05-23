@@ -126,6 +126,7 @@ class Graph {
     ///Project
     map<long int,int> idIndice;
     double maxX,maxY,minX,minY;
+    void dfsVisit(Vertex<T> *v,  vector<T> & res) const;
 
     // Fp05
     Vertex<T> * initSingleSource(const T &orig);
@@ -173,6 +174,7 @@ public:
     void setMinX(double minX);
     void setMinY(double minY);
     Vertex<T>* getVertexFromId(long int id);
+    vector<T> dfs() const;
 };
 
 template<class T>
@@ -590,6 +592,42 @@ void Graph<T>::setMinY(double minY) {
 template<class T>
 Vertex<T> *Graph<T>::getVertexFromId(long int id) {
     return vertexSet.at(idIndice[id]);
+}
+
+/*
+ * Performs a depth-first search (dfs) in a graph (this).
+ * Returns a vector with the contents of the vertices by dfs order.
+ * Follows the algorithm described in theoretical classes.
+ */
+template <class T>
+vector<T> Graph<T>::dfs() const {
+    vector<T> res;
+
+    for (auto i : vertexSet)
+    {
+        i->visited = false;
+    }
+
+    for (auto i : vertexSet)
+    {
+        if (!i->visited) dfsVisit(i,res);
+    }
+
+    return res;
+}
+
+/*
+ * Auxiliary function that visits a vertex (v) and its adjacent not yet visited, recursively.
+ * Updates a parameter with the list of visited node contents.
+ */
+template <class T>
+void Graph<T>::dfsVisit(Vertex<T> *v, vector<T> & res) const {
+    v->visited = true;
+    res.push_back(v->info);
+    for (auto i : v->adj)
+    {
+        if (!i.dest->visited) dfsVisit(i.dest,res);
+    }
 }
 
 #endif /* GRAPH_H_ */
