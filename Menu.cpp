@@ -72,6 +72,7 @@ void mainMenu(Empresa &empresa){
         option = stoi(input);
         switch (option) {
             case 0:
+                cout << "Obrigado por escolher EatExpress" << endl;
                 return;
             case 1:
                 menuClientes(empresa);
@@ -93,7 +94,6 @@ void mainMenu(Empresa &empresa){
                 cerr<<"Input invalido!\n";
                 break;
         }
-        cout << "Obrigado por escolher EatExpress" << endl;
     }
 
 }

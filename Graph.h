@@ -35,9 +35,12 @@ class Vertex {
     int queueIndex = 0; 		// required by MutablePriorityQueue
 
     Vertex<T> *path2 = nullptr; ///Project
-    void addEdge(Vertex<T> *dest, double w);
+    void addEdge(Vertex<T> *dest, double w, bool isReverse);
 
-
+    ///Project
+    bool isRoot;
+    long int num,low;
+    bool isArticulationPoint;
 public:
     Vertex(T in);
     bool operator<(Vertex<T> & vertex) const; // // required by MutablePriorityQueue
@@ -53,15 +56,15 @@ public:
 
 
 template <class T>
-Vertex<T>::Vertex(T in): info(in) {}
+Vertex<T>::Vertex(T in): info(in) {isRoot = false; num = INF; low = INF;}
 
 /*
  * Auxiliary function to add an outgoing edge to a vertex (this),
  * with a given destination vertex (d) and edge weight (w).
  */
 template <class T>
-void Vertex<T>::addEdge(Vertex<T> *d, double w) {
-    adj.push_back(Edge<T>(this, d, w));
+void Vertex<T>::addEdge(Vertex<T> *d, double w, bool isReverse) {
+    adj.push_back(Edge<T>(this, d, w, isReverse));
 }
 
 template <class T>
@@ -93,9 +96,11 @@ class Edge {
     double weight;         // edge weight
 
     bool selected; // Fp07
+    ///Project
     bool hasConstruction;
+    bool isReverse;
 public:
-    Edge(Vertex<T> *o, Vertex<T> *d, double w);
+    Edge(Vertex<T> *o, Vertex<T> *d, double w, bool isReverse);
     friend class Graph<T>;
     friend class Vertex<T>;
 
@@ -109,7 +114,7 @@ public:
 };
 
 template <class T>
-Edge<T>::Edge(Vertex<T> *o, Vertex<T> *d, double w): orig(o), dest(d), weight(w) {hasConstruction = false;}
+Edge<T>::Edge(Vertex<T> *o, Vertex<T> *d, double w, bool isReverse): orig(o), dest(d), weight(w), isReverse(isReverse) {hasConstruction = false;}
 
 template <class T>
 double Edge<T>::getWeight() const {
@@ -126,7 +131,10 @@ class Graph {
     ///Project
     map<long int,int> idIndice;
     double maxX,maxY,minX,minY;
-    void dfsVisit(Vertex<T> *v,  vector<T> & res) const;
+    void dfsVisit(Vertex<T> *v,  vector<T> & res);
+    long int visitCounter;
+    bool conexo;
+    long int numCounter;
 
     // Fp05
     Vertex<T> * initSingleSource(const T &orig);
@@ -174,7 +182,7 @@ public:
     void setMinX(double minX);
     void setMinY(double minY);
     Vertex<T>* getVertexFromId(long int id);
-    vector<T> dfs() const;
+    vector<T> dfs();
     void analyseConectivity();
 };
 
@@ -481,6 +489,8 @@ template <class T>
 Graph<T>::Graph()
 {
     vertexSet.clear();
+    visitCounter = 0;
+    conexo = false;
 }
 
 template <class T>
@@ -545,8 +555,8 @@ void Graph<T>::addEdgeWithIds(long int id1, long int id2,double w)
     auto origVert = vertexSet.at(index1);
     auto destVert = vertexSet.at(index2);
 
-    origVert->addEdge(destVert,w);
-    destVert->addEdge(origVert,w);
+    origVert->addEdge(destVert,w,false);
+    destVert->addEdge(origVert,w,true);
 }
 
 template<class T>
@@ -601,17 +611,20 @@ Vertex<T> *Graph<T>::getVertexFromId(long int id) {
  * Follows the algorithm described in theoretical classes.
  */
 template <class T>
-vector<T> Graph<T>::dfs() const {
+vector<T> Graph<T>::dfs() {
     vector<T> res;
 
     for (auto i : vertexSet)
     {
         i->visited = false;
+        i->isArticulationPoint = false;
     }
-
+    numCounter = 1;
     for (auto i : vertexSet)
     {
-        if (!i->visited) dfsVisit(i,res);
+        visitCounter = 0;
+        if (!i->visited) {i->isRoot = true; dfsVisit(i,res);i->isRoot = false;}
+        if (visitCounter == vertexSet.size()) conexo = true;
     }
 
     return res;
@@ -622,18 +635,40 @@ vector<T> Graph<T>::dfs() const {
  * Updates a parameter with the list of visited node contents.
  */
 template <class T>
-void Graph<T>::dfsVisit(Vertex<T> *v, vector<T> & res) const {
+void Graph<T>::dfsVisit(Vertex<T> *v, vector<T> & res) {
     v->visited = true;
+    visitCounter++;
+    v->num = numCounter++;
+    v->low = v->num;
     res.push_back(v->info);
     for (auto i : v->adj)
     {
+        if (i.isReverse) continue;
+        if (v->isRoot && i.dest != v->adj.front().dest && !i.dest->visited) v->isArticulationPoint = true;
         if (!i.dest->visited) dfsVisit(i.dest,res);
+        if (i.dest->num < v->low) v->low = i.dest->num;
+        if (i.dest->low < v->low) v->low = i.dest->low;
+        if (i.dest->low >= v->num && !v->isRoot) v->isArticulationPoint = true;
     }
+
 }
 
 template<class T>
 void Graph<T>::analyseConectivity() {
+    dfs();
+    if (!conexo) cout << "O grafo nao e conexo.\n";
+    else cout << "O grafo e conexo.\n";
+    cout << "Os pontos de articulacao tem os ids: \n";
 
+    for (auto vert : vertexSet)
+    {
+        if (vert->isArticulationPoint)
+        {
+            cout << to_string(vert->info.getId()) << " ";
+        }
+
+    }
+    cout << endl;
 }
 
 #endif /* GRAPH_H_ */
