@@ -166,7 +166,7 @@ vector<Encomenda *> Empresa::filtrarEncomendas(int option) {
         }
         case 3:
         {
-            cout<<"Indique o NIF do estafeta:\n";
+            cout<<"Indique o NIF do cliente:\n";
             getline(cin,input);
             for (auto cliente : clientes)
             {
@@ -760,7 +760,7 @@ void Empresa::updateEstafetas() {
             encomstr = "";
             if(estafeta->getEntregasFeitas().empty()){
                 file << "-" << endl;
-                file << 0 << endl;
+                file << 0;
             }
             else{
                 for (size_t i = 0; i<estafeta->getEntregasFeitas().size(); i++){
