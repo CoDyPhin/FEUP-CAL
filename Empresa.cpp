@@ -1000,7 +1000,7 @@ void Empresa::medirGrafo(const string& nodePath,const string& edgePath, bool dij
 
     file2.open(edgePath);
     getline(file2,line);
-
+    edgeNumber = stol(line);
     while(!file2.eof())
     {
         getline(file2,line);
