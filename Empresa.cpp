@@ -961,8 +961,6 @@ void Empresa::analiseTemporal() {
     medirGrafo("../ficheiros_graph/pais/Maia/nodes_x_y_maia.txt","../ficheiros_graph/pais/Maia/edges_maia.txt",false);
     medirGrafo("../ficheiros_graph/pais/Porto/nodes_x_y_porto.txt","../ficheiros_graph/pais/Porto/edges_porto.txt",true);
     medirGrafo("../ficheiros_graph/pais/Porto/nodes_x_y_porto.txt","../ficheiros_graph/pais/Porto/edges_porto.txt",false);
-    medirGrafo("../ficheiros_graph/pais/Portugal/nodes_x_y_portugal.txt","../ficheiros_graph/pais/Portugal/edges_portugal.txt",true);
-    medirGrafo("../ficheiros_graph/pais/Portugal/nodes_x_y_portugal.txt","../ficheiros_graph/pais/Portugal/edges_portugal.txt",false);
     medirGrafo("../ficheiros_graph/pais/Viseu/nodes_x_y_viseu.txt","../ficheiros_graph/pais/Viseu/edges_viseu.txt",true);
     medirGrafo("../ficheiros_graph/pais/Viseu/nodes_x_y_viseu.txt","../ficheiros_graph/pais/Viseu/edges_viseu.txt",false);
     medirGrafo("../ficheiros_graph/espinho/espinho_full_nodes_xy.txt","../ficheiros_graph/espinho/espinho_full_edges.txt",true);
