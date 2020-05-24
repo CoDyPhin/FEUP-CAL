@@ -53,6 +53,7 @@ public:
     void updateClientes();
     void updateEncomendas();
     void updateEstafetas();
+    void updateFiles(){updateClientes(); updateEncomendas(); updateEstafetas();}
 
     //Obras
     void reportarObras(bool aDecorrer);
