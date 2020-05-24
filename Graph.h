@@ -34,7 +34,6 @@ class Vertex {
     Vertex<T> *path = nullptr;
     int queueIndex = 0; 		// required by MutablePriorityQueue
 
-    Vertex<T> *path2 = nullptr; ///Project
     void addEdge(Vertex<T> *dest, double w, bool isReverse);
 
     ///Project
@@ -138,37 +137,20 @@ class Graph {
 
     // Fp05
     Vertex<T> * initSingleSource(const T &orig);
-    bool relax(Vertex<T> *v, Vertex<T> *w, double weight);
     double ** W = nullptr;   // dist
     int **P = nullptr;   // path
-    int findVertexIdx(const T &in) const;
 public:
     Vertex<T> *findVertex(const T &in) const;
     bool addVertex(const T &in);
-    bool addEdge(const T &sourc, const T &dest, double w);
-    int getNumVertex() const;
     vector<Vertex<T> *> getVertexSet() const;
 
-    // Fp05 - single source
-    Vertex<T>* dijkstraShortestPath(const T &s,bool useTwoPaths); ///Project
-    void unweightedShortestPath(const T &s);
-    void bellmanFordShortestPath(const T &s);
-    vector<T> getPath(const T &origin, const T &dest) const;
 
-    // Fp05 - all pairs
-    void floydWarshallShortestPath();
-    vector<T> getfloydWarshallPath(const T &origin, const T &dest) const;
+    void dijkstraShortestPath(const T &origin);
     ~Graph();
-
-    // Fp07 - minimum spanning tree
-    bool addBidirectionalEdge(const T &sourc, const T &dest, double w);
-
-    //Auxiliary functions
-    bool findInverseEdge(const Edge<T> &edge);
 
     ///Project
     Graph();
-    Vertex<T> getVertex(int index);
+
     deque<Vertex<T>*> bidirectionalDijkstra(const T &start, const T &end);
     T getTfromId(long int id);
     void addMapPair(long int id);
@@ -212,11 +194,6 @@ void Vertex<T>::setAdj(vector<Edge<T>> &adj) {
 }
 
 template <class T>
-int Graph<T>::getNumVertex() const {
-    return vertexSet.size();
-}
-
-template <class T>
 vector<Vertex<T> *> Graph<T>::getVertexSet() const {
     return vertexSet;
 }
@@ -232,16 +209,7 @@ Vertex<T> * Graph<T>::findVertex(const T &in) const {
     return nullptr;
 }
 
-/*
- * Finds the index of the vertex with a given content.
- */
-template <class T>
-int Graph<T>::findVertexIdx(const T &in) const {
-    for (unsigned i = 0; i < vertexSet.size(); i++)
-        if (vertexSet[i]->info == in)
-            return i;
-    return -1;
-}
+
 /*
  *  Adds a vertex with a given content or info (in) to a graph (this).
  *  Returns true if successful, and false if a vertex with that content already exists.
@@ -253,21 +221,6 @@ bool Graph<T>::addVertex(const T &in) {
         return false;
     */
     vertexSet.push_back(new Vertex<T>(in));
-    return true;
-}
-
-/*
- * Adds an edge to a graph (this), given the contents of the source and
- * destination vertices and the edge weight (w).
- * Returns true if successful, and false if the source or destination vertex does not exist.
- */
-template <class T>
-bool Graph<T>::addEdge(const T &sourc, const T &dest, double w) {
-    auto v1 = findVertex(sourc);
-    auto v2 = findVertex(dest);
-    if (v1 == nullptr || v2 == nullptr)
-        return false;
-    v1->addEdge(v2, w);
     return true;
 }
 
@@ -291,45 +244,21 @@ Vertex<T> * Graph<T>::initSingleSource(const T &origin) {
     return s;
 }
 
-/**
- * Analyzes an edge in single source shortest path algorithm.
- * Returns true if the target vertex was relaxed (dist, path).
- * Used by all single-source shortest path algorithms.
- */
 template<class T>
-inline bool Graph<T>::relax(Vertex<T> *v, Vertex<T> *w, double weight) {
-    if (v->dist + weight < w->dist) {
-        w->dist = v->dist + weight;
-        w->path = v;
-        return true;
-    }
-    else
-        return false;
-}
-
-template<class T>
-Vertex<T>* Graph<T>::dijkstraShortestPath(const T &origin, bool useTwoPaths) {
-    Vertex<T>* s;
-    if (!useTwoPaths) s = initSingleSource(origin);
-    else
-    {
-        s = findVertex(origin);
-        s->dist = 0;
-    }
+void Graph<T>::dijkstraShortestPath(const T &origin) {
+    Vertex<T>* s = initSingleSource(origin);
     MutablePriorityQueue<Vertex<T>> q;
     q.insert(s);
     while( ! q.empty() ) {
         auto v = q.extractMin();
         if (!v->visited) v->visited = true;
-        else return v;
         for(auto e : v->adj) {
             if (e.hasConstruction) continue;
             auto oldDist = e.dest->dist;
             if (oldDist > (v->dist + e.weight))
             {
                 e.dest->dist = (v->dist + e.weight);
-                if (!useTwoPaths) e.dest->path = v;
-                else e.dest->path2 = v;
+                e.dest->path = v;
             }
             if (!e.dest->visited)
             {
@@ -338,46 +267,6 @@ Vertex<T>* Graph<T>::dijkstraShortestPath(const T &origin, bool useTwoPaths) {
             }
         }
     }
-    return nullptr;
-}
-
-template<class T>
-vector<T> Graph<T>::getPath(const T &origin, const T &dest) const{
-    vector<T> res;
-    auto v = findVertex(dest);
-    if (v == nullptr || v->dist == INF) // missing or disconnected
-        return res;
-    for ( ; v != nullptr; v = v->path)
-        res.push_back(v->info);
-    reverse(res.begin(), res.end());
-    return res;
-}
-
-template<class T>
-void Graph<T>::unweightedShortestPath(const T &orig) {
-    auto s = initSingleSource(orig);
-    queue< Vertex<T>* > q;
-    q.push(s);
-    while( ! q.empty() ) {
-        auto v = q.front();
-        q.pop();
-        for(auto e: v->adj)
-            if (relax(v, e.dest, 1))
-                q.push(e.dest);
-    }
-}
-
-template<class T>
-void Graph<T>::bellmanFordShortestPath(const T &orig) {
-    initSingleSource(orig);
-    for (unsigned i = 1; i < vertexSet.size(); i++)
-        for (auto v: vertexSet)
-            for (auto e: v->adj)
-                relax(v, e.dest, e.weight);
-    for (auto v: vertexSet)
-        for (auto e: v->adj)
-            if (relax(v, e.dest, e.weight))
-                cout << "Negative cycle!" << endl;
 }
 
 
@@ -401,90 +290,6 @@ Graph<T>::~Graph() {
     deleteMatrix(P, vertexSet.size());
 }
 
-template<class T>
-void Graph<T>::floydWarshallShortestPath() {
-    unsigned n = vertexSet.size();
-    deleteMatrix(W, n);
-    deleteMatrix(P, n);
-    W = new double *[n];
-    P = new int *[n];
-    for (unsigned i = 0; i < n; i++) {
-        W[i] = new double[n];
-        P[i] = new int[n];
-        for (unsigned j = 0; j < n; j++) {
-            W[i][j] = i == j? 0 : INF;
-            P[i][j] = -1;
-        }
-        for (auto e : vertexSet[i]->adj) {
-            int j = findVertexIdx(e.dest->info);
-            W[i][j]  = e.weight;
-            P[i][j]  = i;
-        }
-    }
-
-    for(unsigned k = 0; k < n; k++)
-        for(unsigned i = 0; i < n; i++)
-            for(unsigned j = 0; j < n; j++) {
-                if(W[i][k] == INF || W[k][j] == INF)
-                    continue; // avoid overflow
-                int val = W[i][k] + W[k][j];
-                if (val < W[i][j]) {
-                    W[i][j] = val;
-                    P[i][j] = P[k][j];
-                }
-            }
-}
-
-
-template<class T>
-vector<T> Graph<T>::getfloydWarshallPath(const T &orig, const T &dest) const{
-    vector<T> res;
-    int i = findVertexIdx(orig);
-    int j = findVertexIdx(dest);
-    if (i == -1 || j == -1 || W[i][j] == INF) // missing or disconnected
-        return res;
-    for ( ; j != -1; j = P[i][j])
-        res.push_back(vertexSet[j]->info);
-    reverse(res.begin(), res.end());
-    return res;
-}
-
-/**************** Minimum Spanning Tree  ***************/
-template <class T>
-bool Graph<T>::addBidirectionalEdge(const T &sourc, const T &dest, double w) {
-    Vertex<T>* edgeOrigin;
-    Vertex<T>* edgeDest;
-
-    for (auto i : vertexSet)
-    {
-        if (i->info == sourc)
-        {
-            edgeOrigin = i;
-            for (auto i2 : vertexSet)
-            {
-                if (i2->info == dest)
-                {
-                    edgeDest = i2;
-                    i->adj.push_back(Edge<T>(edgeOrigin,edgeDest,w));
-                    i2->adj.push_back(Edge<T>(edgeDest,edgeOrigin,w));
-                    return true;
-                }
-
-            }
-        }
-    }
-
-
-
-    return false;
-}
-
-template <class T>
-bool Graph<T>::findInverseEdge(const Edge<T> &edge)
-{
-    return edge.orig->path == edge.dest;
-}
-
 template <class T>
 Graph<T>::Graph()
 {
@@ -494,34 +299,10 @@ Graph<T>::Graph()
 }
 
 template <class T>
-Vertex<T> Graph<T>::getVertex(int index)
-{
-    return vertexSet.at(index);
-}
-
-template <class T>
 deque<Vertex<T>*> Graph<T>::bidirectionalDijkstra(const T &start, const T &end)
 {
     deque<Vertex<T>*> result;
-    //thread second (&Graph<T>::dijkstraShortestPath,this,end,true);
-    /*auto middle = */dijkstraShortestPath(start,false);
-
-    //second.join();
-
-    //auto vert = middle;
-   /*
-    while (vert != nullptr)
-    {
-        result.push_front(vert->info);
-        vert = vert->path;
-    }
-    result.pop_back();
-    vert = middle;
-    while (vert != nullptr)
-    {
-        result.push_back(vert->info);
-        vert = vert->path2;
-    }*/
+    dijkstraShortestPath(start);
 
    auto dest = findVertex(end);
 
