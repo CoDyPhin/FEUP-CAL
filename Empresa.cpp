@@ -1,7 +1,8 @@
 #include <iostream>
 #include <fstream>
-#include <thread>
 #include <cmath>
+#include <time.h>
+#include <chrono>
 #include "Empresa.h"
 #include "utils.h"
 
@@ -400,7 +401,6 @@ void Empresa::readGrafo() {
 
 
     file.open("../ficheiros_graph/full/porto_full_nodes_xy.txt");
-    //file.open("../ficheiros_graph/grafo_aula_conectividade/nodes.txt");
     getline(file,line);
     while (!file.eof())
     {
@@ -423,7 +423,6 @@ void Empresa::readGrafo() {
 
     long int origin,dest;
     file2.open("../ficheiros_graph/full/porto_full_edges.txt");
-    //file2.open("../ficheiros_graph/grafo_aula_conectividade/edges.txt");
     getline(file2,line);
 
     while (!file2.eof())
@@ -941,6 +940,97 @@ void Empresa::reportarObras(bool aDecorrer) {
 
 void Empresa::analiseConectividade() {
     grafo.analyseConectivity();
+}
+
+void Empresa::analiseTemporal() {
+    medirGrafo("../ficheiros_graph/pais/Aveiro/nodes_x_y_aveiro.txt","../ficheiros_graph/pais/Aveiro/edges_aveiro.txt",true);
+    medirGrafo("../ficheiros_graph/pais/Aveiro/nodes_x_y_aveiro.txt","../ficheiros_graph/pais/Aveiro/edges_aveiro.txt",false);
+    medirGrafo("../ficheiros_graph/pais/Braga/nodes_x_y_braga.txt","../ficheiros_graph/pais/Braga/edges_braga.txt",true);
+    medirGrafo("../ficheiros_graph/pais/Braga/nodes_x_y_braga.txt","../ficheiros_graph/pais/Braga/edges_braga.txt",false);
+    medirGrafo("../ficheiros_graph/pais/Coimbra/nodes_x_y_coimbra.txt","../ficheiros_graph/pais/Coimbra/edges_coimbra.txt",true);
+    medirGrafo("../ficheiros_graph/pais/Coimbra/nodes_x_y_coimbra.txt","../ficheiros_graph/pais/Coimbra/edges_coimbra.txt",false);
+    medirGrafo("../ficheiros_graph/pais/Ermesinde/nodes_x_y_ermesinde.txt","../ficheiros_graph/pais/Ermesinde/edges_ermesinde.txt",true);
+    medirGrafo("../ficheiros_graph/pais/Ermesinde/nodes_x_y_ermesinde.txt","../ficheiros_graph/pais/Ermesinde/edges_ermesinde.txt",false);
+    medirGrafo("../ficheiros_graph/pais/Fafe/nodes_x_y_fafe.txt","../ficheiros_graph/pais/Fafe/edges_fafe.txt",true);
+    medirGrafo("../ficheiros_graph/pais/Fafe/nodes_x_y_fafe.txt","../ficheiros_graph/pais/Fafe/edges_fafe.txt",false);
+    medirGrafo("../ficheiros_graph/pais/Gondomar/nodes_x_y_gondomar.txt","../ficheiros_graph/pais/Gondomar/edges_gondomar.txt",true);
+    medirGrafo("../ficheiros_graph/pais/Gondomar/nodes_x_y_gondomar.txt","../ficheiros_graph/pais/Gondomar/edges_gondomar.txt",false);
+    medirGrafo("../ficheiros_graph/pais/Lisboa/nodes_x_y_lisboa.txt","../ficheiros_graph/pais/Lisboa/edges_lisboa.txt",true);
+    medirGrafo("../ficheiros_graph/pais/Lisboa/nodes_x_y_lisboa.txt","../ficheiros_graph/pais/Lisboa/edges_lisboa.txt",false);
+    medirGrafo("../ficheiros_graph/pais/Maia/nodes_x_y_maia.txt","../ficheiros_graph/pais/Maia/edges_maia.txt",true);
+    medirGrafo("../ficheiros_graph/pais/Maia/nodes_x_y_maia.txt","../ficheiros_graph/pais/Maia/edges_maia.txt",false);
+    medirGrafo("../ficheiros_graph/pais/Porto/nodes_x_y_porto.txt","../ficheiros_graph/pais/Porto/edges_porto.txt",true);
+    medirGrafo("../ficheiros_graph/pais/Porto/nodes_x_y_porto.txt","../ficheiros_graph/pais/Porto/edges_porto.txt",false);
+    medirGrafo("../ficheiros_graph/pais/Portugal/nodes_x_y_portugal.txt","../ficheiros_graph/pais/Portugal/edges_portugal.txt",true);
+    medirGrafo("../ficheiros_graph/pais/Portugal/nodes_x_y_portugal.txt","../ficheiros_graph/pais/Portugal/edges_portugal.txt",false);
+    medirGrafo("../ficheiros_graph/pais/Viseu/nodes_x_y_viseu.txt","../ficheiros_graph/pais/Viseu/edges_viseu.txt",true);
+    medirGrafo("../ficheiros_graph/pais/Viseu/nodes_x_y_viseu.txt","../ficheiros_graph/pais/Viseu/edges_viseu.txt",false);
+    medirGrafo("../ficheiros_graph/espinho/espinho_full_nodes_xy.txt","../ficheiros_graph/espinho/espinho_full_edges.txt",true);
+    medirGrafo("../ficheiros_graph/espinho/espinho_full_nodes_xy.txt","../ficheiros_graph/espinho/espinho_full_edges.txt",false);
+    medirGrafo("../ficheiros_graph/penafiel/penafiel_full_nodes_xy.txt","../ficheiros_graph/penafiel/penafiel_full_edges.txt",true);
+    medirGrafo("../ficheiros_graph/penafiel/penafiel_full_nodes_xy.txt","../ficheiros_graph/penafiel/penafiel_full_edges.txt",false);
+    medirGrafo("../ficheiros_graph/full/porto_full_nodes_xy.txt","../ficheiros_graph/full/porto_full_edges.txt",true);
+    medirGrafo("../ficheiros_graph/full/porto_full_nodes_xy.txt","../ficheiros_graph/full/porto_full_edges.txt",false);
+    cout << "Foram gerados ficheiros csv com os tempos de execucao.\n";
+}
+
+void Empresa::medirGrafo(const string& nodePath,const string& edgePath, bool dijkstra) {
+    Graph<Posicao> graph;
+    long int nodeNumber, edgeNumber;
+    string line;
+
+    ifstream file,file2;
+    file.open(nodePath);
+    getline(file,line);
+    nodeNumber = stol(line);
+    while (!file.eof())
+    {
+        getline(file,line);
+        if (line == "") break;
+        line.erase(0,1);
+        line.erase(line.size() - 1,1);
+        auto components = string_split(line,',');
+        long int id = stol(components.at(0));
+        double x,y;
+        x = stod(components.at(1));
+        y = stod(components.at(2));
+        Posicao novaPosicao(x,y,id);
+        graph.addVertex(novaPosicao);
+        graph.addMapPair(id);
+    }
+    file.close();
+
+    file2.open(edgePath);
+    getline(file2,line);
+
+    while(!file2.eof())
+    {
+        getline(file2,line);
+        if (line == "") break;
+        line.erase(0,1);
+        line.erase(line.size() - 1,1);
+        auto components = string_split(line,',');
+        long int id1,id2;
+        id1 = stol(components.at(0));
+        id2 = stol(components.at(1));
+        auto pos1 = graph.getTfromId(id1);
+        auto pos2 = graph.getTfromId(id2);
+        double weight = pos1.calcDist(pos2);
+        graph.addEdgeWithIds(id1,id2,weight);
+    }
+    file2.close();
+
+    auto start = std::chrono::high_resolution_clock::now();
+    if (dijkstra) graph.dijkstraShortestPath(graph.getTfromId(1));
+    else graph.dfs();
+    auto finish = std::chrono::high_resolution_clock::now();
+    auto elapsed = chrono::duration_cast<chrono::microseconds>(finish - start).count();
+
+    ofstream csv;
+    if (dijkstra) csv.open("../csv/resultados_dijkstra.csv",ofstream::out|ofstream::app);
+    else csv.open("../csv/resultados_dfs.csv",ofstream::out|ofstream::app);
+    csv << nodeNumber << "," << edgeNumber << "," << elapsed << endl;
+    csv.close();
 }
 
 

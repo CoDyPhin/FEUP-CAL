@@ -68,6 +68,7 @@ void mainMenu(Empresa &empresa){
         cout << "2 - Menu Estafeta" << endl;
         cout << "3 - Menu Obras" << endl;
         cout << "4 - Obter analise de conectividade" << endl;
+        cout << "5 - Obter analise temporal" << endl;
         cout << "0 - Sair " << endl << endl;
         cout << "Opção: ";
         string input;
@@ -92,6 +93,11 @@ void mainMenu(Empresa &empresa){
             case 4:
             {
                 empresa.analiseConectividade();
+                break;
+            }
+            case 5:
+            {
+                empresa.analiseTemporal();
                 break;
             }
             default:

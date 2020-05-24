@@ -57,6 +57,10 @@ public:
 
     //Obras
     void reportarObras(bool aDecorrer);
+
+    //Analise temporal
+    void medirGrafo(const string& nodePath, const string& edgePath, bool dijkstra);
+    void analiseTemporal();
 };
 
 
