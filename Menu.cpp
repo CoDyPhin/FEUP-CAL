@@ -194,7 +194,7 @@ void menuVisualizarEstafetas(Empresa &empresa)
 
         for (auto estafeta : empresa.filtrarEstafetas(option))
         {
-            cout<<*estafeta;
+            cout<<*estafeta << endl;
         }
     }
 
@@ -220,8 +220,8 @@ void menuEstafetas(Empresa &empresa){
 
         switch (option)
         {
-            case 1: {empresa.criarEstafeta(); break;}
-            case 2: {empresa.eliminarEstafeta(); break;}
+            case 1: {empresa.criarEstafeta(); cout << "Estafeta adicionado" << endl; break;}
+            case 2: {empresa.eliminarEstafeta(); cout << "Estafeta eliminado" << endl; break;}
             case 3: {menuVisualizarEstafetas(empresa); break;}
             case 4: {empresa.mostrarCaminho(); break;}
             case 9: return;
