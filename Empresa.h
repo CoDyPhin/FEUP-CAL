@@ -50,9 +50,9 @@ public:
     void criarCliente();
     void eliminarCliente(long int nif);
     void readClientes();
-    void updateClientes(Empresa empresa);
-    void updateEncomendas(Empresa empresa);
-    void updateEstafetas(Empresa empresa);
+    void updateClientes();
+    void updateEncomendas();
+    void updateEstafetas();
 
     //Obras
     void reportarObras(bool aDecorrer);

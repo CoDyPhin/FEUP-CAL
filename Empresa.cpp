@@ -671,13 +671,13 @@ Estafeta *Empresa::escolherEstafeta(int capacidade, Restaurante *restaurante) {
     return result;
 }
 
-void Empresa::updateClientes(Empresa empresa){
+void Empresa::updateClientes(){
     ofstream file;
     string encomstr;
     bool first = true;
     file.open("../ficheiros_texto/clientes.txt");
     if (file.is_open()) {
-        for (auto cliente: empresa.getClientes()) {
+        for (auto cliente: this->getClientes()) {
             if(!first){
                 file << endl << "::::::::::" << endl;
             }
@@ -708,13 +708,13 @@ void Empresa::updateClientes(Empresa empresa){
     }
 }
 
-void Empresa::updateEncomendas(Empresa empresa) {
+void Empresa::updateEncomendas() {
     ofstream file;
     string pratostr;
     bool first = true;
     file.open("../ficheiros_texto/encomendas.txt");
     if (file.is_open()) {
-        for (auto encomenda: empresa.getEncomendas()) {
+        for (auto encomenda: this->getEncomendas()) {
             if(!first){
                 file << endl << "::::::::::" << endl;
             }
@@ -739,14 +739,14 @@ void Empresa::updateEncomendas(Empresa empresa) {
     }
 }
 
-void Empresa::updateEstafetas(Empresa empresa) {
+void Empresa::updateEstafetas() {
     ofstream file, fileT;
     string encomstr;
     bool first = true;
     file.open("../ficheiros_texto/estafetas.txt");
     fileT.open("../ficheiros_texto/transportes.txt");
     if (file.is_open() && fileT.is_open()) {
-        for (auto estafeta: empresa.getEstafeta()) {
+        for (auto estafeta: this->getEstafeta()) {
             if(!first){
                 file << endl << "::::::::::" << endl;
                 fileT <<endl<< "::::::::::" << endl;

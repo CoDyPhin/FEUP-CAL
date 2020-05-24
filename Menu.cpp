@@ -35,6 +35,7 @@ void menuClientes(Empresa &empresa){
                 }
                 break;
             case 3:
+                empresa.criarCliente();
                 break;
             case 4:{
                 cout << "NIF do cliente a remover: ";
@@ -106,7 +107,7 @@ void menuEncomendas(Empresa &empresa)
 
         cout<<"\nMenu de Encomendas\n";
         cout<<"Selecione uma das seguintes opcoes:\n";
-        cout<<"1 - Criar um encomenda\n";
+        cout<<"1 - Criar uma encomenda\n";
         cout<<"2 - Eliminar uma encomenda\n";
         cout<<"3 - Visualizar encomendas\n";
         cout<<"9 - Voltar atras\n";
