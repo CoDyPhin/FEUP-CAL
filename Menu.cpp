@@ -188,7 +188,7 @@ void menuVisualizarEstafetas(Empresa &empresa)
         switch(option)
         {
             case 9: return;
-            case 0: {empresa.updateFiles();exit(0)};
+            case 0: {empresa.updateFiles();exit(0);}
             default: break;
         }
 
@@ -225,7 +225,7 @@ void menuEstafetas(Empresa &empresa){
             case 3: {menuVisualizarEstafetas(empresa); break;}
             case 4: {empresa.mostrarCaminho(); break;}
             case 9: return;
-            case 0: {empresa.updateFiles(); exit(0)};
+            case 0: {empresa.updateFiles(); exit(0);}
             default:{cerr<<"Input invalido!\n"; break;}
         }
     }
