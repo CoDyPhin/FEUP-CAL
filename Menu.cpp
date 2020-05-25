@@ -132,7 +132,7 @@ void menuEncomendas(Empresa &empresa)
             case 2: {empresa.eliminarEncomenda(); break;}
             case 3: {menuVisualizarEncomendas(empresa); break;}
             case 9: return;
-            case 0: {empresa.updateClientes(); exit(0);}
+            case 0: {empresa.updateFiles(); exit(0);}
             default:{cerr<<"Input invalido!\n"; break;}
         }
     }

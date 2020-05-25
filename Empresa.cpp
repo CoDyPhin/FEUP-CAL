@@ -135,11 +135,40 @@ void Empresa::eliminarEncomenda() {
 
     int index = stoi(input);
 
-    int i = 0;
+    bool found = false;
+    vector<Encomenda*> encomendasAtualizadas;
+    Encomenda* encomenda;
     for (auto it = encomendas.begin(); it != encomendas.end(); it++) {
-        if (i == index) {encomendas.erase(it); break;}
-        i++;
+        if ((*it)->getId() == index) {encomenda = (*it);encomendas.erase(it); break;}
     }
+    for(Estafeta * e : estafetas){
+        encomendasAtualizadas = e->getEntregasFeitas();
+        for (auto it = encomendasAtualizadas.begin(); it != encomendasAtualizadas.end(); it++) {
+            if (*it == encomenda) {
+                encomendasAtualizadas.erase(it);
+                e->setEntregasFeitas(encomendasAtualizadas);
+                found  = true;
+                break;
+            }
+        }
+        if(found)
+            break;
+    }
+    found = false;
+    for(Cliente * c : clientes){
+        encomendasAtualizadas = c->getEncomendasFeitas();
+        for (auto it = encomendasAtualizadas.begin(); it != encomendasAtualizadas.end(); it++) {
+            if (*it == encomenda) {
+                encomendasAtualizadas.erase(it);
+                c->setEncomendasFeitas(encomendasAtualizadas);
+                found  = true;
+                break;
+            }
+        }
+        if(found)
+            break;
+    }
+
 }
 
 
