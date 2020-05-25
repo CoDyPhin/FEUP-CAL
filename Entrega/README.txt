@@ -1,0 +1,54 @@
+Dependências:
+- Dado que o GraphViewer foi usado, precisamos da pasta lib associada ao mesmo (fornecida no Moodle, esta deve estar ao nível do resto do código e da pasta cmake-build-debug gerada pelo CLion)
+- Ficheiros de input (estes ficheiros precisam de estar numa pasta chamada "ficheiros_texto", ao mesmo nível do resto do código e da pasta cmake-build-debug gerada pelo CLion, devem ter a formatação apresentada nos ficheiros fornecidos):
+	- clientes.txt
+	- encomendas.txt
+	- estafetas.txt
+	- pratos.txt
+	- restaurantes.txt
+	- transportes.txt
+- Diretórios de input para grafos (estes diretórios precisam de estar numa pasta chamada "ficheiros_graph", ao mesmo nível do resto do código e da pasta cmake-build-debug gerada pelo CLion, apenas o diretório "full" é essencial para o funcionamento do programa, os restantes só são necessários para a funcionalidade de geração de csv sobre a análise de complexidade temporal):
+	- espinho (este diretório deve conter os seguintes ficheiros fornecidos no moodle):
+		- espinho_full_edges.txt
+		- espinho_full_nodes_xy.txt
+	- full (este diretório deve conter os seguintes ficheiros fornecidos no moodle):
+		- porto_full_edges.txt
+		- porto_full_nodes_xy.txt
+	- penafiel (este diretório deve conter os seguintes ficheiros fornecidos no moodle):
+		- penafiel_full_edges.txt
+		- penafiel_full_nodes_xy.txt
+	- pais (este diretório deve conter os seguintes diretórios correspondentes a mapas fornecidos 		no moodle):
+		- Aveiro (este diretório deve conter os seguintes ficheiros fornecidos no moodle):
+			- edges_aveiro.txt
+			- nodes_x_y_aveiro.txt
+		- Braga (este diretório deve conter os seguintes ficheiros fornecidos no moodle):
+			- edges_braga.txt
+			- nodes_x_y_braga.txt
+		- Coimbra (este diretório deve conter os seguintes ficheiros fornecidos no moodle):
+			- edges_coimbra.txt
+			- nodes_x_y_coimbra.txt
+		- Ermesinde (este diretório deve conter os seguintes ficheiros fornecidos no moodle):
+			- edges_ermesinde.txt
+			- nodes_x_y_ermesinde.txt
+		- Fafe (este diretório deve conter os seguintes ficheiros fornecidos no moodle):
+			- edges_fafe.txt
+			- nodes_x_y_fafe.txt
+		- Gondomar (este diretório deve conter os seguintes ficheiros fornecidos no moodle):
+			- edges_gondomar.txt
+			- nodes_x_y_gondomar.txt
+		- Lisboa (este diretório deve conter os seguintes ficheiros fornecidos no moodle):
+			- edges_lisboa.txt
+			- nodes_x_y_lisboa.txt
+		- Maia (este diretório deve conter os seguintes ficheiros fornecidos no moodle):
+			- edges_maia.txt
+			- nodes_x_y_maia.txt
+		- Porto (este diretório deve conter os seguintes ficheiros fornecidos no moodle):
+			- edges_porto.txt
+			- nodes_x_y_porto.txt
+		- Viseu (este diretório deve conter os seguintes ficheiros fornecidos no moodle):
+			- edges_viseu.txt
+			- nodes_x_y_viseu.txt
+- Diretório de output "csv" (este diretório precisa de estar ao nível dos ficheiros de código e da pasta cmake-build-debug gerada pelo CLion, só é necessário para gerar ficheiros csv)
+
+Instruções de compilação:
+- Abrir a pasta do projeto com o conteúdo do zip no CLion para criar um projeto novo, o projeto foi desenvolvido em Ubuntu
