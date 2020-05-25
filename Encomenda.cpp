@@ -18,7 +18,7 @@ ostream &operator<<(ostream &os, const Encomenda &encomenda) {
     os << "\nRestaurante: " << encomenda.getRestaurante()->getNome();
     os << "\nHora de pedido: " << *encomenda.getHoraPedido();
     os << "\nHora de entrega: " << *encomenda.getHoraEntrega();
-    os << "\nCusto: " << encomenda.getCusto();
+    os << "\nCusto: " << encomenda.getCusto() << endl;
     return os;
 }
 
